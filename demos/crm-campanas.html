@@ -49,6 +49,7 @@ input[type=text],input[type=email],input[type=tel],input[type=password],input[ty
   width:100%;padding:10px 11px;margin-bottom:12px;border-radius:8px;border:1px solid var(--line2);
   background:var(--inset);color:var(--txt);font:400 14px Sora,sans-serif;resize:vertical}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--acc)}
+input[type=date],input[type=time]{color-scheme:dark}
 .chk{display:flex;align-items:center;gap:7px;font:400 13px Sora,sans-serif;color:var(--soft);margin-bottom:6px;cursor:pointer}
 .row2{display:flex;gap:10px}
 .row2 > *{flex:1}
@@ -226,13 +227,14 @@ body.unlocked #authGate{display:none}
           <label>Nombre de la campaña *</label>
           <input type="text" id="cName" required placeholder="Ej. Promo fin de mes">
           <label>Producto / servicio</label>
-          <input type="text" id="cProduct" placeholder="Texto libre, sin catálogo">
+          <select id="cProductSelect"></select>
+          <input type="text" id="cProduct" placeholder="Nombre del producto o servicio" style="display:none">
           <div class="row2">
             <div><label>Fecha *</label><input type="date" id="cDate" required></div>
             <div><label>Hora</label><input type="time" id="cTime"></div>
           </div>
           <label>Mensaje</label>
-          <textarea id="cMsg" rows="3" placeholder="Mensaje para la campaña…"></textarea>
+          <textarea id="cMsg" rows="3" placeholder="Elige un servicio arriba para rellenar un mensaje listo, o escribe el tuyo…"></textarea>
           <label class="chk"><input type="checkbox" id="cEmail"> Correo</label>
           <label class="chk" style="margin-bottom:14px"><input type="checkbox" id="cWa"> WhatsApp</label>
           <div class="row2">
@@ -395,6 +397,46 @@ body.unlocked #authGate{display:none}
   function unpackProduct(message) {
     var m = /^Producto\/servicio:\s*([^\n]*)\n?([\s\S]*)$/.exec(message || '');
     return m ? { product: m[1], rest: m[2] } : { product: '', rest: message || '' };
+  }
+
+  /* ---------- Servicios propios de KEYS + mensajes predeterminados ---------- */
+  var KEYS_SERVICES = [
+    { label: 'Catálogo virtual personalizado', msg: 'Hola 👋, en KEYS armamos tu catálogo virtual para que tus clientes vean tus productos y te escriban directo por WhatsApp. ¿Quieres que te mostremos cómo quedaría el tuyo?' },
+    { label: 'Agendamiento de citas', msg: 'Hola 👋, con el sistema de agenda de KEYS tus clientes reservan solos, sin llamadas ni mensajes perdidos. Te mostramos cómo funciona sin costo.' },
+    { label: 'Landing page / página web', msg: 'Hola 👋, te ayudamos a tener una página rápida y clara que convierte visitas en clientes. Agenda una reunión gratis de 30 minutos con nosotros.' },
+    { label: 'Chatbots y WhatsApp', msg: 'Hola 👋, imagina responder a tus clientes por WhatsApp incluso cuando no estás. Eso hace nuestro chatbot. ¿Quieres verlo en acción?' },
+    { label: 'CRM y automatización', msg: 'Hola 👋, deja de perder el seguimiento de tus contactos. Con nuestro CRM, cada cliente queda organizado y en automático.' },
+    { label: 'Base de datos de clientes', msg: 'Hola 👋, organiza todos tus contactos y clientes en un solo lugar, sin hojas de cálculo sueltas. Te mostramos cómo con KEYS.' },
+    { label: 'Campañas por correo y WhatsApp', msg: 'Hola 👋, llega a todos tus clientes con una sola campaña por correo y WhatsApp. Nosotros la armamos y la programamos por ti.' },
+    { label: 'Marketing digital', msg: 'Hola 👋, en KEYS impulsamos tu negocio en redes y en Google para que te encuentren más clientes. ¿Hablamos de tu caso?' },
+    { label: 'Mantenimiento de páginas web', msg: 'Hola 👋, ¿tu página ya existe pero nadie la mantiene al día? Te ofrecemos mantenimiento web: actualizaciones, seguridad y soporte continuo.' }
+  ];
+  var CAMP_CUSTOM = '__custom__';
+  function fillProductSelect() {
+    var sel = $('cProductSelect');
+    sel.innerHTML = '<option value="">Elige un servicio…</option>' +
+      KEYS_SERVICES.map(function (s) { return '<option value="' + esc(s.label) + '">' + esc(s.label) + '</option>'; }).join('') +
+      '<option value="' + CAMP_CUSTOM + '">Otro (escribir texto libre)</option>';
+  }
+  function findServiceByLabel(label) {
+    var l = (label || '').trim().toLowerCase();
+    if (!l) return null;
+    for (var i = 0; i < KEYS_SERVICES.length; i++) if (KEYS_SERVICES[i].label.toLowerCase() === l) return KEYS_SERVICES[i];
+    return null;
+  }
+  $('cProductSelect').addEventListener('change', function () {
+    var v = this.value;
+    if (v === CAMP_CUSTOM) {
+      $('cProduct').style.display = ''; $('cProduct').value = ''; $('cProduct').focus();
+    } else {
+      $('cProduct').style.display = 'none'; $('cProduct').value = v;
+      var svc = findServiceByLabel(v);
+      if (svc) $('cMsg').value = svc.msg;
+    }
+  });
+  function setCampDateMin() {
+    var d = new Date(); var iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    $('cDate').min = iso;
   }
 
   /* ---------- Fallback local (modo demo sin Supabase activo) ---------- */
@@ -741,7 +783,10 @@ body.unlocked #authGate{display:none}
       if (!c) return;
       editingCampId = c.id;
       var parts = (typeof unpackProduct === 'function') ? unpackProduct(c.message) : { product: c.product_ref || '', rest: c.message || '' };
-      $('cName').value = c.name || ''; $('cProduct').value = parts.product || '';
+      $('cName').value = c.name || '';
+      var svc = findServiceByLabel(parts.product);
+      if (svc) { $('cProductSelect').value = svc.label; $('cProduct').style.display = 'none'; $('cProduct').value = svc.label; }
+      else { $('cProductSelect').value = parts.product ? CAMP_CUSTOM : ''; $('cProduct').style.display = parts.product ? '' : 'none'; $('cProduct').value = parts.product || ''; }
       $('cDate').value = c.scheduled_date || ''; $('cTime').value = c.scheduled_time ? String(c.scheduled_time).slice(0, 5) : '';
       $('cMsg').value = parts.rest || ''; $('cEmail').checked = !!c.channel_email; $('cWa').checked = !!c.channel_whatsapp;
       $('campFormTitle').textContent = 'Editando campaña'; $('campSubmitBtn').textContent = 'Guardar cambios';
@@ -752,9 +797,12 @@ body.unlocked #authGate{display:none}
   $('campCancelBtn').addEventListener('click', function () { resetCampForm(); });
   function resetCampForm() {
     editingCampId = null; $('campForm').reset();
+    $('cProductSelect').value = ''; $('cProduct').style.display = 'none'; $('cProduct').value = '';
+    setCampDateMin();
     $('campFormTitle').textContent = 'Nueva campaña'; $('campSubmitBtn').textContent = 'Crear campaña';
     $('campCancelBtn').style.display = 'none';
   }
+  fillProductSelect(); setCampDateMin();
   // Al guardar una campaña, se manda un correo de PRUEBA solo a KEYS
   // (keysmarketingdigital@gmail.com), nunca a los leads reales, vía la
   // función send-campaign-test de Supabase. Si el envío de prueba falla
