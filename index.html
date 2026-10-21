@@ -89,6 +89,8 @@ button{font:inherit;color:inherit}
 .nav-links{display:flex;align-items:center;gap:30px}
 .nav-links a:not(.btn){color:var(--muted);text-decoration:none;font-weight:500;font-size:15px}
 .nav-links a:not(.btn):hover{color:var(--acc)}
+.nav-links a.nav-feat{color:var(--acc);font-weight:600}
+.nav-links a.nav-feat:hover{color:var(--acc2)}
 .langtog{display:inline-flex;align-items:center;gap:4px;background:transparent;border:1px solid var(--line2);border-radius:8px;padding:8px 11px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--dim);line-height:1}
 .langtog:hover{border-color:var(--acc)}
 .langtog .lt-sep{color:var(--line2)}
@@ -371,7 +373,7 @@ footer{border-top:1px solid #141C2A}
   .h2{font-size:34px}
   .burger{display:flex}
   .nav-links{position:absolute;top:72px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(8,11,18,.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:6px 20px 16px;max-height:0;overflow:hidden;opacity:0;visibility:hidden;transition:max-height .25s ease,opacity .2s,visibility .2s}
-  .nav-links.open{max-height:420px;opacity:1;visibility:visible}
+  .nav-links.open{max-height:480px;opacity:1;visibility:visible}
   .nav-links a:not(.btn){display:block;padding:15px 4px;border-bottom:1px solid var(--line);font-size:17px;color:var(--txt)}
   .nav-links a.btn{margin-top:14px}
   .mock{padding-left:0}
@@ -406,6 +408,7 @@ footer{border-top:1px solid #141C2A}
 <span>KEYS</span>
 </a>
 <nav class="nav-links" id="navLinks" aria-label="Principal">
+<a href="#landing-page" class="nav-feat" data-t="nav_feat">★ Creación de landing page</a>
 <a href="#proyectos" data-t="nav_ex">Ejemplos</a>
 <a href="#servicios" data-t="nav_sv">Servicios</a>
 <a href="#proceso" data-t="nav_pr">Cómo trabajamos</a>
@@ -507,7 +510,7 @@ footer{border-top:1px solid #141C2A}
 <h2 class="h2" data-t="sv_h2">Todo lo que podemos hacer por ti.</h2>
 </div>
 <div class="grid4">
-<div class="card svc svc-feat"><span class="feat-tag" data-t="feat_tag">Destacado</span><span class="n mono">★</span><h3 data-t="s3h">Creación de landing page</h3><p data-t="s3p">Tu página de aterrizaje, rápida y clara, pensada para convertir visitas en clientes y posicionarte en Google.</p></div>
+<div class="card svc svc-feat" id="landing-page"><span class="feat-tag" data-t="feat_tag">Destacado</span><span class="n mono">★</span><h3 data-t="s3h">Creación de landing page</h3><p data-t="s3p">Tu página de aterrizaje, rápida y clara, pensada para convertir visitas en clientes y posicionarte en Google.</p></div>
 <div class="card svc"><span class="n mono">02</span><h3 data-t="s1h">Catálogo virtual personalizado</h3><p data-t="s1p">Tus productos o servicios en línea, con pedidos directos a tu WhatsApp.</p></div>
 <div class="card svc"><span class="n mono">03</span><h3 data-t="s2h">Agendamiento de citas</h3><p data-t="s2p">Agenda en línea para que tus clientes reserven solos, con panel para tu equipo.</p></div>
 <div class="card svc"><span class="n mono">04</span><h3 data-t="s4h">Chatbots y WhatsApp</h3><p data-t="s4p">Responden dudas y atienden a tus clientes, aun cuando no estás.</p></div>
@@ -720,6 +723,7 @@ footer{border-top:1px solid #141C2A}
   /* ---------- i18n ---------- */
   var LANG = 'es'; try { LANG = localStorage.getItem('keys_lang') || 'es'; } catch (e) {}
   var T = {
+    nav_feat:{es:'★ Creación de landing page',en:'★ Landing page creation'},
     nav_ex:{es:'Ejemplos',en:'Examples'},nav_sv:{es:'Servicios',en:'Services'},nav_pr:{es:'Cómo trabajamos',en:'How we work'},
     hero_eye:{es:'DE TU CABEZA A LA PANTALLA',en:'FROM YOUR MIND TO THE SCREEN'},
     hero_h1:{es:'Mientras tú atiendes, tu página consigue nuevos clientes.',en:'While you work, your website brings in new clients.'},
