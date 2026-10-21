@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM y Campañas · Demo KEYS</title>
+<meta name="robots" content="noindex,follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080B12;--panel:#0C1119;--card:#0E1420;--inset:#0A0E16;--raise:#101826;--line:#1C2536;--line2:#2A3648;--txt:#E6EDF7;--soft:#D3DBE8;--muted:#AEB9CC;--dim:#8B98AD;--acc:#35E5D0;--acc2:#7BF3E6;--onacc:#06121A;--err:#FF8A7A;--ok:#5FD98A;--warn:#F5C35B}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);line-height:1.5}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0}
+.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--acc)}
+button{font-family:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(8,11,18,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:14px;height:64px;flex-wrap:wrap}
+.back{color:var(--dim);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px}
+.back:hover{color:var(--txt)}
+.brand{font:600 18px 'Space Grotesk',sans-serif;color:var(--txt)}
+.brand span{color:var(--acc)}
+.spacer{flex:1}
+.status{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid var(--line2)}
+.status.live{color:var(--ok);border-color:rgba(95,217,138,.35);background:rgba(95,217,138,.08)}
+.status.demo{color:var(--warn);border-color:rgba(245,195,91,.35);background:rgba(245,195,91,.08)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+
+.intro{padding:34px 0 18px}
+.eyebrow{font:600 11px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin:0 0 10px}
+.intro h1{font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin:0 0 10px}
+.intro p{color:var(--muted);max-width:62ch;margin:0;font-size:14px}
+
+.tabs{display:flex;gap:8px;padding:18px 0 22px;border-bottom:1px solid var(--line)}
+.tab{padding:10px 18px;border-radius:9px;border:1px solid var(--line2);background:var(--panel);color:var(--muted);font:600 13px Sora,sans-serif;cursor:pointer}
+.tab.on{background:var(--acc);color:var(--onacc);border-color:var(--acc)}
+
+main{padding:26px 0 70px}
+.grid2{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:22px;align-items:start}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{font-size:15px;margin-bottom:12px}
+label{display:block;font:500 12px Sora,sans-serif;color:var(--muted);margin:0 0 5px}
+input[type=text],input[type=email],input[type=tel],input[type=password],input[type=date],input[type=time],textarea,select{
+  width:100%;padding:10px 11px;margin-bottom:12px;border-radius:8px;border:1px solid var(--line2);
+  background:var(--inset);color:var(--txt);font:400 14px Sora,sans-serif;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--acc)}
+.chk{display:flex;align-items:center;gap:7px;font:400 13px Sora,sans-serif;color:var(--soft);margin-bottom:6px;cursor:pointer}
+.row2{display:flex;gap:10px}
+.row2 > *{flex:1}
+.btn{padding:11px 16px;border-radius:9px;border:none;background:var(--acc);color:var(--onacc);font:600 13px Sora,sans-serif;cursor:pointer}
+.btn:hover{background:var(--acc2)}
+.btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--soft)}
+.btn.ghost:hover{border-color:var(--acc);color:var(--acc)}
+.btn.sm{padding:7px 12px;font-size:12px;border-radius:7px}
+.btn.danger{background:transparent;border:1px solid rgba(255,138,122,.4);color:var(--err)}
+.btn.danger:hover{background:rgba(255,138,122,.1)}
+.btn[disabled]{opacity:.5;cursor:default}
+
+.import{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line2)}
+.import h4{font-size:13px;margin:0 0 6px;color:var(--soft)}
+.import p{font-size:12px;color:var(--dim);margin:0 0 10px;line-height:1.5}
+.filebtn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:9px;border:1px dashed var(--line2);color:var(--soft);font:500 13px Sora,sans-serif;cursor:pointer}
+.filebtn:hover{border-color:var(--acc);color:var(--acc)}
+.filebtn input{display:none}
+.importmsg{font-size:12px;color:var(--muted);margin-top:10px;min-height:16px}
+
+.list{display:flex;flex-direction:column;gap:10px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.item.withimg{display:flex;gap:12px;align-items:flex-start}
+.item-thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;flex:none;background:var(--inset);border:1px solid var(--line2)}
+.item-body{flex:1;min-width:0}
+.item-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.item-name{font:600 15px 'Space Grotesk',sans-serif}
+.item-sub{font-size:12.5px;color:var(--dim)}
+.badge{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.03em;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.b-nuevo{background:rgba(53,229,208,.12);color:var(--acc)}
+.b-contactado{background:rgba(245,195,91,.12);color:var(--warn)}
+.b-cerrado{background:rgba(95,217,138,.12);color:var(--ok)}
+.b-programada{background:rgba(53,229,208,.12);color:var(--acc)}
+.b-pendiente{background:rgba(245,195,91,.12);color:var(--warn)}
+.b-realizada{background:rgba(95,217,138,.12);color:var(--ok)}
+.item-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.item-msg{font-size:13px;color:var(--soft);margin:6px 0 0}
+.empty{color:var(--dim);font-size:14px;padding:26px 0;text-align:center}
+.loading{color:var(--dim);font-size:13px;padding:10px 0}
+footer{border-top:1px solid var(--line);padding:20px 0;color:var(--dim);font-size:12px;text-align:center}
+
+#appRoot{display:none}
+body.unlocked #appRoot{display:block}
+body.unlocked #authGate{display:none}
+#authGate{position:fixed;inset:0;z-index:999;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{width:100%;max-width:360px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px}
+.gatebox label{margin-top:0}
+</style>
+</head>
+<body>
+
+<div id="authGate">
+  <div class="gatebox">
+    <p class="eyebrow">Acceso privado</p>
+    <h2 style="font-size:19px;margin:0 0 8px">CRM y Campañas</h2>
+    <p id="gateHint" style="color:var(--muted);font-size:13px;margin:0 0 18px">Cargando…</p>
+
+    <form id="gateFormLocal" style="display:none">
+      <label>Clave de acceso</label>
+      <input type="password" id="gatePass" autocomplete="current-password">
+      <button class="btn" type="submit" style="width:100%">Entrar</button>
+      <p id="gateErrLocal" style="color:var(--err);font-size:12px;margin-top:10px"></p>
+    </form>
+
+    <form id="gateFormAuth" style="display:none">
+      <label>Correo</label>
+      <input type="email" id="gateEmail" autocomplete="username">
+      <label>Contraseña</label>
+      <input type="password" id="gateAuthPass" autocomplete="current-password">
+      <button class="btn" type="submit" style="width:100%">Entrar</button>
+      <p id="gateErrAuth" style="color:var(--err);font-size:12px;margin-top:10px"></p>
+    </form>
+  </div>
+</div>
+
+<div id="appRoot">
+<header><div class="wrap nav">
+  <a class="back" href="../index.html#vitrina">← Volver al landing de KEYS</a>
+  <span class="spacer"></span>
+  <button id="logoutBtn" class="btn ghost sm" style="display:none">Cerrar sesión</button>
+  <span id="statusBadge" class="status demo"><span class="dot"></span><span id="statusText">Cargando…</span></span>
+</div></header>
+
+<div class="wrap intro">
+  <p class="eyebrow">Módulo KEYS · Vitrina Virtual</p>
+  <h1>CRM y Campañas</h1>
+  <p>Panel para llevar el control de los leads que te escriben y planificar campañas por WhatsApp y correo. Las campañas quedan <b>programadas</b> aquí — el envío real se conecta después con tu proveedor de WhatsApp Business o de correo (Brevo, etc.); este panel es el calendario y la base de datos de contactos.</p>
+</div>
+
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab on" id="tabBtnCrm" data-tab="crm">CRM · Leads</button>
+    <button class="tab" id="tabBtnCat" data-tab="cat">Categorías</button>
+    <button class="tab" id="tabBtnCamp" data-tab="camp">Campañas</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section id="viewCrm">
+    <div class="grid2">
+      <div class="card">
+        <h3>Nuevo contacto</h3>
+        <form id="leadForm">
+          <label>Nombre *</label>
+          <input type="text" id="lName" required>
+          <label>WhatsApp</label>
+          <input type="tel" id="lWa" placeholder="300 123 4567">
+          <label>Correo</label>
+          <input type="email" id="lEmail" placeholder="nombre@correo.com">
+          <label>Interés / producto</label>
+          <input type="text" id="lProduct" placeholder="Ej. kit de tratamiento capilar">
+          <label>Mensaje</label>
+          <textarea id="lMsg" rows="2" placeholder="Nota sobre el contacto…"></textarea>
+          <button class="btn" type="submit" style="width:100%">Agregar al CRM</button>
+        </form>
+
+        <div class="import">
+          <h4>Carga masiva</h4>
+          <p>Sube un CSV o Excel (.xlsx) con tus contactos. Si trae columnas como <span class="mono">nombre</span>, <span class="mono">correo</span> / <span class="mono">email</span> y <span class="mono">whatsapp</span> / <span class="mono">teléfono</span>, las detecta solas — el orden de las columnas no importa.</p>
+          <label class="filebtn">⬆ Elegir archivo CSV o Excel
+            <input type="file" id="fileImport" accept=".csv,.xlsx,.xls,text/csv">
+          </label>
+          <div class="importmsg" id="importMsg"></div>
+        </div>
+      </div>
+
+      <div>
+        <div id="leadsList" class="list"><div class="loading">Cargando leads…</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="viewCat" style="display:none">
+    <div class="grid2">
+      <div class="card">
+        <h3 id="catFormTitle">Nueva categoría</h3>
+        <form id="catForm">
+          <label>Nombre (clave interna) *</label>
+          <input type="text" id="catKey" required placeholder="ej. cuidado-capilar">
+          <label>Nombre visible (español) *</label>
+          <input type="text" id="catLabelEs" required placeholder="Ej. Cuidado capilar">
+          <label>Nombre visible (inglés)</label>
+          <input type="text" id="catLabelEn" placeholder="Ej. Hair care">
+          <label>Imagen</label>
+          <label class="filebtn" style="margin-bottom:10px">⬆ Subir foto desde tu PC o celular
+            <input type="file" id="catImgFile" accept="image/*">
+          </label>
+          <div id="catImgPreviewWrap" style="display:none;margin-bottom:12px">
+            <img id="catImgPreview" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;border:1px solid var(--line2)" alt="Vista previa">
+          </div>
+          <label style="font-size:11px;color:var(--dim)">o pega un enlace de imagen</label>
+          <input type="text" id="catImg" placeholder="https://…">
+          <label>Descripción</label>
+          <textarea id="catDesc" rows="3" placeholder="Qué incluye esta categoría…"></textarea>
+          <label>Orden</label>
+          <input type="text" id="catOrder" placeholder="0, 1, 2… (menor sale primero)">
+          <div class="row2">
+            <button class="btn" type="submit" id="catSubmitBtn" style="flex:1">Crear categoría</button>
+            <button class="btn ghost" type="button" id="catCancelBtn" style="display:none">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <div id="catList" class="list"><div class="loading">Cargando categorías…</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="viewCamp" style="display:none">
+    <div class="grid2">
+      <div class="card">
+        <h3 id="campFormTitle">Nueva campaña</h3>
+        <form id="campForm">
+          <label>Nombre de la campaña *</label>
+          <input type="text" id="cName" required placeholder="Ej. Promo fin de mes">
+          <label>Producto / servicio</label>
+          <input type="text" id="cProduct" placeholder="Texto libre, sin catálogo">
+          <div class="row2">
+            <div><label>Fecha *</label><input type="date" id="cDate" required></div>
+            <div><label>Hora</label><input type="time" id="cTime"></div>
+          </div>
+          <label>Mensaje</label>
+          <textarea id="cMsg" rows="3" placeholder="Mensaje para la campaña…"></textarea>
+          <label class="chk"><input type="checkbox" id="cEmail"> Correo</label>
+          <label class="chk" style="margin-bottom:14px"><input type="checkbox" id="cWa"> WhatsApp</label>
+          <div class="row2">
+            <button class="btn" type="submit" id="campSubmitBtn" style="flex:1">Crear campaña</button>
+            <button class="btn ghost" type="button" id="campCancelBtn" style="display:none">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <div id="campList" class="list"><div class="loading">Cargando campañas…</div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">KEYS Marketing Digital · módulo de demostración — los datos son de prueba, no de un cliente real.</footer>
+</div><!-- /appRoot -->
+
+<script src="../config.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var CFG = Object.assign({ SUPABASE_URL: '', SUPABASE_ANON_KEY: '' }, window.KEYS_CONFIG || {});
+  var LIVE = /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(CFG.SUPABASE_URL) &&
+             CFG.SUPABASE_ANON_KEY && !/^TU_/.test(CFG.SUPABASE_ANON_KEY);
+  var TENANT_SLUG = 'vitrina-demo';
+  // Tenant real creado para esta demo (ver supabase/migracion-keys-crm.sql, sección 7).
+  // Aislado de todos los demás negocios: ningún dato de AM Belleza ni de otro cliente pasa por aquí.
+  var TENANT_ID = 'b0595b11-afa2-41de-8296-51ead8b14ecf';
+  var LKEY = 'keys_crmdemo_leads_v1', CKEY = 'keys_crmdemo_camps_v1', TKEY = 'keys_crmdemo_cats_v1';
+  var GATE_LOCAL_KEY = 'keys_crmdemo_unlocked_v1';
+  var AUTH_TOKEN_KEY = 'keys_crmdemo_auth_v1';
+  // Clave del modo demo (sin Supabase activo todavía). Solo protege la
+  // vista mientras los datos son de prueba — cámbiala si quieres otra.
+  var LOCAL_PASSPHRASE = 'keys2026';
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function fmtDate(d) {
+    if (!d) return '';
+    var dt = new Date(d + 'T00:00:00');
+    if (isNaN(dt)) return d;
+    return dt.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' });
+  }
+
+  /* ---------- Acceso privado ---------- */
+  function getAuthSession() {
+    try {
+      var d = JSON.parse(localStorage.getItem(AUTH_TOKEN_KEY) || 'null');
+      if (!d || !d.access_token || !d.expires_at || Date.now() > d.expires_at) return null;
+      return d;
+    } catch (e) { return null; }
+  }
+  function setAuthSession(d) {
+    try {
+      localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify({
+        access_token: d.access_token, expires_at: Date.now() + ((d.expires_in || 3600) * 1000) - 30000
+      }));
+    } catch (e) {}
+  }
+  function clearAuthSession() { try { localStorage.removeItem(AUTH_TOKEN_KEY); } catch (e) {} }
+
+  function unlockUI() {
+    document.body.classList.add('unlocked');
+    $('logoutBtn').style.display = '';
+    refreshLeads(); refreshCats(); refreshCamps();
+  }
+
+  function initGate() {
+    if (LIVE) {
+      $('gateHint').textContent = 'Inicia sesión con tu usuario de Supabase (lo creas una sola vez en tu panel de Supabase → Authentication → Users).';
+      if (getAuthSession()) { unlockUI(); return; }
+      $('gateFormAuth').style.display = '';
+    } else {
+      $('gateHint').textContent = 'Modo demo con datos de prueba. Escribe la clave de acceso para entrar.';
+      if (localStorage.getItem(GATE_LOCAL_KEY) === '1') { unlockUI(); return; }
+      $('gateFormLocal').style.display = '';
+    }
+  }
+
+  $('gateFormLocal').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if ($('gatePass').value === LOCAL_PASSPHRASE) {
+      try { localStorage.setItem(GATE_LOCAL_KEY, '1'); } catch (err) {}
+      unlockUI();
+    } else {
+      $('gateErrLocal').textContent = 'Clave incorrecta.';
+    }
+  });
+
+  $('gateFormAuth').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('gateErrAuth').textContent = '';
+    fetch(CFG.SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', apikey: CFG.SUPABASE_ANON_KEY },
+      body: JSON.stringify({ email: $('gateEmail').value.trim(), password: $('gateAuthPass').value })
+    }).then(function (r) {
+      return r.json().then(function (d) {
+        if (!r.ok) throw new Error(d.error_description || d.msg || 'No se pudo iniciar sesión');
+        return d;
+      });
+    }).then(function (d) { setAuthSession(d); unlockUI(); })
+      .catch(function (err) { $('gateErrAuth').textContent = err.message; });
+  });
+
+  $('logoutBtn').addEventListener('click', function () {
+    clearAuthSession();
+    try { localStorage.removeItem(GATE_LOCAL_KEY); } catch (e) {}
+    location.reload();
+  });
+
+  /* ---------- Conexión a Supabase: REST directo contra contacts/campaigns,
+     protegido por RLS real (requiere sesión de un usuario con rol admin/
+     developer/employee en el tenant "vitrina-demo"; sin sesión, no se ve nada). ---------- */
+  function restHeaders(extra) {
+    var headers = Object.assign({ 'Content-Type': 'application/json', apikey: CFG.SUPABASE_ANON_KEY }, extra || {});
+    var session = getAuthSession();
+    if (session) headers.Authorization = 'Bearer ' + session.access_token;
+    return headers;
+  }
+  function handleRest(r) {
+    if (!r.ok) {
+      return r.json().catch(function () { return {}; }).then(function (e) {
+        throw new Error((e && (e.message || e.hint)) || ('Error ' + r.status));
+      });
+    }
+    var ct = r.headers.get('content-type') || '';
+    return ct.indexOf('json') > -1 ? r.json() : null;
+  }
+  function restGet(query) {
+    return fetch(CFG.SUPABASE_URL + '/rest/v1/' + query, { headers: restHeaders() }).then(handleRest);
+  }
+  function restPost(table, body) {
+    return fetch(CFG.SUPABASE_URL + '/rest/v1/' + table, {
+      method: 'POST', headers: restHeaders({ Prefer: 'return=representation' }), body: JSON.stringify(body)
+    }).then(handleRest);
+  }
+  function restPatch(table, id, body) {
+    return fetch(CFG.SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + encodeURIComponent(id), {
+      method: 'PATCH', headers: restHeaders({ Prefer: 'return=representation' }), body: JSON.stringify(body)
+    }).then(handleRest);
+  }
+  function restDelete(table, id) {
+    return fetch(CFG.SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + encodeURIComponent(id), {
+      method: 'DELETE', headers: restHeaders()
+    }).then(handleRest);
+  }
+  // Las campañas no tienen columna de "producto" libre en la tabla real (solo un
+  // product_id opcional a un catálogo); se guarda como primera línea del mensaje.
+  function packProduct(product, message) {
+    var msg = (message || '').trim();
+    return product ? ('Producto/servicio: ' + product + (msg ? ('\n' + msg) : '')) : (msg || null);
+  }
+  function unpackProduct(message) {
+    var m = /^Producto\/servicio:\s*([^\n]*)\n?([\s\S]*)$/.exec(message || '');
+    return m ? { product: m[1], rest: m[2] } : { product: '', rest: message || '' };
+  }
+
+  /* ---------- Fallback local (modo demo sin Supabase activo) ---------- */
+  function loadLocal(key) { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { return []; } }
+  function saveLocal(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} }
+  function rid(p) { return p + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function digits(s) { return String(s || '').replace(/\D/g, ''); }
+
+  var API = LIVE ? {
+    leads: function () {
+      return restGet('contacts?tenant_id=eq.' + TENANT_ID + '&order=created_at.desc');
+    },
+    addLead: function (f) {
+      var phone = f.whatsapp ? digits(f.whatsapp) : '';
+      var lookup = phone
+        ? restGet('contacts?tenant_id=eq.' + TENANT_ID + '&phone=eq.' + encodeURIComponent(phone))
+        : Promise.resolve([]);
+      return lookup.then(function (rows) {
+        var ex = rows && rows[0];
+        var interests = (ex && ex.interests) ? ex.interests.slice() : [];
+        if (f.product && interests.indexOf(f.product) === -1) interests.push(f.product);
+        if (ex) {
+          return restPatch('contacts', ex.id, {
+            name: f.name, email: f.email || ex.email, interests: interests,
+            notes: f.message || ex.notes, last_contact_at: new Date().toISOString()
+          });
+        }
+        return restPost('contacts', {
+          tenant_id: TENANT_ID, name: f.name, email: f.email || null, phone: phone || null,
+          source: 'manual', interests: interests, notes: f.message || null, stage: 'nuevo',
+          last_contact_at: new Date().toISOString()
+        });
+      });
+    },
+    bulkLeads: function (rows) {
+      return restGet('contacts?tenant_id=eq.' + TENANT_ID + '&select=id,phone').then(function (existing) {
+        var byPhone = {};
+        (existing || []).forEach(function (r) { if (r.phone) byPhone[digits(r.phone)] = r.id; });
+        var toInsert = [], updates = [], n = 0;
+        rows.forEach(function (r) {
+          if (!r.name && !r.email && !r.whatsapp) return;
+          var phone = digits(r.whatsapp);
+          if (phone && byPhone[phone]) {
+            var patch = {};
+            if (r.name) patch.name = r.name;
+            if (r.email) patch.email = r.email;
+            updates.push(restPatch('contacts', byPhone[phone], patch));
+          } else {
+            toInsert.push({ tenant_id: TENANT_ID, name: r.name || null, email: r.email || null, phone: phone || null, source: 'import', stage: 'nuevo' });
+          }
+          n++;
+        });
+        var insertP = toInsert.length ? restPost('contacts', toInsert) : Promise.resolve();
+        return Promise.all(updates.concat([insertP])).then(function () { return n; });
+      });
+    },
+    setStage: function (id, stage) { return restPatch('contacts', id, { stage: stage, last_contact_at: new Date().toISOString() }); },
+    delLead: function (id) { return restDelete('contacts', id); },
+    camps: function () { return restGet('campaigns?tenant_id=eq.' + TENANT_ID + '&order=scheduled_date.asc'); },
+    saveCamp: function (f) {
+      var payload = {
+        name: f.name,
+        message: packProduct(f.product, f.message),
+        channel_email: !!f.email,
+        channel_whatsapp: !!f.whatsapp
+      };
+      if (f.time) payload.scheduled_time = f.time;
+      if (f.id) {
+        return restPatch('campaigns', f.id, payload);
+      }
+      if (!f.date) return Promise.reject(new Error('La fecha es obligatoria para programar la campaña.'));
+      payload.tenant_id = TENANT_ID;
+      payload.scheduled_date = f.date;
+      return restPost('campaigns', payload);
+    },
+    setCampStatus: function (id, status) { return restPatch('campaigns', id, { status: status }); },
+    delCamp: function (id) { return restDelete('campaigns', id); },
+    cats: function () { return restGet('categories?tenant_id=eq.' + TENANT_ID + '&order=sort_order.asc'); },
+    saveCat: function (f) {
+      var payload = {
+        key: f.key, label_es: f.labelEs, label_en: f.labelEn || null,
+        image_url: f.image || null, description: f.description || null,
+        sort_order: f.order ? parseInt(f.order, 10) || 0 : 0
+      };
+      if (f.id) return restPatch('categories', f.id, payload);
+      payload.tenant_id = TENANT_ID;
+      return restPost('categories', payload);
+    },
+    delCat: function (id) { return restDelete('categories', id); }
+  } : {
+    leads: function () { return Promise.resolve(loadLocal(LKEY)); },
+    addLead: function (f) {
+      var rows = loadLocal(LKEY);
+      var phone = digits(f.whatsapp);
+      var existing = phone && rows.find(function (r) { return digits(r.phone) === phone; });
+      if (existing) {
+        existing.name = f.name; existing.email = f.email || existing.email;
+        if (f.product) existing.interests = (existing.interests || []).concat(f.product);
+        if (f.message) existing.notes = f.message;
+      } else {
+        rows.unshift({ id: rid('l'), name: f.name, email: f.email || null, phone: phone || null,
+          interests: f.product ? [f.product] : [], notes: f.message || null, stage: 'nuevo', created_at: new Date().toISOString() });
+      }
+      saveLocal(LKEY, rows); return Promise.resolve();
+    },
+    bulkLeads: function (rowsIn) {
+      var rows = loadLocal(LKEY), n = 0;
+      rowsIn.forEach(function (r) {
+        if (!r.name) return;
+        var phone = digits(r.whatsapp);
+        var existing = phone && rows.find(function (x) { return digits(x.phone) === phone; });
+        if (existing) { existing.name = r.name; existing.email = r.email || existing.email; }
+        else rows.unshift({ id: rid('l'), name: r.name, email: r.email || null, phone: phone || null,
+          interests: [], notes: null, stage: 'nuevo', created_at: new Date().toISOString() });
+        n++;
+      });
+      saveLocal(LKEY, rows); return Promise.resolve(n);
+    },
+    setStage: function (id, stage) {
+      var rows = loadLocal(LKEY); rows.forEach(function (r) { if (r.id === id) r.stage = stage; });
+      saveLocal(LKEY, rows); return Promise.resolve();
+    },
+    delLead: function (id) { saveLocal(LKEY, loadLocal(LKEY).filter(function (r) { return r.id !== id; })); return Promise.resolve(); },
+    camps: function () { return Promise.resolve(loadLocal(CKEY)); },
+    saveCamp: function (f) {
+      var rows = loadLocal(CKEY);
+      if (f.id) {
+        rows.forEach(function (c) {
+          if (c.id === f.id) {
+            c.name = f.name; c.product_ref = f.product || null; c.scheduled_date = f.date || null;
+            c.scheduled_time = f.time || null; c.message = f.message || null;
+            c.channel_email = !!f.email; c.channel_whatsapp = !!f.whatsapp;
+          }
+        });
+      } else {
+        rows.unshift({ id: rid('c'), name: f.name, product_ref: f.product || null, scheduled_date: f.date || null,
+          scheduled_time: f.time || null, message: f.message || null, channel_email: !!f.email, channel_whatsapp: !!f.whatsapp,
+          status: 'programada', created_at: new Date().toISOString() });
+      }
+      saveLocal(CKEY, rows); return Promise.resolve();
+    },
+    setCampStatus: function (id, status) {
+      var rows = loadLocal(CKEY); rows.forEach(function (c) { if (c.id === id) c.status = status; });
+      saveLocal(CKEY, rows); return Promise.resolve();
+    },
+    delCamp: function (id) { saveLocal(CKEY, loadLocal(CKEY).filter(function (c) { return c.id !== id; })); return Promise.resolve(); },
+    cats: function () { return Promise.resolve(loadLocal(TKEY).sort(function (a, b) { return (a.sort_order || 0) - (b.sort_order || 0); })); },
+    saveCat: function (f) {
+      var rows = loadLocal(TKEY);
+      if (f.id) {
+        rows.forEach(function (c) {
+          if (c.id === f.id) {
+            c.key = f.key; c.label_es = f.labelEs; c.label_en = f.labelEn || null;
+            c.image_url = f.image || null; c.description = f.description || null;
+            c.sort_order = f.order ? parseInt(f.order, 10) || 0 : 0;
+          }
+        });
+      } else {
+        rows.push({ id: rid('t'), key: f.key, label_es: f.labelEs, label_en: f.labelEn || null,
+          image_url: f.image || null, description: f.description || null, sort_order: f.order ? parseInt(f.order, 10) || 0 : 0 });
+      }
+      saveLocal(TKEY, rows); return Promise.resolve();
+    },
+    delCat: function (id) { saveLocal(TKEY, loadLocal(TKEY).filter(function (c) { return c.id !== id; })); return Promise.resolve(); }
+  };
+
+  /* ---------- Estado de conexión ---------- */
+  var badge = $('statusBadge'), statusText = $('statusText');
+  if (LIVE) {
+    badge.className = 'status live'; statusText.textContent = 'Conectado a Supabase · datos reales';
+  } else {
+    badge.className = 'status demo'; statusText.textContent = 'Modo demo (local) · pendiente activar Supabase';
+  }
+
+  /* ---------- Tabs ---------- */
+  $('tabBtnCrm').addEventListener('click', function () { setTab('crm'); });
+  $('tabBtnCat').addEventListener('click', function () { setTab('cat'); });
+  $('tabBtnCamp').addEventListener('click', function () { setTab('camp'); });
+  function setTab(t) {
+    $('tabBtnCrm').classList.toggle('on', t === 'crm');
+    $('tabBtnCat').classList.toggle('on', t === 'cat');
+    $('tabBtnCamp').classList.toggle('on', t === 'camp');
+    $('viewCrm').style.display = t === 'crm' ? '' : 'none';
+    $('viewCat').style.display = t === 'cat' ? '' : 'none';
+    $('viewCamp').style.display = t === 'camp' ? '' : 'none';
+  }
+
+  /* ---------- CRM: render ---------- */
+  var STAGE_LABEL = { nuevo: 'Nuevo', contactado: 'Contactado', cerrado: 'Cerrado' };
+  function refreshLeads() {
+    $('leadsList').innerHTML = '<div class="loading">Cargando leads…</div>';
+    return API.leads().then(function (rows) { renderLeads(rows || []); })
+      .catch(function (err) { $('leadsList').innerHTML = '<div class="empty">No pude cargar los leads: ' + esc(err.message) + '</div>'; });
+  }
+  function renderLeads(rows) {
+    if (!rows.length) { $('leadsList').innerHTML = '<div class="empty">Todavía no hay leads. Agrega uno o sube un archivo.</div>'; return; }
+    $('leadsList').innerHTML = rows.map(function (l) {
+      var stage = l.stage || 'nuevo';
+      var sub = [l.phone ? ('📞 ' + l.phone) : '', l.email ? ('✉ ' + l.email) : '', (l.interests && l.interests.length) ? l.interests.join(', ') : '']
+        .filter(Boolean).join(' · ');
+      return '<div class="item">' +
+        '<div class="item-top"><span class="item-name">' + esc(l.name) + '</span>' +
+        '<span class="badge b-' + stage + '">' + STAGE_LABEL[stage] + '</span></div>' +
+        (sub ? '<div class="item-sub">' + esc(sub) + '</div>' : '') +
+        (l.notes ? '<div class="item-msg">' + esc(l.notes) + '</div>' : '') +
+        '<div class="item-actions">' +
+        '<button class="btn sm ghost" data-act="stage" data-id="' + l.id + '" data-stage="nuevo">Nuevo</button>' +
+        '<button class="btn sm ghost" data-act="stage" data-id="' + l.id + '" data-stage="contactado">Contactado</button>' +
+        '<button class="btn sm ghost" data-act="stage" data-id="' + l.id + '" data-stage="cerrado">Cerrado</button>' +
+        '<button class="btn sm danger" data-act="del" data-id="' + l.id + '">Eliminar</button>' +
+        '</div></div>';
+    }).join('');
+  }
+  $('leadsList').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var id = b.getAttribute('data-id');
+    if (b.getAttribute('data-act') === 'stage') API.setStage(id, b.getAttribute('data-stage')).then(refreshLeads);
+    else if (b.getAttribute('data-act') === 'del') { if (confirm('¿Eliminar este contacto?')) API.delLead(id).then(refreshLeads); }
+  });
+
+  $('leadForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('lName').value.trim();
+    if (!name) return;
+    API.addLead({ name: name, whatsapp: $('lWa').value.trim(), email: $('lEmail').value.trim(), product: $('lProduct').value.trim(), message: $('lMsg').value.trim() })
+      .then(function () { e.target.reset(); refreshLeads(); })
+      .catch(function (err) { alert('No se pudo guardar: ' + err.message); });
+  });
+
+  /* ---------- Carga masiva CSV / Excel ---------- */
+  function setImportMsg(t) { $('importMsg').textContent = t; }
+
+  function splitCSVLine(line, delim) {
+    var out = [], cur = '', q = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (c === '"') { q = !q; continue; }
+      if (c === delim && !q) { out.push(cur); cur = ''; continue; }
+      cur += c;
+    }
+    out.push(cur);
+    return out.map(function (s) { return s.trim(); });
+  }
+  function pickCol(headers, regex) { return headers.findIndex(function (h) { return regex.test(h); }); }
+  function normHeader(h) { return String(h || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, ''); }
+
+  function parseCSV(text) {
+    var lines = text.split(/\r\n|\n|\r/).filter(function (l) { return l.trim() !== ''; });
+    if (!lines.length) return [];
+    var delim = lines[0].indexOf(';') > -1 && lines[0].indexOf(',') === -1 ? ';' : ',';
+    var headers = splitCSVLine(lines[0], delim).map(normHeader);
+    var iName = pickCol(headers, /^(nombre|name|cliente|contacto)/);
+    var iEmail = pickCol(headers, /^(correo|email|mail)/);
+    var iWa = pickCol(headers, /^(whatsapp|telefono|celular|phone|tel|movil)/);
+    var rows = [];
+    for (var i = 1; i < lines.length; i++) {
+      var cells = splitCSVLine(lines[i], delim);
+      var row = { name: iName > -1 ? cells[iName] : (cells[0] || ''), email: iEmail > -1 ? cells[iEmail] : '', whatsapp: iWa > -1 ? cells[iWa] : '' };
+      if (row.name || row.email || row.whatsapp) rows.push(row);
+    }
+    return rows;
+  }
+
+  function loadXLSXLib() {
+    if (window.XLSX) return Promise.resolve();
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      s.onload = function () { resolve(); };
+      s.onerror = function () { reject(new Error('no se pudo cargar el lector de Excel')); };
+      document.head.appendChild(s);
+    });
+  }
+  function parseXLSX(buf) {
+    var wb = window.XLSX.read(buf, { type: 'array' });
+    var sheet = wb.Sheets[wb.SheetNames[0]];
+    var json = window.XLSX.utils.sheet_to_json(sheet, { defval: '' });
+    function pick(obj, regex) {
+      var k = Object.keys(obj).find(function (k) { return regex.test(normHeader(k)); });
+      return k ? String(obj[k]).trim() : '';
+    }
+    return json.map(function (obj) {
+      return { name: pick(obj, /^(nombre|name|cliente|contacto)/), email: pick(obj, /^(correo|email|mail)/), whatsapp: pick(obj, /^(whatsapp|telefono|celular|phone|tel|movil)/) };
+    }).filter(function (r) { return r.name || r.email || r.whatsapp; });
+  }
+
+  $('fileImport').addEventListener('change', function (e) {
+    var file = e.target.files[0]; if (!file) return;
+    var isXlsx = /\.xlsx?$/i.test(file.name);
+    setImportMsg('Leyendo ' + file.name + '…');
+    var reading = isXlsx
+      ? loadXLSXLib().then(function () { return file.arrayBuffer(); }).then(function (buf) { return parseXLSX(buf); })
+      : file.text().then(parseCSV);
+    reading.then(function (rows) {
+      if (!rows.length) { setImportMsg('No encontré filas con nombre, correo o WhatsApp en ese archivo.'); return; }
+      return API.bulkLeads(rows).then(function (n) {
+        var count = (typeof n === 'number') ? n : rows.length;
+        setImportMsg('Se importaron ' + count + ' de ' + rows.length + ' contactos. Revisa la lista de abajo.');
+        return refreshLeads();
+      });
+    }).catch(function (err) {
+      setImportMsg('No pude leer el archivo: ' + err.message);
+    }).finally(function () { e.target.value = ''; });
+  });
+
+  /* ---------- Campañas: render ---------- */
+  var STATUS_LABEL = { programada: 'Programada', pendiente: 'Pendiente', realizada: 'Realizada' };
+  var editingCampId = null;
+
+  function refreshCamps() {
+    $('campList').innerHTML = '<div class="loading">Cargando campañas…</div>';
+    return API.camps().then(function (rows) { renderCamps(rows || []); })
+      .catch(function (err) { $('campList').innerHTML = '<div class="empty">No pude cargar las campañas: ' + esc(err.message) + '</div>'; });
+  }
+  function renderCamps(rows) {
+    if (!rows.length) { $('campList').innerHTML = '<div class="empty">No hay campañas programadas todavía.</div>'; return; }
+    $('campList').innerHTML = rows.map(function (c) {
+      var status = c.status || 'programada';
+      var channels = [c.channel_email ? 'Correo' : '', c.channel_whatsapp ? 'WhatsApp' : ''].filter(Boolean).join(' + ') || 'Sin canal';
+      var when = [fmtDate(c.scheduled_date), c.scheduled_time ? String(c.scheduled_time).slice(0, 5) : ''].filter(Boolean).join(' · ');
+      var parts = unpackProduct(c.message);
+      return '<div class="item">' +
+        '<div class="item-top"><span class="item-name">' + esc(c.name) + '</span>' +
+        '<span class="badge b-' + status + '">' + STATUS_LABEL[status] + '</span></div>' +
+        '<div class="item-sub">' + [parts.product ? esc(parts.product) : '', when, channels].filter(Boolean).join(' · ') + '</div>' +
+        (parts.rest ? '<div class="item-msg">' + esc(parts.rest) + '</div>' : '') +
+        '<div class="item-actions">' +
+        '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="programada">Programada</button>' +
+        '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="pendiente">Pendiente</button>' +
+        '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="realizada">Realizada</button>' +
+        '<button class="btn sm ghost" data-act="edit" data-id="' + c.id + '">Editar</button>' +
+        '<button class="btn sm danger" data-act="del" data-id="' + c.id + '">Eliminar</button>' +
+        '</div></div>';
+    }).join('');
+    window.__camps = rows;
+  }
+  $('campList').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var id = b.getAttribute('data-id'), act = b.getAttribute('data-act');
+    if (act === 'status') API.setCampStatus(id, b.getAttribute('data-status')).then(refreshCamps);
+    else if (act === 'del') { if (confirm('¿Eliminar esta campaña?')) API.delCamp(id).then(refreshCamps); }
+    else if (act === 'edit') {
+      var c = (window.__camps || []).find(function (x) { return String(x.id) === String(id); });
+      if (!c) return;
+      editingCampId = c.id;
+      var parts = (typeof unpackProduct === 'function') ? unpackProduct(c.message) : { product: c.product_ref || '', rest: c.message || '' };
+      $('cName').value = c.name || ''; $('cProduct').value = parts.product || '';
+      $('cDate').value = c.scheduled_date || ''; $('cTime').value = c.scheduled_time ? String(c.scheduled_time).slice(0, 5) : '';
+      $('cMsg').value = parts.rest || ''; $('cEmail').checked = !!c.channel_email; $('cWa').checked = !!c.channel_whatsapp;
+      $('campFormTitle').textContent = 'Editando campaña'; $('campSubmitBtn').textContent = 'Guardar cambios';
+      $('campCancelBtn').style.display = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+  $('campCancelBtn').addEventListener('click', function () { resetCampForm(); });
+  function resetCampForm() {
+    editingCampId = null; $('campForm').reset();
+    $('campFormTitle').textContent = 'Nueva campaña'; $('campSubmitBtn').textContent = 'Crear campaña';
+    $('campCancelBtn').style.display = 'none';
+  }
+  // Al guardar una campaña, se manda un correo de PRUEBA solo a KEYS
+  // (keysmarketingdigital@gmail.com), nunca a los leads reales, vía la
+  // función send-campaign-test de Supabase. Si el envío de prueba falla
+  // (p. ej. falta el secreto KEYS_BREVO_API_KEY), la campaña igual queda
+  // guardada: solo se avisa aparte, sin bloquear el guardado.
+  function sendCampaignTest(name, message, channelEmail) {
+    if (!LIVE || !channelEmail) return Promise.resolve();
+    return fetch(CFG.SUPABASE_URL + '/functions/v1/send-campaign-test', {
+      method: 'POST',
+      headers: restHeaders(),
+      body: JSON.stringify({ name: name, message: message, landing_url: 'https://keys-digital.netlify.app/', channel_email: true })
+    }).then(function (r) { return r.json().catch(function () { return {}; }); });
+  }
+  $('campForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('cName').value.trim();
+    if (!name) return;
+    var message = $('cMsg').value.trim();
+    var channelEmail = $('cEmail').checked;
+    API.saveCamp({
+      id: editingCampId, name: name, product: $('cProduct').value.trim(), date: $('cDate').value, time: $('cTime').value,
+      message: message, email: channelEmail, whatsapp: $('cWa').checked
+    }).then(function () {
+      resetCampForm(); refreshCamps();
+      return sendCampaignTest(name, message, channelEmail);
+    }).then(function (res) {
+      if (res && res.sent) alert('Campaña guardada. Se envió un correo de PRUEBA a ' + res.to + ' para que lo revises.');
+      else if (res && res.error) console.warn('No se pudo enviar el correo de prueba:', res);
+    }).catch(function (err) { alert('No se pudo guardar: ' + err.message); });
+  });
+
+  /* ---------- Categorías: subida de imagen desde PC/celular ---------- */
+  var catImgFileSelected = null;
+
+  function fileToDataURL(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(reader.result); };
+      reader.onerror = function () { reject(new Error('No se pudo leer la imagen')); };
+      reader.readAsDataURL(file);
+    });
+  }
+  // Sube el archivo al bucket público 'catalog-images' de Supabase Storage y
+  // devuelve la URL pública. Requiere sesión (la escritura está protegida por
+  // política de Storage: solo admin/developer/employee del tenant). En modo
+  // demo (sin Supabase activo) se guarda como data URL en vez de subirla.
+  function uploadCatalogImage(file) {
+    if (!LIVE) return fileToDataURL(file);
+    var ext = ((file.name || '').split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+    var path = TENANT_SLUG + '/' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8) + '.' + ext;
+    var headers = { apikey: CFG.SUPABASE_ANON_KEY, 'Content-Type': file.type || 'application/octet-stream' };
+    var session = getAuthSession();
+    if (session) headers.Authorization = 'Bearer ' + session.access_token;
+    return fetch(CFG.SUPABASE_URL + '/storage/v1/object/catalog-images/' + path, {
+      method: 'POST', headers: headers, body: file
+    }).then(function (r) {
+      if (!r.ok) {
+        return r.json().catch(function () { return {}; }).then(function (e) {
+          throw new Error((e && (e.message || e.error)) || ('Error ' + r.status + ' subiendo la imagen'));
+        });
+      }
+      return CFG.SUPABASE_URL + '/storage/v1/object/public/catalog-images/' + path;
+    });
+  }
+  $('catImgFile').addEventListener('change', function (e) {
+    var file = e.target.files[0] || null;
+    catImgFileSelected = file;
+    if (!file) { $('catImgPreviewWrap').style.display = 'none'; return; }
+    fileToDataURL(file).then(function (dataUrl) {
+      $('catImgPreview').src = dataUrl;
+      $('catImgPreviewWrap').style.display = '';
+    });
+  });
+
+  /* ---------- Categorías: render ---------- */
+  var editingCatId = null;
+
+  function refreshCats() {
+    $('catList').innerHTML = '<div class="loading">Cargando categorías…</div>';
+    return API.cats().then(function (rows) { renderCats(rows || []); })
+      .catch(function (err) { $('catList').innerHTML = '<div class="empty">No pude cargar las categorías: ' + esc(err.message) + '</div>'; });
+  }
+  function renderCats(rows) {
+    if (!rows.length) { $('catList').innerHTML = '<div class="empty">Todavía no hay categorías. Crea la primera.</div>'; return; }
+    $('catList').innerHTML = rows.map(function (c) {
+      var img = c.image_url ? '<img class="item-thumb" src="' + esc(c.image_url) + '" alt="" onerror="this.style.visibility=\'hidden\'">' : '';
+      return '<div class="item' + (c.image_url ? ' withimg' : '') + '">' +
+        img +
+        '<div class="item-body">' +
+        '<div class="item-top"><span class="item-name">' + esc(c.label_es) + '</span>' +
+        '<span class="item-sub mono">' + esc(c.key) + '</span></div>' +
+        (c.label_en ? '<div class="item-sub">EN: ' + esc(c.label_en) + '</div>' : '') +
+        (c.description ? '<div class="item-msg">' + esc(c.description) + '</div>' : '') +
+        '<div class="item-actions">' +
+        '<button class="btn sm ghost" data-act="edit" data-id="' + c.id + '">Editar</button>' +
+        '<button class="btn sm danger" data-act="del" data-id="' + c.id + '">Eliminar</button>' +
+        '</div></div></div>';
+    }).join('');
+    window.__cats = rows;
+  }
+  $('catList').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var id = b.getAttribute('data-id'), act = b.getAttribute('data-act');
+    if (act === 'del') { if (confirm('¿Eliminar esta categoría?')) API.delCat(id).then(refreshCats); }
+    else if (act === 'edit') {
+      var c = (window.__cats || []).find(function (x) { return String(x.id) === String(id); });
+      if (!c) return;
+      editingCatId = c.id;
+      $('catKey').value = c.key || ''; $('catLabelEs').value = c.label_es || ''; $('catLabelEn').value = c.label_en || '';
+      $('catImg').value = c.image_url || ''; $('catDesc').value = c.description || ''; $('catOrder').value = c.sort_order || 0;
+      catImgFileSelected = null; $('catImgFile').value = '';
+      if (c.image_url) { $('catImgPreview').src = c.image_url; $('catImgPreviewWrap').style.display = ''; }
+      else { $('catImgPreviewWrap').style.display = 'none'; }
+      $('catFormTitle').textContent = 'Editando categoría'; $('catSubmitBtn').textContent = 'Guardar cambios';
+      $('catCancelBtn').style.display = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+  $('catCancelBtn').addEventListener('click', function () { resetCatForm(); });
+  function resetCatForm() {
+    editingCatId = null; $('catForm').reset();
+    catImgFileSelected = null; $('catImgPreviewWrap').style.display = 'none';
+    $('catFormTitle').textContent = 'Nueva categoría'; $('catSubmitBtn').textContent = 'Crear categoría';
+    $('catCancelBtn').style.display = 'none';
+  }
+  $('catForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var key = $('catKey').value.trim(), labelEs = $('catLabelEs').value.trim();
+    if (!key || !labelEs) return;
+    var submitBtn = $('catSubmitBtn'), prevLabel = submitBtn.textContent;
+    var imageStep = catImgFileSelected
+      ? (submitBtn.textContent = 'Subiendo imagen…', submitBtn.disabled = true, uploadCatalogImage(catImgFileSelected))
+      : Promise.resolve($('catImg').value.trim());
+    imageStep.then(function (imageUrl) {
+      submitBtn.textContent = prevLabel;
+      return API.saveCat({
+        id: editingCatId, key: key, labelEs: labelEs, labelEn: $('catLabelEn').value.trim(),
+        image: imageUrl, description: $('catDesc').value.trim(), order: $('catOrder').value.trim()
+      });
+    }).then(function () { resetCatForm(); refreshCats(); })
+      .catch(function (err) { alert('No se pudo guardar: ' + err.message); })
+      .finally(function () { submitBtn.disabled = false; submitBtn.textContent = editingCatId ? 'Guardar cambios' : 'Crear categoría'; });
+  });
+
+  initGate();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Dra. Laura Restrepo — ginecología, obstetricia y medicina reproductiva. Agenda tu cita en línea, sin llamar y sin esperar respuesta.">
+<title>Dra. Laura Restrepo — Ginecología y Medicina Reproductiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;450;500;600&display=swap" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;450;500;600&display=swap"></noscript>
+<style>
+:root{
+  --navy:#1F3A54; --slate:#3E5C78; --steel:#6E8AA3; --mist:#A9BED0;
+  --powder:#E8EFF5; --powder-2:#F1F6FA; --paper:#FBFCFD; --white:#FFFFFF;
+  --ink:#22323F; --ink-soft:#647688; --ink-faint:#93A3B1;
+  --gold:#B79766; --gold-soft:#F0E9DC;
+  --line:rgba(31,58,84,0.10); --line-soft:rgba(31,58,84,0.06);
+  --shadow:0 20px 50px rgba(31,58,84,.10); --shadow-soft:0 8px 24px rgba(31,58,84,.06);
+  --card:#FFFFFF;
+}
+:root[data-theme="dark"]{
+  --navy:#AFC6DB; --slate:#8FA9C0; --steel:#6E8AA3; --mist:#4A6076;
+  --powder:#182838; --powder-2:#132130; --paper:#0D1822; --white:#101E2A;
+  --ink:#E4EDF4; --ink-soft:#9DB0C0; --ink-faint:#6C8095;
+  --gold:#C9AC7E; --gold-soft:#241E12;
+  --line:rgba(228,237,244,0.11); --line-soft:rgba(228,237,244,0.06);
+  --shadow:0 20px 50px rgba(0,0,0,.45); --shadow-soft:0 8px 24px rgba(0,0,0,.3);
+  --card:#122130;
+}
+:root:not([data-theme="light"]){
+  @media (prefers-color-scheme: dark){
+    --navy:#AFC6DB; --slate:#8FA9C0; --steel:#6E8AA3; --mist:#4A6076;
+    --powder:#182838; --powder-2:#132130; --paper:#0D1822; --white:#101E2A;
+    --ink:#E4EDF4; --ink-soft:#9DB0C0; --ink-faint:#6C8095;
+    --gold:#C9AC7E; --gold-soft:#241E12;
+    --line:rgba(228,237,244,0.11); --line-soft:rgba(228,237,244,0.06);
+    --shadow:0 20px 50px rgba(0,0,0,.45); --shadow-soft:0 8px 24px rgba(0,0,0,.3);
+    --card:#122130;
+  }
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; font-family:'Inter',system-ui,sans-serif; color:var(--ink); background:var(--paper);
+  -webkit-font-smoothing:antialiased; overflow-x:hidden; font-size:16px; line-height:1.65; font-weight:450;}
+img{max-width:100%; display:block;}
+a{color:inherit;}
+p{margin:0;}
+h1,h2,h3,h4{margin:0; font-weight:400;}
+.serif{font-family:'Fraunces',serif; font-weight:400; letter-spacing:-0.01em; line-height:1.12;}
+.wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+
+.btn{display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:500;
+  font-size:14.5px; padding:13px 26px; border-radius:8px; border:1px solid transparent; text-decoration:none;
+  cursor:pointer; transition:background .2s ease, border-color .2s ease, color .2s ease; letter-spacing:.005em;}
+.btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+.btn-primary{background:var(--slate); color:#ffffff;}
+.btn-primary:hover{background:var(--navy);}
+.btn-light{background:var(--white); color:var(--navy); border-color:var(--line);}
+.btn-light:hover{border-color:var(--steel);}
+.btn-ghost{background:transparent; color:var(--ink); border-color:var(--line);}
+.btn-ghost:hover{border-color:var(--steel);}
+.btn-sm{padding:9px 18px; font-size:13.5px;}
+:root[data-theme="dark"] .btn-primary, :root:not([data-theme="light"]) .btn-primary{color:#ffffff;}
+
+header.nav{position:sticky; top:0; z-index:40; background:color-mix(in srgb, var(--paper) 85%, transparent);
+  backdrop-filter:blur(14px); border-bottom:1px solid var(--line-soft); overflow-x:hidden;}
+.navrow{display:flex; align-items:center; gap:16px; padding:18px 28px; max-width:1120px; margin:0 auto; flex-wrap:nowrap;}
+.brand{display:flex; align-items:center; gap:12px; margin-right:auto; text-decoration:none; min-width:0; overflow:hidden;}
+.brand .mk{width:38px; height:38px; border-radius:50%; border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+.brand .mk svg{width:18px; height:18px; color:var(--slate);}
+.brand b{font-family:'Fraunces',serif; font-weight:500; font-size:16px; color:var(--ink); line-height:1.15; display:block; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.brand span{font-size:11px; letter-spacing:.02em; color:var(--ink-faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block;}
+.navlinks{display:none; gap:30px; font-size:14px; font-weight:450;}
+.navlinks a{text-decoration:none; color:var(--ink-soft); transition:color .2s ease; white-space:nowrap;}
+@media(min-width:920px) and (max-width:1040px){.navlinks{gap:20px; font-size:13.5px;}}
+.navlinks a:hover{color:var(--ink);}
+@media(min-width:920px){.navlinks{display:flex;}}
+.navcta{display:none; flex-shrink:0;}
+@media(min-width:1080px){.navcta{display:inline-flex;}}
+
+.hero{position:relative; overflow:hidden; background:linear-gradient(180deg, rgba(20,40,58,.78) 0%, rgba(20,40,58,.55) 100%), url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAH0AyADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzuiiitzMKKKKACiiigAooooAKKKKACiiigAopaKACiiimAUUUUAFFFFABRRS0AJRS0UAFFFFAgooooAKKKKACiiigAooooAKKKKACiiigAopaKAEpaKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooopgFFLRQAlLRRQAUUUUAFFFFABRRRQAUUtFAgooooAKKKKACiiigAooooAKKKKACiiigAopaKAEpaKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigRDRRRUlhRRRQAUUUUAFFFLQAlLRRQAUUUUxBRRRQMKKKKACilooASloooEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRS0UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUwCilooAKKKKACiiigAooooAKKKWgQlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUCCiiloASloooGQUUUVJQUUtFACUtFFMAooooEFFFFAwooooAKKWigAooooEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFMAoopaAEpaKKACiiigAooooAKKKKACilooEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAgopaKAEpaKKBhRRRQIKKKKAIaKKKRQUUUUDCiiigAoopaAEpaKKBBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFMAopaKACiiigAooooAKKKKACiiloEJRS0UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFLRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAgoopaAEopaKBhRRRQAUUUUCCiiigAooooAKKKKAIaKKKRYUUtFABRRRQIKKKKACiiigAooooAKKKKACiiigAooooAKKKWgBKKWigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKYBRRS0AJRS0UAFFFFABRRRQAUUUUAFFLRQISloooAKKKKACiiigAooooAKKKKACiiigAoopaAEopaKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooEFFFLQAlLRRQMKKKKACiiigQUUUUAFFFFABRRS0AJS0UUAFFFFAENFFFIoKKKKACiiigAooooAKKKKACiiigAooooAKKWigBKWiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKYBRS0UAJS0UUAFFFFABRRRQAUUUUAFFLRQIKKKKACiiigAooooAKKKKACiiigAooooAKKWigBKWiigAooooAKKKKACiiigAooooAKKKKACiiigAooooEFFFFABRS0UDCiiigAooooEFFFFABRRRQAUUUUAFFLRQAlLRRQAUUUUAFFFFABRRRQBDRRRSKCiiigAooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKYBRS0UAFFFFABRRRQAUUUUAFFFLQISloooAKKKKACiiigAooooAKKKKACiiigAooooAKKWigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKBBRRS0AJS0UUDCiiigAooooEFFFFABRRRQAUUUtACUUtFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAENFFFIoKKKKACiiloASloooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiimAUUUtACUtFFABRRRQAUUUUAFFFFABRS0UCCiiigAooooAKKKKACiiigAooooAKKKKACiiloASloooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigQUUtFACUtFFAwooooEFFFFABRRRQAUUUUAFFFLQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRS0AJRS0UwCiiigCCiloqSgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiimAUUtFABRRRQAUUUUAFFFFABRRS0CEopaKACiiigAooooAKKKKACiiigAooooAKKKKACilooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigQUUUtACUUtFAwooooAKKKKBBRRRQAUUUUAFFFFABRS0UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlLRRTAKKKKACiiigAooooAhoooqSgooooAKKKKACiiigAooooAKKKKACiiimAUUUtACUUtFABRRRQAUUUUAFFFFABRS0UCEpaKKACiiigAooooAKKKKACiiigAooooAKKKWgBKKWigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKBBRRS0AJS0UUDCiiigAooooEFFFFABRRRQAUUUtACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRS0UwCiiigAooooAKKKKACiiigAooooAKKWigCCiiipKCiiigAooooAKKKKACiiimAUUtFACUtFFABRRRQAUUUUAFFFFABRS0UCCiiigAooooAKKKKACiiigAooooAKKKKACilooASloooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKBBRRRQAUUtFAwooooAKKKKBBRRRQAUUUUAFFFFABRS0UAJS0UUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUtACUtFFMAooooAKKKKACiiigAooooAKKKKACilooAKKKKACiiigCCiiipKCiiigAooopgFFLRQAUUUUAFFFFABRRRQAUUUtAhKWiigAooooAKKKKACiiigAooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooEFFFLQAlLRRQMKKKKACiiigQUUUUAFFFFABRRS0AJRS0UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFLRTASloooAKKKKACiiigAooooAKKKKACiiloASloooAKKKKACiiigAooooAKKKKAIKKKWkUJS0UUAFFFFABRRRQAUUUUAFFLRQIKKKKACiiigAooooAKKKKACiiigAooooAKKKWgBKWiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKBBRS0UAJS0UUDCiiigQUUUUAFFFFABRRRQAUUUtACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlFLRTAKKKKACiiigAooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooEFFFFABRRRQBDRRRSLCiiigAoopaBCUUtFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRS0UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQIKKKWgBKKWigYUUUUAFFFFAgooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooAKKKKACiiloASloopgFFFFABRRRQAUUUUAFFFFABRRS0AJRS0UAFFFFABRRRQAUUUUAFFFFABRRRQIKKKKACiiigAooooAKKWigCCilopFCUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlFLRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAgoopaAEpaKKBhRRRQAUUUUCCiiigAooooAKKKWgBKWiigAooooAKKKKACiiigAooooAKKKKACiiigAopaKYBRRRQAUUUUAFFFFABRRRQAUUUUAFFLRQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFAgooooAKKKKACiiigAopaKACiiigAooooAhooopFBRRRQAUUUUAFFFFABRRRQAUUtFACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQIKKKKACilooGFFFFABRRRQIKKKKACiiigAooooAKKWigBKWiigAooooAKKKKACiiigAooooAKKKKACiiloASloopgFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRRQAUUUUCCiiigAooooAKKKKACiiloASloooAKKKKACiiigAooooAKKKKAIaKKKRQUUUUAFFFFABRS0UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQIKKKWgBKWiigYUUUUAFFFFAgooooAKKKKACiiloASilooAKKKKACiiigAooooAKKKKACiiigAooooAKKWimAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFAgooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooAKKKKACiiloAgoopaRQlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAgopaKAEpaKKBhRRRQIKKKKACiiigAooooAKKKWgBKWiigAooooAKKKKACiiigAooooAKKKKACiiloASilopgFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRRQAUUUUCCiiigAooooAKKKKACiiloASilooAKKKKACiiigAooooAKKKKACiiigAooooAKKWigAooooAKKKKBENFFFIsKKKKACiiigAooooAKKKKACiiigAooooEFFFLQAlFLRQMKKKKACiiigQUUUUAFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRS0AJS0UUwCiiigAooooAKKKKACiiigAoopaAEopaKACiiigAooooAKKKKACiiigAooooEFFFFABRRRQAUUUUAFFLRQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRS0AJRS0UAFFFFAgooooAKKKKACilooAgooopFhRRRQAUUUUAFFFFABRRRQIKKKWgBKWiigYUUUUAFFFFAgooooAKKKKACiiloASloooAKKKKACiiigAooooAKKKKACiiigAooooAKKWimAUUUUAFFFFABRRRQAUUUUAFFFFABRS0UAJS0UUAFFFFABRRRQAUUUUAFFFFABRRRQIKKKKACiiigAooooAKKWigAooooAKKKKACiiigAooooAKKKKACiiigAopaKAEpaKKACiiigQUUUUAFFFFABRS0UAFFFFABRRRQBBRRRSLCiiigQUUUUAFFLRQMKKKKACiiigQUUUUAFFFFABRRRQAUUtFACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlLRRTAKKKKACiiigAooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooEFFFFABRRRQAUUUUAFFFLQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUCCiiigAoopaAEpaKKACiiigAooooAKKKKACiiigCCiilpFCUtFFAwooooAKKKKBBRRRQAUUUUAFFFLQAlFLRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFMBKWiigAooooAKKKKACiiigAooooAKKKWgBKWiigAooooAKKKKACiiigAooooAKKKKBBRRRQAUUUUAFFFFABRS0UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlLRRQAUUUUCCiiigAooooAKKWigAooooAKKKKACiiigAooooAKKKKACiiimAUUUUAQ0UUVJQUUUUAFFFFABRRRQAUUUtACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFLQAlFLRTAKKKKACiiigAooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooEFFFFABRRRQAUUUUAFFFLQAlFLRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUCCiiigAoopaAEopaKACiiigAooooAKKKKACiiigAooooAKKKKYBRRRQAUUUUAFFFLQBBRRRUlBRRRQAUUtFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRS0AJS0UUwCiiigAooooAKKKKACiiigAoopaAEopaKACiiigAooooAKKKKACiiigAooooEFFFFABRRRQAUUUUAFFLRQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRS0AJRS0UAFFFFAgooooAKKKKACilooASloooAKKKKACiiigAooooAKKKKACiiimAUUUUAFFFFABRRRQAUUtFACUtFFABRRRQBBS0UVJQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFMAooooAKKKKACiiigAooooAKKKKACilooASloooAKKKKACiiigAooooAKKKKACiiigQUUUUAFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRS0UAJS0UUAFFFFAgooooAKKKKACilooAKKKKACiiigAooooAKKKKACiiigAooopgFFFFABRRRQAUUUUAFFLRQAUUUUAFFFFABRRRQAUUUUAQ0UUVJQUUUUAFFFFABRRRQAUUUtACUtFFMAooooAKKKKACiiigAooooAKKKKACilooAKKKKACiiigAooooAKKKKACiiigQUUUUAFFFFABRRRQAUUUtACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRS0UAFFFFABRRRQIKKKKACiiloASloooAKKKKACiiigAooooAKKKKACiiigAooopgFFFFABRRRQAUUUtACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAENFFFSUFFFFABRS0UwEpaKKACiiigAooooAKKKKACiiigAoopaAEpaKKACiiigAooooAKKKKACiiigAooooEFFFFABRRRQAUUUUAFFLRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUtACUtFFABRRRQIKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooAKKKKYBRRRQAUUUUAFFFFABRS0UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRS0AJRS0UAQUUtFIoKKKKACiiigAooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooEFFFFABRRRQAUUUUAFFFLQAlFLRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUCCiiigAoopaAEopaKACiiigAooooAKKKKACiiigAooooAKKKKYBRRRQAUUUUAFFFLQAlFLRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFLRQAlLRRQAUUUUAFFFFAENFFFIoKKKKACiiigAoopaAEopaKACiiigAooooAKKKKACiiigAooooEFFFFABRRRQAUUUUAFFLRQAlLRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRS0AJRS0UAFFFFAgooooAKKKKACilooASloooAKKKKACiiigAooooAKKKKACiiimAUUUUAFFFFABRRRQAUUtFACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRS0AJS0UUCIKKKKRYUUtFACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUCCiiigAooooAKKKKACilooAKKKKACiiigAooooAKKKKACiiigAooooAKKWigBKWiigAooooEFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFMAooooAKKKKACiiigAopaKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoopaAEpaKKACiiigAooooAKKKKACilooASloooEFFFFABRRRQBDRRRSLCiiigAooooAKKKKACiiigQUUUUAFFFFABRRRQAUUUtACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRS0UAFFFFABRRRQIKKKKACiiloASloooAKKKKACiiigAooooAKKKKACiiigAooopgFFFFABRRRQAUUUtACUtFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUtFABRRRQAUUUUAFFFFABRRS0AJRS0UCCiiigAooooAKKKKACiiigAooooAhooopFhRRRQAUUUUAFFFFAgooooAKKKKACiiigApaKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigBaKKKBBRRRQAUUUUAFFFFAC0UUUAFFFFABRRRQAUUUUwCiiikAUUUUAFFFFMAooooAKKKKACiiigApaKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAWiiigAooooEFFFFAwooooAKWiigAooooEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAf//Z') center/cover no-repeat;}
+.herogrid{display:grid; grid-template-columns:1.05fr .95fr; gap:64px; align-items:center; padding-top:88px; padding-bottom:96px;}
+@media(max-width:940px){.herogrid{grid-template-columns:1fr; gap:48px; padding-top:64px; padding-bottom:72px;}}
+.hero-badge{display:inline-flex; align-items:center; gap:9px; color:#ffffff; font-size:13px; font-weight:500; margin-bottom:26px; letter-spacing:.01em;}
+.hero-badge::before{content:""; width:22px; height:1px; background:#ffffff;}
+.hero h1{font-size:clamp(38px,5.4vw,60px); color:#ffffff; font-weight:300;}
+.hero h1 em{font-style:italic; color:#E8C98A; font-weight:400;}
+.hero .sub{margin-top:24px; font-size:17px; color:rgba(255,255,255,.88); max-width:46ch; line-height:1.68;}
+.hero-cta{display:flex; gap:12px; margin-top:34px; flex-wrap:wrap;}
+.hero-stats{display:flex; gap:44px; margin-top:52px; flex-wrap:wrap;}
+.hstat{display:flex; flex-direction:column;}
+.hstat .stars{color:var(--gold); font-size:12px; letter-spacing:2px; display:block; height:14px; margin-bottom:8px;}
+.hstat b{font-family:'Fraunces',serif; font-weight:400; font-size:30px; display:block; line-height:1; color:#ffffff;}
+.hstat span{font-size:12.5px; color:rgba(255,255,255,.75); margin-top:6px; display:block;}
+
+.docard{background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); overflow:hidden;}
+.docard .ph{height:230px; background:linear-gradient(165deg,var(--powder),var(--powder-2)); display:flex; align-items:center; justify-content:center; position:relative;}
+.docard .ph .ring{width:110px; height:110px; border-radius:50%; background:var(--white); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--slate); font-family:'Fraunces',serif; font-weight:400; font-size:38px;}
+.docard .ph .vf{position:absolute; bottom:16px; right:16px; background:var(--white); border:1px solid var(--line-soft); border-radius:7px; padding:7px 12px; display:flex; align-items:center; gap:7px; font-size:11.5px; font-weight:500; color:var(--slate); box-shadow:var(--shadow-soft);}
+.docard .ph .vf svg{width:13px; height:13px; color:var(--steel);}
+.docard .info{padding:22px 24px 24px;}
+.docard .info b{font-family:'Fraunces',serif; font-weight:500; font-size:18px; color:var(--ink); display:block; letter-spacing:-.01em;}
+.docard .info .role{font-size:13px; color:var(--ink-soft); margin-top:6px; line-height:1.5;}
+.docard .chips{display:flex; gap:7px; flex-wrap:wrap; margin-top:16px;}
+.chip{font-size:11.5px; font-weight:450; padding:5px 12px; border-radius:100px; background:var(--powder-2); color:var(--slate); border:1px solid var(--line-soft);}
+
+section{padding:96px 0;}
+.eyebrow{font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--steel); font-weight:500;}
+.sechead{max-width:600px; margin-bottom:56px;}
+.sechead h2{font-size:clamp(28px,3.8vw,42px); margin-top:16px; color:var(--ink); font-weight:300;}
+.sechead p{margin-top:16px; font-size:16.5px; color:var(--ink-soft); line-height:1.65;}
+.sechead.center{margin:0 auto 56px; text-align:center;}
+
+.convenios{border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); padding:40px 0; overflow:hidden;}
+.convenios .lbl{display:block; font-size:12.5px; letter-spacing:.08em; color:var(--ink-faint); text-align:center; margin-bottom:26px; text-transform:uppercase;}
+.marquee{position:relative; width:100%; overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);}
+.marquee-track{display:flex; align-items:center; gap:64px; width:max-content; animation:marquee 26s linear infinite;}
+.marquee:hover .marquee-track{animation-play-state:paused;}
+@keyframes marquee{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+.conlogo{font-family:'Fraunces',serif; font-weight:500; font-size:26px; color:var(--steel); letter-spacing:-.01em; white-space:nowrap; transition:color .25s ease, opacity .25s ease; opacity:.85;}
+.conlogo:hover{color:var(--navy); opacity:1;}
+@media(max-width:640px){.conlogo{font-size:22px;} .marquee-track{gap:44px; animation-duration:20s;}}
+@media (prefers-reduced-motion: reduce){.marquee-track{animation:none; flex-wrap:wrap; justify-content:center; width:100%;}}
+
+.servs{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+@media(max-width:760px){.servs{grid-template-columns:1fr;}}
+.serv{position:relative; border-radius:16px; overflow:hidden; min-height:300px; display:flex; flex-direction:column;
+  justify-content:flex-end; text-decoration:none; border:1px solid var(--line); box-shadow:var(--shadow-soft);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;}
+.serv:hover{transform:translateY(-4px); box-shadow:var(--shadow);}
+.serv .art{position:absolute; inset:0; z-index:0;}
+.serv .art svg{width:100%; height:100%; display:block;}
+.serv .art .float{transform-origin:center; animation:drift 9s ease-in-out infinite;}
+.serv .art .float.b{animation-duration:12s; animation-delay:-3s;}
+.serv .art .float.c{animation-duration:7s; animation-delay:-1.5s;}
+@keyframes drift{0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-10px) scale(1.04);}}
+.serv .scrim{position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(15,25,35,0) 32%, rgba(15,25,35,.16) 55%, rgba(13,22,32,.82) 100%);}
+.serv .body{position:relative; z-index:2; padding:26px 28px 28px; color:#fff;}
+.serv .price-badge{position:absolute; top:18px; right:18px; z-index:2; background:rgba(255,255,255,.92); color:var(--navy);
+  border-radius:100px; padding:8px 15px; font-family:'Fraunces',serif; font-weight:500; font-size:16px; box-shadow:0 6px 18px rgba(0,0,0,.14);}
+.serv .price-badge small{font-family:'Inter',sans-serif; font-size:10.5px; font-weight:500; color:var(--steel); display:block; margin-top:1px; letter-spacing:.01em;}
+.serv .ic{width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,.16); backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,.28); display:flex; align-items:center; justify-content:center; margin-bottom:14px;}
+.serv .ic svg{width:19px; height:19px; color:#fff;}
+.serv h3{font-family:'Fraunces',serif; font-weight:500; font-size:21px; color:#fff; letter-spacing:-.01em; line-height:1.15;}
+.serv p{font-size:13.5px; color:rgba(255,255,255,.82); margin-top:8px; line-height:1.55; max-width:34ch;}
+.serv .go{display:inline-flex; align-items:center; gap:7px; margin-top:16px; font-size:13.5px; font-weight:500; color:#fff;}
+.serv .go svg{width:15px; height:15px; transition:transform .25s ease;}
+.serv:hover .go svg{transform:translateX(4px);}
+
+.proceso{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:56px 48px;}
+@media(max-width:640px){.proceso{padding:36px 24px;}}
+.pgrid{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;}
+@media(max-width:860px){.pgrid{grid-template-columns:1fr; gap:40px;}}
+.psteps{display:flex; flex-direction:column; gap:28px; margin-top:28px;}
+.pstep{display:flex; gap:18px;}
+.pstep .n{font-family:'Fraunces',serif; font-size:19px; color:var(--steel); flex-shrink:0; width:30px; line-height:1.3; border-bottom:1px solid var(--line); text-align:center; padding-bottom:2px; height:fit-content;}
+.pstep h4{font-family:'Inter',sans-serif; font-weight:600; font-size:15px; color:var(--ink);}
+.pstep p{font-size:14px; color:var(--ink-soft); margin-top:5px; line-height:1.6;}
+
+.book{background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-soft); overflow:hidden;}
+.book .bar{padding:20px 22px; border-bottom:1px solid var(--line-soft);}
+.book .bar b{font-family:'Fraunces',serif; font-weight:500; font-size:16px; display:block; color:var(--ink); letter-spacing:-.01em;}
+.book .bar span{font-size:12.5px; color:var(--ink-faint); margin-top:3px; display:block;}
+.book .bd{padding:22px;}
+.book .go{margin-top:18px; width:100%; text-align:center; justify-content:center;}
+.roletabs{display:flex; gap:6px; background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:4px;}
+.roletab{flex:1; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; color:var(--ink-soft); background:transparent; border:none; padding:10px 6px; border-radius:7px; cursor:pointer; transition:all .18s ease;}
+.roletab.on{background:var(--navy); color:var(--paper);}
+:root[data-theme="dark"] .roletab.on, :root:not([data-theme="light"]) .roletab.on{color:#ffffff;}
+.roleform{display:none; margin-top:20px;}
+.roleform.on{display:block; animation:fadeUp .25s ease;}
+@keyframes fadeUp{from{opacity:0; transform:translateY(5px);} to{opacity:1; transform:translateY(0);}}
+.rf-note{font-size:13px; color:var(--ink-soft); margin-bottom:16px; line-height:1.5;}
+.fld{display:block; margin-bottom:13px;}
+.fld span{display:block; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px;}
+.fld input{width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px; background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; font-size:14px; transition:border-color .18s ease;}
+.fld input::placeholder{color:var(--ink-faint);}
+.fld input:focus{outline:none; border-color:var(--slate);}
+.chk{display:flex; gap:9px; align-items:flex-start; font-size:12px; color:var(--ink-soft); line-height:1.45; margin:14px 0 2px; cursor:pointer;}
+.chk input{margin-top:2px; accent-color:var(--navy); flex-shrink:0;}
+.rf-alt{font-size:12.5px; color:var(--ink-faint); text-align:center; margin-top:14px;}
+.rf-alt a{color:var(--slate); text-decoration:none; font-weight:500;}
+.rf-alt a:hover{text-decoration:underline;}
+.rf-foot{margin-top:20px; padding-top:16px; border-top:1px solid var(--line-soft); font-size:11.5px; color:var(--ink-faint); line-height:1.5; text-align:center;}
+
+.fgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:14px; overflow:hidden;}
+@media(max-width:860px){.fgrid{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.fgrid{grid-template-columns:1fr;}}
+.fcard{position:relative; background:var(--card); padding:32px 28px; overflow:hidden; isolation:isolate;}
+.fcard::before{content:""; position:absolute; inset:0; z-index:-1; opacity:.5;
+  background:
+    radial-gradient(120px 120px at 15% 20%, rgba(110,138,163,.18), transparent 70%),
+    radial-gradient(140px 140px at 90% 85%, rgba(183,151,102,.14), transparent 70%);
+  background-size:180% 180%; animation:fcardMove 14s ease-in-out infinite;}
+.fcard:nth-child(2)::before{animation-duration:17s; animation-delay:-4s;}
+.fcard:nth-child(3)::before{animation-duration:12s; animation-delay:-2s;}
+.fcard:nth-child(4)::before{animation-duration:16s; animation-delay:-6s;}
+.fcard:nth-child(5)::before{animation-duration:13s; animation-delay:-3s;}
+.fcard:nth-child(6)::before{animation-duration:18s; animation-delay:-5s;}
+.fcard:hover::before{opacity:.9; animation-duration:6s;}
+@keyframes fcardMove{0%{background-position:0% 0%;} 50%{background-position:100% 100%;} 100%{background-position:0% 0%;}}
+.fcard .ic{position:relative; width:38px; height:38px; margin-bottom:18px; border-radius:10px; background:color-mix(in srgb, var(--card) 82%, transparent); border:1px solid var(--line-soft); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-soft);}
+.fcard .ic svg{width:20px; height:20px; color:var(--steel);}
+.fcard h4{position:relative; font-family:'Fraunces',serif; font-weight:500; font-size:16.5px; color:var(--ink); letter-spacing:-.01em;}
+.fcard p{position:relative; font-size:13.5px; color:var(--ink-soft); margin-top:9px; line-height:1.6;}
+@media (prefers-reduced-motion: reduce){.fcard::before{animation:none;}}
+
+.about{border:1px solid var(--line); border-radius:16px; overflow:hidden; display:grid; grid-template-columns:1.05fr .95fr;}
+@media(max-width:860px){.about{grid-template-columns:1fr;}}
+.about .copy{padding:56px 48px; background:var(--card);}
+@media(max-width:640px){.about .copy{padding:38px 26px;}}
+.about h2{font-size:clamp(26px,3.4vw,38px); color:var(--ink); margin-top:16px; font-weight:300;}
+.about p{color:var(--ink-soft); margin-top:18px; font-size:15.5px; line-height:1.7; max-width:44ch;}
+.about .creds{display:flex; flex-direction:column; gap:14px; margin-top:28px;}
+.about .cred{display:flex; gap:12px; align-items:center; font-size:14.5px; color:var(--ink);}
+.about .cred svg{width:16px; height:16px; color:var(--gold); flex-shrink:0;}
+.about .ph{background:linear-gradient(165deg,var(--powder),var(--powder-2)); display:flex; align-items:center; justify-content:center; min-height:360px;}
+.about .ph .ring{width:150px; height:150px; border-radius:50%; background:var(--white); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--slate); font-family:'Fraunces',serif; font-weight:400; font-size:52px;}
+
+.tgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+@media(max-width:860px){.tgrid{grid-template-columns:1fr;}}
+.tcard{border:1px solid var(--line); border-radius:14px; padding:32px; display:flex; flex-direction:column; gap:18px; background:var(--card);}
+.tcard .stars{color:var(--gold); font-size:12px; letter-spacing:3px;}
+.tcard p.q{font-family:'Fraunces',serif; font-weight:300; font-size:17px; line-height:1.55; color:var(--ink); letter-spacing:-.005em;}
+.tcard .who{display:flex; align-items:center; gap:12px; margin-top:auto; padding-top:18px; border-top:1px solid var(--line-soft);}
+.tcard .who .av{width:34px; height:34px; border-radius:50%; background:var(--powder-2); border:1px solid var(--line-soft); color:var(--slate); display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:14px;}
+.tcard .who b{display:block; font-size:12.5px; font-weight:600; color:var(--ink);}
+.tcard .who span{font-size:11.5px; color:var(--ink-faint);}
+.tnote{margin-top:28px; font-size:12.5px; color:var(--ink-faint); text-align:center; line-height:1.6;}
+
+.loc{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;}
+@media(max-width:760px){.loc{grid-template-columns:1fr;}}
+.locmap{border-radius:14px; overflow:hidden; border:1px solid var(--line); height:300px; background:linear-gradient(160deg,var(--powder),var(--powder-2)); display:flex; align-items:center; justify-content:center;}
+.locmap .pin{background:var(--white); border:1px solid var(--line-soft); border-radius:8px; padding:11px 18px; font-size:13.5px; font-weight:500; color:var(--navy); box-shadow:var(--shadow-soft); display:flex; gap:8px; align-items:center;}
+.locmap .pin svg{width:16px; height:16px; color:var(--steel);}
+.locmap{position:relative;}
+.mapopen{position:absolute; left:14px; bottom:14px; display:inline-flex; align-items:center; gap:7px; background:var(--white); border:1px solid var(--line-soft); border-radius:8px; padding:10px 15px; font-size:13px; font-weight:500; color:var(--navy); text-decoration:none; box-shadow:var(--shadow-soft); transition:background .15s ease;}
+.mapopen:hover{background:var(--powder-2); color:var(--navy);}
+.mapopen svg{width:15px; height:15px; color:var(--steel);}
+.locinfo h3{font-family:'Fraunces',serif; font-weight:500; font-size:24px; color:var(--ink); letter-spacing:-.01em;}
+.locrow{display:flex; gap:14px; align-items:flex-start; margin-top:20px; font-size:14.5px; color:var(--ink);}
+.locrow svg{width:18px; height:18px; color:var(--steel); flex-shrink:0; margin-top:2px;}
+.locrow span{color:var(--ink-faint); font-size:13px;}
+
+.final{border:1px solid var(--line); border-radius:16px; padding:72px 40px; text-align:center; background:linear-gradient(180deg,var(--powder-2),var(--card));}
+.final h2{font-size:clamp(30px,4.2vw,46px); color:var(--ink); font-weight:300; max-width:18ch; margin:0 auto;}
+.final p{color:var(--ink-soft); margin-top:18px; font-size:16px; max-width:46ch; margin-left:auto; margin-right:auto;}
+.finalbtns{display:flex; gap:12px; justify-content:center; margin-top:32px; flex-wrap:wrap;}
+
+footer{padding:56px 0 32px; border-top:1px solid var(--line-soft); margin-top:40px;}
+.footgrid{display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:40px;}
+@media(max-width:700px){.footgrid{grid-template-columns:1fr 1fr;}}
+.footgrid h5{font-size:11.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-faint); margin-bottom:16px; font-weight:500;}
+.footgrid a{display:block; font-size:14px; color:var(--ink-soft); text-decoration:none; margin-bottom:11px; transition:color .2s ease;}
+.footgrid a:hover{color:var(--slate);}
+.footbottom{display:flex; justify-content:space-between; align-items:center; margin-top:44px; padding-top:22px; border-top:1px solid var(--line-soft); font-size:12px; color:var(--ink-faint); flex-wrap:wrap; gap:8px;}
+
+.socials{display:flex; gap:10px; margin-top:20px;}
+.social{width:44px; height:44px; border-radius:10px; border:none; background:transparent;
+  display:flex; align-items:center; justify-content:center; color:var(--slate); text-decoration:none;
+  transition:transform .2s ease, color .2s ease;}
+.social svg{width:24px; height:24px;}
+.social:hover{transform:translateY(-2px); color:var(--navy);}
+:root[data-theme="dark"] .social:hover, :root:not([data-theme="light"]) .social:hover{color:#0D1822;}
+/* redes en el encabezado */
+.nav-social{display:none; gap:6px; margin-left:4px;}
+@media(min-width:980px){.nav-social{display:flex;}}
+.nav-social a{width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--navy); transition:color .2s ease, background .2s ease;}
+.nav-social a:hover{color:var(--navy); background:var(--powder-2);}
+.nav-social svg{width:17px; height:17px;}
+
+.wafloat{position:fixed; bottom:24px; right:24px; z-index:50; background:var(--navy); color:#ffffff; width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); text-decoration:none; transition:background .2s ease;}
+.wafloat:hover{background:var(--slate);}
+.wafloat svg{width:24px; height:24px;}
+:root[data-theme="dark"] .wafloat, :root:not([data-theme="light"]) .wafloat{color:#ffffff;}
+
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:.001ms!important; transition-duration:.001ms!important;} }
+
+/* ===== Overlay de la herramienta integrada ===== */
+.tool-overlay{position:fixed; inset:0; z-index:200; background:var(--paper); display:none; flex-direction:column;}
+.tool-overlay.open{display:flex;}
+.tool-topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:11px 18px;
+  background:var(--navy); color:#fff; flex-shrink:0;}
+.tool-topbar-label{font-size:12.5px; letter-spacing:.02em; opacity:.9;}
+@media(max-width:480px){.tool-topbar-label{display:none;}}
+.langbtn{flex-shrink:0; min-width:44px; height:38px; padding:0 12px; border-radius:9px; border:1px solid var(--line); background:transparent; color:var(--navy); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:600; letter-spacing:.06em; cursor:pointer; transition:background .2s ease, border-color .2s ease;}
+.langbtn:hover{background:var(--powder-2); border-color:var(--steel);}
+.langbtn:focus-visible{outline:2px solid var(--steel); outline-offset:2px;}
+@media(max-width:640px){
+  .wrap{padding:0 20px;}
+  .navrow{padding:12px 18px; gap:10px;}
+  .brand span{display:none;}
+  section{padding:64px 0;}
+  .sechead, .sechead.center{margin-bottom:36px;}
+  .sechead p{font-size:15.5px;}
+  .herogrid{padding-top:48px; padding-bottom:56px; gap:36px;}
+  .hero h1{font-size:clamp(34px,9vw,42px);}
+  .hero .sub{font-size:15.5px; margin-top:18px;}
+  .hero-cta{flex-direction:column; align-items:stretch;}
+  .hero-cta .btn{justify-content:center; min-height:48px;}
+  .serv{min-height:260px;}
+  .serv .body{padding:22px 20px 22px;}
+  .locmap{height:260px;}
+  .footgrid{grid-template-columns:1fr; gap:28px;}
+  .footgrid a{padding:4px 0;}
+  .wafloat{bottom:16px; right:16px;}
+}
+.tool-close{font-family:'Inter',sans-serif; font-size:13px; font-weight:500; color:var(--navy); background:#fff;
+  border:none; border-radius:7px; padding:8px 16px; cursor:pointer; transition:background .2s ease;}
+.tool-close:hover{background:var(--powder);}
+#toolFrame{flex:1; width:100%; border:none; background:var(--paper);}
+
+/* CTA de acceso dentro de la sección */
+.access-cta{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow-soft);
+  padding:44px 36px; text-align:center; display:flex; flex-direction:column; align-items:center;}
+.access-cta-ic{width:52px; height:52px; border-radius:13px; background:var(--powder-2); border:1px solid var(--line-soft);
+  display:flex; align-items:center; justify-content:center; margin-bottom:20px;}
+.access-cta-ic svg{width:25px; height:25px; color:var(--slate);}
+.access-cta h3{font-family:'Fraunces',serif; font-weight:500; font-size:24px; color:var(--ink); letter-spacing:-.01em;}
+.access-cta p{font-size:14.5px; color:var(--ink-soft); margin-top:12px; line-height:1.6; max-width:38ch;}
+.access-cta .btn{margin-top:24px;}
+.access-cta-note{font-size:12px; color:var(--ink-faint); margin-top:14px;}
+
+/* Página de acceso (overlay tipo página aparte) */
+.auth-page{position:fixed; inset:0; z-index:150; background:var(--paper); display:none; flex-direction:column; overflow-y:auto;}
+.auth-page.open{display:flex;}
+.auth-top{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 28px; border-bottom:1px solid var(--line-soft); background:color-mix(in srgb, var(--paper) 92%, transparent); position:sticky; top:0;}
+.auth-back{font-family:'Inter',sans-serif; font-size:13.5px; font-weight:500; color:var(--ink); background:transparent; border:1px solid var(--line); border-radius:8px; padding:9px 18px; cursor:pointer; transition:border-color .2s ease;}
+.auth-back:hover{border-color:var(--steel);}
+.auth-body{flex:1; display:flex; align-items:center; justify-content:center; padding:48px 24px;
+  background:linear-gradient(180deg, var(--powder-2) 0%, var(--paper) 60%);}
+.auth-card{width:100%; max-width:440px; background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:40px 36px;}
+@media(max-width:520px){.auth-card{padding:32px 22px;}}
+.auth-card h2{font-size:29px; color:var(--ink); font-weight:300; margin-top:10px; text-align:center;}
+.auth-lede{font-size:14.5px; color:var(--ink-soft); text-align:center; margin-top:12px; margin-bottom:26px; line-height:1.55;}
+.auth-card .roletabs{margin-bottom:4px;}
+
+/* Retrato de la doctora (pequeño y nítido, sobre fondo suave) */
+.docard .ph.ph-portrait{position:relative;}
+.portrait-ring{width:150px; height:150px; border-radius:50%; padding:5px; background:var(--white);
+  border:1px solid var(--line); box-shadow:var(--shadow-soft); overflow:hidden;}
+.portrait-ring img{width:100%; height:100%; border-radius:50%; object-fit:cover; object-position:center top; display:block;}
+.portrait-ring.lg{width:190px; height:190px;}
+.about .ph.ph-about{padding:0; display:flex; align-items:center; justify-content:center;}
+/* ===== Hook emocional ===== */
+.hook-sec{padding:0;}
+.hook{position:relative; overflow:hidden; border-radius:20px; padding:80px 56px; text-align:center;
+  background:linear-gradient(155deg, var(--slate) 0%, var(--navy) 55%, var(--blue-ink, #052A56) 100%);
+  color:#fff;}
+.hook::before{content:""; position:absolute; right:-120px; top:-120px; width:360px; height:360px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.10), transparent 65%);}
+.hook::after{content:""; position:absolute; left:-100px; bottom:-140px; width:340px; height:340px; border-radius:50%;
+  background:radial-gradient(circle, rgba(183,151,102,.20), transparent 65%);}
+@media(max-width:640px){.hook{padding:56px 26px;}}
+.hook-eyebrow{position:relative; z-index:2; display:inline-block; font-size:12.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:22px;}
+.hook-title{position:relative; z-index:2; font-size:clamp(30px,4.8vw,52px); color:#fff; font-weight:300; line-height:1.1;
+  max-width:16ch; margin:0 auto; letter-spacing:-.015em;}
+.hook-title em{font-style:italic; color:var(--gold); font-weight:400;}
+.hook-sub{position:relative; z-index:2; margin:26px auto 0; font-size:17px; line-height:1.66; color:rgba(255,255,255,.86); max-width:52ch;}
+.hook-cta{position:relative; z-index:2; display:flex; gap:14px; justify-content:center; margin-top:36px; flex-wrap:wrap;}
+.btn-hook-ghost{background:transparent; color:#fff; border-color:rgba(255,255,255,.5);}
+.btn-hook-ghost:hover{border-color:#fff; background:rgba(255,255,255,.08);}
+/* ===== Animaciones de las ilustraciones de servicio ===== */
+@keyframes svc-pulse{0%,100%{transform:scale(1);} 45%{transform:scale(1.16);}}
+@keyframes svc-orbit{to{transform:rotate(360deg);}}
+@keyframes svc-orbit-rev{to{transform:rotate(-360deg);}}
+@keyframes svc-glow{0%,100%{opacity:.55;} 50%{opacity:1;}}
+@keyframes svc-dash{to{stroke-dashoffset:0;}}
+@keyframes svc-ecg{to{stroke-dashoffset:0;}}
+.art .pulse{animation:svc-pulse 2.4s ease-in-out infinite;}
+.art .orbit{animation:svc-orbit 34s linear infinite;}
+.art .orbit-slow{animation:svc-orbit-rev 48s linear infinite;}
+.art .glowpulse{animation:svc-glow 4s ease-in-out infinite;}
+.art .wave{stroke-dasharray:220; stroke-dashoffset:220; animation:svc-dash 3.4s ease-in-out infinite alternate;}
+.art .ecg{stroke-dasharray:520; stroke-dashoffset:520; animation:svc-ecg 3.6s linear infinite;}
+/* Interacción: al pasar el mouse la animación se intensifica */
+.serv:hover .art .pulse{animation-duration:1.1s;}
+.serv:hover .art .orbit{animation-duration:14s;}
+.serv:hover .art .orbit-slow{animation-duration:20s;}
+.serv:hover .art .ecg{animation-duration:1.6s;}
+.serv:hover .art .wave{animation-duration:1.6s;}
+@media (prefers-reduced-motion: reduce){
+  .art .pulse,.art .orbit,.art .orbit-slow,.art .glowpulse,.art .wave,.art .ecg{animation:none;}
+  .art .wave,.art .ecg{stroke-dashoffset:0;}
+}
+/* ===== Nota de credenciales demo ===== */
+.demo-box{margin-top:16px; padding:11px 13px; border:1px dashed var(--line); border-radius:9px; background:var(--paper);
+  font-size:12px; color:var(--ink-soft); line-height:1.55;}
+.demo-box b{color:var(--ink); font-weight:600;}
+.demo-box code{font-family:'IBM Plex Mono','Courier New',monospace; font-size:11.5px; background:var(--powder-2);
+  border:1px solid var(--line-soft); border-radius:5px; padding:1px 6px; color:var(--slate);}
+
+/* ===== Modal de detalle de servicio ===== */
+.svc-modal{position:fixed; inset:0; z-index:180; display:none; align-items:center; justify-content:center;
+  background:rgba(12,22,32,.55); backdrop-filter:blur(4px); padding:20px;}
+.svc-modal.open{display:flex; animation:fadeUp .25s ease;}
+.svc-dialog{position:relative; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; background:var(--card);
+  border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:34px 32px;}
+@media(max-width:560px){.svc-dialog{padding:26px 20px; border-radius:16px;}}
+.svc-x{position:absolute; top:14px; right:16px; background:transparent; border:none; font-size:26px; line-height:1;
+  color:var(--ink-faint); cursor:pointer; padding:4px 8px;}
+.svc-x:hover{color:var(--ink);}
+.svc-modal-head{display:flex; gap:16px; align-items:center; margin-bottom:16px; padding-right:30px;}
+.svc-modal-ic{width:52px; height:52px; border-radius:13px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(150deg,var(--steel),var(--navy));}
+.svc-modal-ic svg{width:26px; height:26px; color:#fff;}
+.svc-modal-head h3{font-size:24px; color:var(--ink); font-weight:500; margin-top:4px;}
+.svc-modal-lede{font-size:15px; color:var(--ink-soft); line-height:1.6;}
+.svc-modal-meta{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0;}
+@media(max-width:440px){.svc-modal-meta{grid-template-columns:1fr;}}
+.svc-meta{background:var(--paper); border:1px solid var(--line-soft); border-radius:11px; padding:12px 14px;}
+.svc-meta .k{display:block; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint);}
+.svc-meta .v{display:block; font-family:'Fraunces',serif; font-size:17px; color:var(--ink); margin-top:5px;}
+.svc-modal-section{margin-top:20px;}
+.svc-modal-section h4{font-family:'Inter',sans-serif; font-weight:600; font-size:13.5px; color:var(--ink); margin-bottom:10px;}
+.svc-modal-section ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px;}
+.svc-modal-section li{position:relative; padding-left:24px; font-size:13.5px; color:var(--ink-soft); line-height:1.5;}
+.svc-modal-section li::before{content:""; position:absolute; left:0; top:6px; width:14px; height:14px; border-radius:50%;
+  background:var(--powder-2); border:1px solid var(--steel);}
+.svc-modal-section li::after{content:""; position:absolute; left:5px; top:9.5px; width:4px; height:7px;
+  border-right:1.5px solid var(--slate); border-bottom:1.5px solid var(--slate); transform:rotate(40deg);}
+.svc-modal-section p{font-size:13.5px; color:var(--ink-soft); line-height:1.6;}
+.svc-modal-cta{display:flex; gap:12px; margin-top:26px; flex-wrap:wrap;}
+.svc-modal-cta .btn{flex:1; justify-content:center; min-width:140px;}
+
+/* ===== Menú móvil ===== */
+.nav-toggle{display:none; width:42px; height:42px; border:1px solid var(--line); border-radius:9px; background:var(--card);
+  align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;}
+.nav-toggle svg{width:20px; height:20px; color:var(--ink);}
+.mobile-menu{display:none; position:fixed; inset:0; z-index:60; background:var(--paper); flex-direction:column; padding:24px;}
+.mobile-menu.open{display:flex;}
+.mobile-menu .mm-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;}
+.mobile-menu .mm-close{background:transparent; border:none; font-size:30px; color:var(--ink); cursor:pointer; line-height:1;}
+.mobile-menu a{font-family:'Fraunces',serif; font-size:24px; color:var(--ink); text-decoration:none; padding:16px 0; border-bottom:1px solid var(--line-soft);}
+.mobile-menu .mm-actions{margin-top:24px; display:flex; flex-direction:column; gap:12px;}
+.mobile-menu .mm-social{display:flex; gap:12px; margin-top:22px;}
+@media(max-width:860px){
+  .nav-toggle{display:flex;}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="navrow">
+    <a class="brand" href="#inicio">
+      <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9Z"/></svg></span>
+      <span><b>Dra. Laura Restrepo</b><span>Ginecología · Medicina Reproductiva</span></span>
+    </a>
+    <nav class="navlinks">
+      <a href="#servicios">Servicios</a>
+      <a href="#agendar">Agendar</a>
+      <a href="#doctora">La doctora</a>
+      <a href="#opiniones">Opiniones</a>
+      <a href="#faq">Preguntas</a>
+      <a href="#ubicacion">Ubicación</a>
+    </nav>
+    <span class="nav-social">
+      <a class="js-ig" href="https://www.instagram.com/consultoriodemo/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="js-wa" href="https://web.whatsapp.com/send?phone=573000000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.54a9.9 9.9 0 0 0 4.9 1.32c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.16c-.24.68-1.4 1.31-1.93 1.35-.5.05-1.02.24-3.42-.72-2.9-1.16-4.76-4.1-4.9-4.29-.14-.19-1.17-1.56-1.17-2.97s.74-2.1 1-2.39c.26-.28.56-.35.74-.35.19 0 .38 0 .54.01.18.01.42-.07.65.5.24.58.82 2 .9 2.14.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.63-.08.17-.2.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.15.48.22.55.34.07.13.07.72-.17 1.4Z"/></svg>
+      </a>
+    </span>
+    <button class="btn btn-ghost btn-sm navcta" onclick="openContact()">Contáctanos</button>
+    <button class="btn btn-primary btn-sm navcta" onclick="openAuth()">Regístrate</button>
+    <button class="langbtn js-lang" onclick="toggleLang()" aria-label="Switch to English" data-noi18n>EN</button>
+    <button class="nav-toggle" onclick="toggleMenu(true)" aria-label="Abrir menú">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mm-top">
+    <a class="brand" href="#inicio" onclick="toggleMenu(false)">
+      <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9Z"/></svg></span>
+      <span><b>Dra. Laura Restrepo</b><span>Ginecología · Medicina Reproductiva</span></span>
+    </a>
+    <button class="mm-close" onclick="toggleMenu(false)" aria-label="Cerrar menú">&times;</button>
+  </div>
+  <a href="#servicios" onclick="toggleMenu(false)">Servicios</a>
+  <a href="#agendar" onclick="toggleMenu(false)">Nuestro mensaje</a>
+  <a href="#doctora" onclick="toggleMenu(false)">La doctora</a>
+  <a href="#opiniones" onclick="toggleMenu(false)">Opiniones</a>
+  <a href="#faq" onclick="toggleMenu(false)">Preguntas frecuentes</a>
+  <a href="#ubicacion" onclick="toggleMenu(false)">Ubicación</a>
+  <button class="btn btn-ghost" style="margin-top:6px;" onclick="toggleMenu(false);openContact()">¿Quieres que nos pongamos en contacto contigo?</button>
+  <div class="mm-actions">
+    <button class="btn btn-primary" onclick="toggleMenu(false);openAuth()">Regístrate</button>
+    <a class="btn btn-ghost js-wa" data-msg="Hola, quiero agendar una cita" href="https://web.whatsapp.com/send?phone=573000000000&text=Hola%2C%20quiero%20agendar%20una%20cita" target="_blank" rel="noopener" onclick="toggleMenu(false)">Escribir por WhatsApp</a>
+  </div>
+  <div class="mm-social">
+    <a class="social js-ig" href="https://www.instagram.com/consultoriodemo/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    <a class="social js-wa" href="https://web.whatsapp.com/send?phone=573000000000" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.54a9.9 9.9 0 0 0 4.9 1.32c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Z"/></svg></a>
+  </div>
+</div>
+
+<main id="inicio">
+  <section class="hero" style="padding:0;">
+    <div class="wrap herogrid">
+      <div>
+        <span class="hero-badge">Barranquilla · Presencial o virtual</span>
+        <h1 class="serif">Tu salud reproductiva, <em>en las mejores manos</em></h1>
+        <p class="sub">Ginecología, obstetricia y medicina reproductiva con acompañamiento cercano en cada etapa. Agenda tu cita en línea, sin llamar y sin esperar respuesta.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#agendar">Agendar cita en línea</a>
+          <a class="btn btn-ghost js-wa" data-msg="Hola, quiero agendar una cita con la Dra. Laura" style="color:#fff; border-color:rgba(255,255,255,.5);" href="https://web.whatsapp.com/send?phone=573000000000&text=Hola%2C%20quiero%20agendar%20una%20cita%20con%20la%20Dra.%20Laura" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><span class="stars">★★★★★</span><b>97%</b><span>índice de satisfacción</span></div>
+          <div class="hstat"><span class="stars" aria-hidden="true" style="visibility:hidden">★★★★★</span><b>+3.500</b><span>pacientes atendidas</span></div>
+          <div class="hstat"><span class="stars" aria-hidden="true" style="visibility:hidden">★★★★★</span><b>7+</b><span>años de experiencia</span></div>
+        </div>
+      </div>
+
+      <div class="docard">
+        <div class="ph ph-portrait">
+          <div class="portrait-ring"><img src="data:image/jpeg;base64,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" alt="Dra. Laura Restrepo" loading="eager"></div>
+          <div class="vf"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Perfil verificado</div>
+        </div>
+        <div class="info">
+          <b>Dra. Laura Andrea Restrepo Álvarez</b>
+          <div class="role">Ginecología · Endocrinología reproductiva · Fertilidad. Más de 7 años en el área, con estudios en Salud Reproductiva Humana.</div>
+          <div class="chips">
+            <span class="chip">Fertilidad</span>
+            <span class="chip">Obstetricia</span>
+            <span class="chip">Endocrinología</span>
+            <span class="chip">Ecografía</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="convenios">
+    <span class="lbl">Trabajamos con tus convenios y aseguradoras</span>
+    <div class="marquee" aria-label="Convenios y aseguradoras">
+      <div class="marquee-track">
+        <span class="conlogo">SURA</span>
+        <span class="conlogo">Colmédica</span>
+        <span class="conlogo">Coomeva</span>
+        <span class="conlogo">Colsanitas</span>
+        <span class="conlogo">Medisanitas</span>
+        <span class="conlogo">Nueva EPS</span>
+        <span class="conlogo">Particular</span>
+        <span class="conlogo" aria-hidden="true">SURA</span>
+        <span class="conlogo" aria-hidden="true">Colmédica</span>
+        <span class="conlogo" aria-hidden="true">Coomeva</span>
+        <span class="conlogo" aria-hidden="true">Colsanitas</span>
+        <span class="conlogo" aria-hidden="true">Medisanitas</span>
+        <span class="conlogo" aria-hidden="true">Nueva EPS</span>
+        <span class="conlogo" aria-hidden="true">Particular</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="servicios">
+    <div class="wrap">
+      <div class="sechead">
+        <span class="eyebrow">Servicios</span>
+        <h2 class="serif">Consultas y estudios para cada etapa</h2>
+        <p>Atención ginecológica y reproductiva con precios claros. Puedes agendar uno o varios servicios el mismo día.</p>
+      </div>
+      <div class="servs">
+
+        <a class="serv" href="#" onclick="openService('gineco');return false;">
+          <div class="art" style="background:#26445E url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAFeAcIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwCzS0UUj0wopaKACiiigAopaKACiiigAoopaBCUtFFABRS0UAFFFLQAlLRRQAUUUtACUtFFABRS0UAFFFFABRS0UAFFFFABRS0UAFFFFABRS0UAFFFLQAlLRRQAUUtFABRRRQIKKWigAooooAKKWigAooooAKKWigAooooAo0UUUFBRS0UAFFFFABRRS0CEpaKKACilooAKKKKACilooAKKKWgBKWiigAopaKACiiigAopaKACiiigAoopaACiiigAopaKACiiloASloooAKKWigAooooEFFLRQAUUUUAFFLRQAUUUUAFFLRQAUUUUAFLRRQAUUUUAUaKKKCgoopaBCUtFFABRS0UAFFFFABRS0UAFFFLQAlLRRQAUUtFABRRRQAUUtFABRRRQAUUUtACUtFFABRS0UAFFFLQAlLRRQAUUUtACUtFFAgopaKACiiigAopaKACiiigAopaKACiiigAopaKACiiloASloooAKKKKQFCloopjCiiloASloooAKKWigAoopaAEpaKKACilooAKKKKACilooAKKKKACiiloASloooAKKWigAoopaAEpaKKACiiloASloooEFFLRQAUUUUAFFLRQAUUUUAFFFLQAUUUUAFFLRQAUUUtACUtFFIAopaKACiiigAopaKAM+loopjCilooAKKKWgBKWiigAoopaACiiigAoopaAEpaKKACiiloASloooAKKWigAooooAKKWigAoopaAEpaKKBBRS0UAFFFFABRRS0AJS0UUAFFFLQAlLRRQAUUtFABRRS0AJS0UUAFFLRSAKKKKACilooAKKKKBBRS0UAUKKKWmUJS0UUAFFFLQAlLRRQAUUUtACUtFFABRRS0AJS0UUAFFLRQAUUUUAFFLRQAUUUtACUtFFAgopaKACiiigAoopaAEpaKKACiiloASloooAKKWigAoopaAEpaKKACiilpAJS0UUAFFLRQAUUUUCCilooAKKKKACiiimBRoopaChKWiigAoopaAEpaKKACiiloASloooAKKKWgBKWiigAopaKACiiloASloooEFFLRQAUUUUAFFFLQAlLRRQAUUUtACUtFFABRS0UAFFFFABS0UUgCiiloASloooAKKWigAooooEFFLRQAUUUUwCiilpAFFFFABRS0UAUKKKWmUJS0UUAFFFLQAlLRRQAUUUtACUtFFABRS0UAFFFLQAlLRRQIKKKWgBKWiigAoopaAEpaKKACiiloASloooAKKWigAooooAKKWigAoopaQCUtFFABRS0UAFFFFAgopaKACiiimAUUUtACUtFFIAopaKACiiloASilooAoUUUUygpaKKACiiloASloooAKKWigAoopaAEpaKKBBRRS0AJS0UUAFFFLQAlLRRQAUUUtACUtFFABRRS0AFFFFABRS0UAFFFLSASloooAKKWigAooooEFFLRQAUUUUAFFFLTASloopAFFLRQAUUUtACUtFFABRRS0AJRS0UAUKKKWmUJS0UUAFFLRQAUUUUAFFLRQIKKKWgBKWiigAoopaAEpaKKACiiloASloooAKKKWgBKWiigAopaKACiilpAJS0UUAFFLRQAUUUUCCiiloASloooAKKKWgBKWiigAopaKACiiigApaKKACiiloASloooAKKWigQlFLRQBQopaKZYUUUUAFFLRQIKKKWgBKWiigAoopaAEpaKKACiiigApaKKACiiloASloooAKKWigAoopaQCUtFFABRRS0AJS0UUCCiiloASloopgFFFLQAlLRRSAKKWigAooooAKKWigAoopaAEpaKKACilooAKKKKBBRRS0AJRS0UAUKKWimUFFFLQAlLRRQAUUUUAFFLRQAUUUUAFFLRQAUUUtACUtFFABRS0UAFFFLQAlLRRSAKKKWgBKWiigAoopaBCUtFFABRRS0wEpaKKACiilpAFFFFABRS0UAFFFLQAlLRRQAUUUtACUtFFAgoopaAEpaKKACiiloASilooAoUtFFMoKKKKACilooAKKKKACilooAKKKWgBKWiigAopaKACiiigAopaKQBRRS0AJS0UUAFFFLQISloooAKKKWgBKWiimAUUUtIBKWiigAopaKACiiloASloooAKKKWgQlLRRQAUUUtACUtFFABRRS0AJS0UUAFFLRQAlFLRQBQopaKZQUUUUAFFLRQAUUUtACUtFFABRRS0AFFFFIAopaKACiiloASloooAKKKWgQlLRRQAUUUUwCloopAFFFLQAlLRRQAUUtFABRRS0AJS0UUAFFFLQAlLRRQIKKKWgBKWiigAoopaAEpaKKACilooAKKKKACilooAKKKKAKFFLRTKCiiloASloooAKKKWgBKWiigAopaKQBRRS0AJS0UUAFFFLQISloooAKKKKYBRS0UAFFFLSASloooAKKWigAooooAKWiigAoopaAEpaKKBBRRS0AJS0UUAFFFLQAlLRRQAUUUtACUtFFABRS0UAFFFLQAlLRRQAUUUUAUKWiimUFFFLQAlLRRQAUUtFIAoopaAEpaKKACiiloEJS0UUAFFFFMAopaKACiilpAJS0UUAFFLRQAUUUUAFFLRQAUUUtAhKWiigAoopaAEpaKKACiiloASloooAKKKWgBKWiigAopaKACiiloASloooAKKWigAooooAKKKKAKFLRRTKCilopAFFFLQAlLRRQAUUUUCCilooAKKKKYBRS0UgCiiloASloooAKKKWgAooooAKKWigAoopaAEpaKKBBRRRQAUtFFABRRRQAUUtFABRRS0AJS0UUAFFLRQAUUUtACUtFFABRRS0AJS0UUAFFFFABS0UUAFFFFAFGiiigoKKWigAooooEFFLRQAUUUUwCilopAFFFLQAlLRRQAUUUtACUtFFABRS0UAFFFLQAlLRRQIKKKKACilooAKKKKACilooAKKKWgBKWiigAopaKACiiigApaKKACiiloASloooAKKKKACilooAKKKWgBKWiigAooooAo0UUUDCilooAKKKKYBRS0UAFFFFIApaKKACiiloASloooAKKWigAooooAKKWigQUUUUAFFLRQAUUUUAFFLRQAUUUtACUtFFABRS0UAFFFFABRS0UAFFFLQAlLRRQAUUUUAFFLRQAUUUtACUtFFABRRS0CEpaKKACiiigCjRRRQUFFLRQAUUUUAFFLRQAUUUtACUtFFABRS0UAFFFFABRS0UCCiiigAopaKACiiigAopaKACiiloASloooAKKKWgAooooAKKWigAoopaAEpaKKACiiigAopaKACiiigAopaKACiiloEJS0UUAFFFLQAUUUUAFFLRQBQooooKCilooAKKKWgBKWiigAopaKACiiigAopaKBBRRRQAUUtFABRRRQAUUtFABRRS0AJS0UUAFFFLQAlLRRQAUUtFABRRS0AJS0UUAFFFFABRS0UAFFFFABRS0UAFFFLQAlLRRQIKKKWgBKWiigAopaKACiiigAooooAo0UUtBQlLRRQAUUUtABRRRQAUUtFAgooooAKKWigAooooAKKKWgAooooAKKWigAoopaAEpaKKACilooAKKKWgBKWiigAooooAKKWigAooooAKKWigAoopaAEpaKKBBRRS0AJS0UUAFFLRQAUUUUAFFLRQAUUUUAFFFFAH/2Q==') center/cover no-repeat;"></div>
+          <div class="scrim"></div>
+          <span class="price-badge">$240.000<small>consulta</small></span>
+          <div class="body">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9Z"/></svg></div>
+            <h3>Ginecología y Obstetricia</h3>
+            <p>Valoración completa, control y acompañamiento en tu salud ginecológica y tu embarazo.</p>
+            <span class="go">Agendar consulta <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+        <a class="serv" href="#" onclick="openService('eco');return false;">
+          <div class="art" style="background:#2F4A5E url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAFeAcIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDnKWiiuw4gopaKACiiloAKKKWgBKWiigAopaKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASloooAKKWigAoopaAEpaKWgBKWiigAopaKBBRRS0AJS0UUAFFLRQAUUtFABRRS0AJS0UtACUtFFABRS0UgCiiloASilooAy6KKWmMSlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACiiloASlopaAEpaKKACilooAKKKWgBKWiigApaKKBBRRS0AFFFLQAlLRRQAUUtFABRS0UAFFFLQAlLRRQAUtFFABRS0UAFFFLSASloooAKKWigAooooAy6WiimMKKWigAoopaACiiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKKWgBKWiigAopaKACiiloEJS0UtACUtFFABRS0UAFFFLQAlLRS0AJS0UUAFFLRQAUUtFABRRS0gEpaKKACilooAKKKWgAoopaAEopaKAMuiilpjEpaKWgBKWiigAopaKACilooAKKKWgBKWiloASloooAKKWigAoopaAEpaKKACilooAKKKWgQlLRRQAUUtFABRS0UAFFFLQAlLRS0AJS0UUAFFLRQAUUtFIAoopaAEpaKKACilooAKKKWgBKWiigApaKKACilooASilooAy6WiimMKKWigAopaKACiiloASlopaAEpaKKACilooAKKKWgBKWiigAopaKACiiloEJS0UUAFFLRQAUUtFABRRS0AJS0UtACUtFFABRS0UAFFLRSAKKKWgBKWiigAopaKACiiloASloooAKKWigAoopaAEpaKWgBKWiigAopaKAMuiilpjCiiloASloooAKKWigAopaKACiiloASloooAKKWigAoopaBCUtFFABRS0UAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRRS0AJS0UtIBKWiigAopaKACiiloASloooAKKWigAoopaAEpaKWgBKWiigAopaKACilooASilooAy6WiimMKKWigAoopaAEpaKWgBKWiigAopaKACiiloEJS0UUAFFLRQAUUUtABRRS0AJS0UUAFFLRQAUUtFABRRS0AJS0UtIBKWiigAopaKACiiloASloooAKKWigAoopaAEpaKWgBKWiigAopaKACiiloASlopaAEpaKKACilooAy6KKWmMSloooAKKWigAopaKACiiloEJS0UUAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRS0UAFFFLSASloooAKWiigAopaKACiiloASloooAKKWigAoopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooASilooAy6KWimMKKKWgAooooEFLRRQAUUtFABRRS0AJS0UtACUtFFABRS0UAFFFLQAUUUtACUtFFIAopaKACiiloASlopaAEpaKKACilooAKKKWgBKWiigAopaKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASloooAKKWigDKpaKKYBRS0UAFFLRQAUUUtACUtFFABRS0UAFFLRQAUUUtACUtFLQAlLRRSAKKWigAoopaAEpaKKACloooAKKWigAoopaAEpaKKACilooAKKKWgAoopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKKAMuiilpgJS0UtACUtFFABRS0UAFFLRQAUUUtACUtFLQAlLRRSAKKWigAoopaAEpaKKACilooAKKKWgAoopaAEpaKKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKKWigDKpaKKYBRS0UAFFLRQAUUUtACUtFLQAlLRRSAKKWigAoopaAEpaKKACilooAKKKWgBKWiigAopaKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKKWgAoopaAEpaKKACloooAKKWigAooooAy6KWimAUUUtACUtFFABRS0UgCilooAKKKWgBKWiigAopaKACiiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKKWgAoopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiigAopaKAMqloopgFFLRSAKKWigAoopaAEpaKKACilooAKKKWgBKWiigAopaKACilooAKKKWgBKWiigAopaKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKKWgAoopaAEpaKKACilooEFFFLQAlFLRQBl0UUtAwoopaAEpaKKACilooAKKKWgBKWiigAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACiiloAKKKWgBKWiigApaKKACilooAKKKWgBKWiigApaKKACilooEFFFLQAlLRRQAUUtFABRRRQBl0UtFAwopaKACiiloASloooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiloASloooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiigAopaKACilooEFFFLQAlLRRQAUUtFABRRS0AJS0UUAFFLRQBl0UUtAxKWiigAopaKACiiloASloooAKWiigAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiigAopaKACiiloEJS0UUAFFLRQAUUtFABRRS0AJS0UUAFFLRQAUUtFABRRRQBl0UtFAwoopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASloooAKKWigAoopaBCUtFFABRS0UAFFFLQAUUUtACUtFFABRS0UAFFLRQAUUUtACUtFLQAlFLRQBlUtFFAwopaKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASloooAKWiigAopaKACiiloAKKKWgBKWiigAopaKACiiloEJS0UUAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRS0UAFFFLQAlLRRQAUUtFABRS0UAFFFFAGXRS0UDCiiloASloooAKWiigAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACiiloEJS0UUAFFLRQAUUUtACUtFFABS0UUAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRS0UAFFFLQAlLRRQAUUtFAGVS0UUDCilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiigApaKKACilooAKKKWgQlLRRQAUUtFABRRS0AJS0UUAFFLRQAUUtFABRRS0AJS0UtACUtFFABRS0UAFFLRQAUUUtACUtFFABRS0UAFFFLQAlFLRQBl0UtFAwoopaAEpaKKACloooAKKWigAoopaACiiloASloooAKKWigAoopaACiiigQUtFFABRS0UAFFFLQAlLRRQAUUtFABRS0UAFFFLQAlLRRQAUtFFABRS0UAFFFLQAUUUUAFLRRQAUUtFABRRS0AJS0UUAFFLRSAKKKKAP/2Q==') center/cover no-repeat;"></div>
+          <div class="scrim"></div>
+          <span class="price-badge">$150.000<small>estudio</small></span>
+          <div class="body">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+            <h3>Ecografía obstétrica</h3>
+            <p>Seguimiento del bebé y del embarazo con equipos de imagen especializados.</p>
+            <span class="go">Agendar estudio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+        <a class="serv" href="#" onclick="openService('fert');return false;">
+          <div class="art" style="background:#28405A url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAFeAcIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpKKKK5D0gooooAKKKWgBKWiigAoopaAEpaKKBBRRRQAUUUUAFFFLQAlLRRQAUUUUAFFLRQAUUUUAFFLRQAUUUUCCiiigAopaKACiiigAooooAKKWigAooooEFFFLQAlLRRTAKKKKACiiigAopaKACiiigAopaKAEopaKAKtFFLSLEpaKKACiiigAopaKBBRRRQAUUUUAFFFLQAlLRRQAUUUUAFFLRQAUUUUAFFLRQAUUUUCCiiigAopaKACiiigAooooAKKKWgBKWiigQUUUtACUtFFMAooooAKKKKACilooAKKKKACiiloASloooAKKKKBBRRRQBWooopGgUUtFAgooooAKKKKACiiloASloooAKKKKACilooAKKKKACilooAKKKKBBRRRQAUUUtABRRRQAUUUUAFFFLQAlLRRQIKKKWgBKWiimAUUUUAFFFFABRRS0AJS0UUAFFFLQAlLRRQAUUUUCCiiloASloooAKKKKAK1FFFIsKKKKACiiloASloooAKKKKACilooAKKKKACilooAKKKKBBRRRQAUUUtACUtFFABRRRQAUUUtACUtFFAgoopaAEpaKKYBRRRQAUUUUAFFFLQAlLRRQAUUUtACUtFFABRRRQIKKKWgBKWiigAooooAKKKWgBKKWigCrRRRSLCilooAKKKKACiiloAKKKKACiiloAKKKKBBRRRQAUUUtACUtFFABRRRQAUUUtACUtFFAgoopaAEpaKKYBRRRQAUUUUAFFFLQAlLRRQAUUUtACUtFFABRRRQIKKKWgBKWiigAooooAKKKKACloooAKKKKACilooAq0UUUiwoopaAEpaKKACiiloASloooEFFFFABRRS0AJS0UUAFFFFABRRS0AJS0UUCCiiloASloopgFFFFABRRRQAUUUtACUtFFABRRS0AJS0UUAFFFFAgoopaAEpaKKACiiigAooooAKKWigAooooAKKWigAooooEFFFFAFWloopGgUUUtACUtFFAgooooAKKKWgBKWiigAooooAKKKWgBKWiigQUUUtACUtFFMAooooAKKKKACiiloASloooAKKKWgBKWiigAooooEFFFFABS0UUAFFFFABRRRQAUUtFABRRRQAUUtFABRRRQAUUUtAhKWiigAooooAq0tFFIsKKKKACiiloASloooAKKKKACiiloASloooEFFFFABRS0UwCiiigAooooAKKKWgBKWiigAoopaAEpaKKACiiigQUUUUAFFLRQAUUUUAFFFFABRS0UAFFFFABRS0UAFFFFABRRS0CEpaKKACiiigAooooAKKKKAK1FFLSLEpaKKACiiigAooooAKKWigQUUUUAFFLRQAUUUUwCiiigAoopaAEpaKKACiiigAopaKACiiigQUUUUAFFLRQAUUUUAFFFFABRS0UAFFFFABRS0UAFFFFABRRS0CEpaKKACiiigAooooAKKKWgBKWiigAooooArUUUUiwooooAKKWigQUUUUAFFLRQAUUUUwCiiigAooooAKKWigAooooAKKWigAooooAKKKKBBRS0UAFFFFABRRRQAUUtFABRRRQAUUtFABRRRQAUUUtAhKWiigAooooAKKKKACiiloASloooAKKKWgBKWiigAooooAq0UtFIoKKKKACilooAKKKKYBRRRQAUUUUAFFLRQAUUUUAFFLRQAUUUUAFFFFAgopaKACiiigAooooAKKWigAooooAKKWigAooooAKKKWgQlLRRQAUUUUAFFFFABRRS0AJS0UUAFFFLQAlLRRQAUUUUAFFFFAgooooArUUtFIsKKKKYBRRRQAUUUUAFFLRQAUUUUAFFLRQAUUUUAFFFFAgopaKACiiigAooooAKKKWgAooooAKKKWgAooooAKKKWgQlLRRQAUUUUAFFFFABRRS0AJS0UUAFFFLQAlLRRQAUUUUAFFFFAgoopaAEpaKKACiiigCtRRRQWFFFFABRS0UAFFFFABRS0UAFFFFABRRRQIKKWigAooooAKKKKACiiloASloooAKKKWgBKWiigAooooEFFLRQAUUUUAFFFFABRRS0AJS0UUAFFFLQAlLRRQAUUUUAFFFFAgoopaAEpaKKACiilpgJS0UUAFFFFAFWilopFhRRRQAUUtFABRRRQAUUUUCCiiloAKKKKACiiigAoopaAEpaKKACiiloASloooAKKKKBBRS0UAFFFFABRRRQAUUUtACUtFFABRRS0AJS0UUAFFFFABRRRQIKKKWgBKWiigAoopaAEpaKKYBRRRQAUUtFABRRRQBVopaKRYUUUUAFFFFAgoopaAEpaKKACiiigAoopaAEpaKKACiiloASloooAKKKKACilooEFFFFABRRRQAUUUtACUtFFABRRRQAUUtFABRRRQAUUUUCCiiloASloooAKKKWgBKWiimAUUUUAFFLRQAUUUUCCiiigAooooArUUUUiwoopaAEpaKKACiiigAoopaAEpaKKACiiloASloooAKKKKBBRS0UAFFFFABRRRQAUUUUAFFLRQAUUUUAFFLRQAUUUUAFFFFAgoopaAEpaKKACiiigAopaKYBRRRQAUUtFABRRRQIKKKKACiiigAopaKACiiigCrS0UUiwooooAKKKWgBKWiigAoopaAEpaKKACiiigQUUtFABRRRQAUUUUAFFFFABRS0UAFFFFABRS0UAFFFFABRRRQIKKKKACilooAKKKKACilopgFFFFABRRS0AFFFFAgooooAKKKKACilooAKKKKACilooASilooAq0UUtIsSloooAKKKWgBKWiigAooooAKKWigQUUUUAFFFFABRRRQAUUtFABRRRQAUUtFABRRRQAUUUUCCiiigAopaKACiiigAopaKYBRRRQAUUUtACUtFFABRRRQIKKKKACilooAKKKKACilooAKKKKACiiloASilooAq0UUUiwpaKKACiiigAopaKBBRRRQAUUUUAFFFFABRS0UAFFFFABRS0UAFFFFABRRRQIKKKKACilooAKKKKACilopgFFFFABRRS0AJS0UUAFFFFAgooooAKKKWgAooooAKKKWgAooooAKKKWgBKWiigAooooEFFFFAFaiiikWFFFLQAlLRRQAUUUUAFFFFABRS0UAFFFFABRS0UAFFFFABRRRQAUUUUCCilooAKKKKACilopgFFFFABRRS0AJS0UUAFFFFAgooooAKKKWgBKWiigAoopaAEpaKKACiiigAopaKACiiigQUUUUAFFFLQAlFLRQBVpaKKRYUUUUAFFFFABRS0UAFFFFABRS0UAFFFFABRRRQAUUUUCCilooAKKKKACilopgFFFFABRRS0AJS0UUAFFFFAgooooAKKKWgBKWiigAoopaAEpaKKACiiigAopaKACiiigQUUUUAFFFLQAlLRRQAUUUtACUUtFAFWiiikWFFFLQAUUUUAFFFLQAlLRRQAUUUUAFFFFAgoopaACiiigAopaKYBRRRQAUUUtACUtFFABRRRQIKKKKACiiloASloooAKKKWgBKWiigAooooAKKWigAooooEFFFFABRRRQAUtFFABRRRQAUUtFABRRRQAUUUUAf/Z') center/cover no-repeat;"></div>
+          <div class="scrim"></div>
+          <span class="price-badge">Valoración<small>según caso</small></span>
+          <div class="body">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M5 8c0 4 3 6 7 6M19 8c0 4-3 6-7 6"/></svg></div>
+            <h3>Medicina reproductiva y fertilidad</h3>
+            <p>Estudio de fertilidad, inducción de ovulación y planeación para lograr tu embarazo.</p>
+            <span class="go">Solicitar valoración <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+        <a class="serv" href="#" onclick="openService('endo');return false;">
+          <div class="art" style="background:#2E465A url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAFeAcIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDOoopa9A88SloooAKKWigAoopaAEpaKWgBKWiigAopaKQBRS0UAFFFLQAlLRS0AJS0UUAFFLRQAUUtFABRRS0AJS0UtACUtFFABRS0UAFFLRQAUUUtACUtFFIAopaKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASilooAyqKWiqAKKKWgBKWiloASloooAKKWikAUUtFABRRS0AJS0UtACUtFFABRS0UAFFFLQAUUUtACUtFFABRS0UAFFLRQAUUUtACUtFLQAlLRRSAKKWigAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKAMmlopaoBKWiigAopaKQBRS0UAFFFLQAlLRRQAUUtFABRS0UAFFFLQAlLRS0AJS0UUAFFLRQAUUtFABRRS0AJS0UtACUtFFIAopaKACilooAKKKWgBKWiloASloooAKKWigAoopaACiiloASloooAKKWigAopaKACiiloASilooAyqKWimAUUUtACUtFLQAlLRRQAUUtFABRS0UAFFFLQAlLRS0AJS0UUAFFLRQAUUtFABRRS0AJS0UtACUtFFIAopaKACilooAKKKWgBKWiigApaKKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASloopAFFFLQAlFLRQMyqWilqhCUtFFABRS0UAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRRS0AFFFLQAlLRRQAUUtFIAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiigAoopaQCUtFFAwpaKKACilooAyqKWiqEFFLRQAUUUtACUtFFABRS0UAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRS0UgCiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACiiloASloooAKKWigAoopaQCUtFFAwopaKACilooAKKKWgBKKWigDKpaKWqEJS0UUAFFLRQAUUtFABRRS0AJS0UtACUtFFABRS0UgCilooAKKKWgBKWiigApaKKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASloooAKKWikAUUUtACUtFFABRS0UDCilooAKKKWgBKWiigApaKKACilooAyqKWiqEFFLRQAUUUtACUtFLQAlLRRQAUUtFIAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASloooAKKWigAoopaQCUtFFABRS0UDCiiloASlopaAEpaKKACilooAKKWigAoopaAEopaKAMqlopaoQlLRRQAUUtFABRS0UAFFFLSASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiigAopaKACiilpAJS0UUDCilooAKKKWgBKWiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAyqKWiqEFFLRQAUUUtIBKWiloASloooAKKWigAopaKACiiloASloooAKWiigAopaKACiiloASlopaAEpaKKACilooAKKKWkAlLRRQAUUtFAwoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiigApaKKACilooAKKKWgBKKWikBl0UUtUISlopaAEpaKKACilooAKKKWgAoopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACiiikAUUtFABRS0UDCiiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWkAlLRRQAUUtFAGVRS0VQgopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACiiikAUUtFABRRS0DCiiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWkAlLRRQAUUtFABRRS0AJRS0UAZdFFLVCEpaKWgBKWiigAopaKACilooAKKKWgBKWiigAopaKACiiloASloopAFFLRQAUUUtAxKWiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKKWgBKWiloASloopAFFLRQAUUtFABRRS0AJS0UtACUtFFABRS0UAZVFLRVCCilooAKKKWgBKWiloASloooAKKWigAoopaAEpaKKQBRS0UAFFFLQMSlopaAEpaKKACilooAKKKWgAoopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiikAUUtFABRS0UAFFFLQAlLRS0AJS0UUAFFLRQAUUtFACUUtFAGXRRS1QhKWiloASloooAKKWigAoopaAEpaKKQBRS0UAFFFLQMSloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiikAUUtFABRS0UAFFFLQAlLRRQAUtFFABRS0UAFFFLQAUUUtACUtFFABRS0UAZVLRRVCCilooAKKKWgBKWiikAUUtFABRRS0DEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiloASloopAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRS0UAFFFLQAlLRS0AJS0UUAFFLRSAKKWigBKKWigDLoopasQlLRRSAKKWigAoopaBiUtFFABRS0UAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRRS0AFFFLQAlLRRQAUUtFIAopaKACiiloASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKQBRRS0AFFFLQAlLRRQAUUtFAGVRRS1QhKWiloGJS0UUAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRS0UAFFFLQAlLRS0AJS0UUAFFLRSAKKWigAoopaAEpaKWgBKWiigAopaKACilooAKKKWgBKWiigAopaKACilopAFFFLQAlLRS0AJS0UUAFFLRQAUUtFACUUtFAGVS0UVQBRS0UAFFFLQAlLRS0AJS0UUAFFLRQAUUtFABRRS0AJS0UtACUtFFABRS0UAFFLRSAKKKWgBKWiigApaKKACilooAKKKWgBKWiloASloooAKKWigAopaKQBRRS0AJS0UtACUtFFABRS0UAFFLRQAUUUtACUtFFABRS0UAZVFFLVAJS0UtACUtFFABRS0UAFFLRQAUUUtACUtFFABRS0UAFFLRQAUUUtIBKWiloASloooAKKWigAopaKACiiloASlopaAEpaKKACilooAKKWikAUUUtACUtFLQAlLRRQAUUtFABRRS0AFFFLQAlLRRQAUUtFABRRS0AJRS0UAZVLRRVAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRS0UAFFFLSASlopaAEpaKKACilooAKKWigAoopaAEpaKWgBKWiigAopaKACilopAFFFLQAlLRRQAUUtFABRS0UAFFFLQAlLRS0AJS0UUAFFLRQAUUUtACUtFFABRS0UAJRS0UAZdFFLVAJS0UtACUtFFABRS0UAFFLRQAUUUtIBKWiloASloooAKKWigAoopaACiiloASloooAKWiigAopaKACiiloASlopaQCUtFFABRS0UAFFLRQAUUUtACUtFLQAlLRRQAUUtFABRRS0AJS0UUAFFFLQAUUUtACUtFFABRS0UgP//Z') center/cover no-repeat;"></div>
+          <div class="scrim"></div>
+          <span class="price-badge">Valoración<small>según caso</small></span>
+          <div class="body">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg></div>
+            <h3>Endocrinología ginecológica</h3>
+            <p>Manejo hormonal, ovario poliquístico, tiroides y trastornos del ciclo menstrual.</p>
+            <span class="go">Solicitar valoración <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="agendar" class="hook-sec">
+    <div class="wrap">
+      <div class="hook">
+        <span class="hook-eyebrow">1 de cada 4 parejas lo vive</span>
+        <h2 class="serif hook-title">A veces, intentarlo de forma natural <em>no es suficiente.</em></h2>
+        <p class="hook-sub">Y pedir ayuda no es rendirse: es dar el paso más valiente. Aquí no estás sola. Te escuchamos sin juicios, te explicamos con ciencia y te acompañamos con calidez en cada etapa de tu proceso.</p>
+        <div class="hook-cta">
+          <button class="btn btn-light" onclick="openAuth()">Da el primer paso hoy</button>
+          <a class="btn btn-hook-ghost" href="#servicios">Ver los servicios</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sechead center">
+        <span class="eyebrow">Tu experiencia</span>
+        <h2 class="serif">Más que agendar, un acompañamiento</h2>
+      </div>
+      <div class="fgrid">
+        <div class="fcard">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+          <h4>Agenda 24/7</h4>
+          <p>Reserva tu cita a cualquier hora desde el celular, incluso cuando el consultorio está cerrado.</p>
+        </div>
+        <div class="fcard">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v12H7l-3 3V4Z"/></svg></div>
+          <h4>Recordatorio por WhatsApp</h4>
+          <p>Tres horas antes recibes un aviso con tu hora exacta, para que no se te pase la cita.</p>
+        </div>
+        <div class="fcard">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <h4>Reagenda si algo cambia</h4>
+          <p>¿Te surgió algo? Modifica o cancela tu propia cita desde tu perfil, sin depender de una llamada.</p>
+        </div>
+        <div class="fcard">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/></svg></div>
+          <h4>Tu historial a la mano</h4>
+          <p>Tus consultas anteriores quedan registradas para que cada control sea más rápido y personalizado.</p>
+        </div>
+        <div class="fcard">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 4h8l2 4H6l2-4ZM6 8v11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V8"/></svg></div>
+          <h4>Varios servicios, un día</h4>
+          <p>Pide consulta y ecografía juntas: el sistema las organiza sin cruces de horario.</p>
+        </div>
+        <div class="fcard">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <h4>Tus datos protegidos</h4>
+          <p>Autorizas el tratamiento de tus datos de forma clara y solo se usan para tu atención.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="doctora">
+    <div class="wrap">
+      <div class="about">
+        <div class="copy">
+          <span class="eyebrow">La doctora</span>
+          <h2 class="serif">Ciencia y calidez para tu proyecto de familia</h2>
+          <p>La Dra. Laura Restrepo cuenta con más de 7 años en ginecología, endocrinología reproductiva y fertilidad, con estudios en Salud Reproductiva Humana. Su enfoque es cálido y comprometido: acompaña a cada paciente sin juicios, con información clara y el respaldo de la ciencia en cada decisión.</p>
+          <div class="creds">
+            <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Endocrinología reproductiva y fertilidad</div>
+            <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Estudios en Salud Reproductiva Humana</div>
+            <div class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Más de 7 años acompañando pacientes</div>
+          </div>
+        </div>
+        <div class="ph ph-about"><div class="portrait-ring lg"><img src="data:image/jpeg;base64,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" alt="Dra. Laura Restrepo"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="opiniones">
+    <div class="wrap">
+      <div class="sechead center">
+        <span class="eyebrow">Opiniones</span>
+        <h2 class="serif">Lo que dicen sus pacientes</h2>
+      </div>
+      <div class="tgrid">
+        <div class="tcard">
+          <div class="stars">★★★★★</div>
+          <p class="q">Una atención muy humana. Me explicó todo con paciencia y salí sabiendo exactamente qué seguía en mi tratamiento.</p>
+          <div class="who"><div class="av">P</div><div><b>Paciente verificada</b><span>Consulta ginecológica</span></div></div>
+        </div>
+        <div class="tcard">
+          <div class="stars">★★★★★</div>
+          <p class="q">Después de mucho tiempo intentándolo, encontré el acompañamiento que necesitaba. Cercana, profesional y siempre disponible.</p>
+          <div class="who"><div class="av">P</div><div><b>Paciente verificada</b><span>Medicina reproductiva</span></div></div>
+        </div>
+        <div class="tcard">
+          <div class="stars">★★★★★</div>
+          <p class="q">Agendar en línea fue lo más fácil. Elegí mi hora, me llegó el recordatorio y la atención fue puntual y completa.</p>
+          <div class="who"><div class="av">P</div><div><b>Paciente verificada</b><span>Ecografía obstétrica</span></div></div>
+        </div>
+      </div>
+      <p class="tnote">Con un índice de satisfacción del 97% y más de 3.500 pacientes atendidas. Los textos mostrados son ilustrativos; podemos reemplazarlos por reseñas verificadas de tus plataformas.</p>
+    </div>
+  </section>
+
+  <section id="faq" style="background:var(--powder-2);">
+    <div class="wrap" style="max-width:760px;">
+      <div class="sechead" style="margin-bottom:36px;">
+        <span class="eyebrow">Preguntas frecuentes</span>
+        <h2 class="serif">Antes de agendar</h2>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:2px;">
+        <details style="padding:22px 0; border-bottom:1px solid var(--line);">
+          <summary style="cursor:pointer; font-family:'Fraunces',serif; font-size:17px; color:var(--ink); list-style:none;">¿Cómo agendo una cita?</summary>
+          <p style="margin-top:12px; font-size:14.5px; color:var(--ink-soft); line-height:1.6;">Elige el servicio que necesitas, revisa el detalle y confirma por WhatsApp o desde tu cuenta en línea. Recibirás confirmación y un recordatorio antes de la hora.</p>
+        </details>
+        <details style="padding:22px 0; border-bottom:1px solid var(--line);">
+          <summary style="cursor:pointer; font-family:'Fraunces',serif; font-size:17px; color:var(--ink); list-style:none;">¿Puedo agendar varios servicios el mismo día?</summary>
+          <p style="margin-top:12px; font-size:14.5px; color:var(--ink-soft); line-height:1.6;">Sí. El sistema organiza consulta y estudios sin cruces de horario, en una sola visita cuando es posible.</p>
+        </details>
+        <details style="padding:22px 0; border-bottom:1px solid var(--line);">
+          <summary style="cursor:pointer; font-family:'Fraunces',serif; font-size:17px; color:var(--ink); list-style:none;">¿La atención es presencial o virtual?</summary>
+          <p style="margin-top:12px; font-size:14.5px; color:var(--ink-soft); line-height:1.6;">Ambas modalidades están disponibles según el servicio; lo verás indicado en el detalle de cada uno.</p>
+        </details>
+        <details style="padding:22px 0; border-bottom:1px solid var(--line);">
+          <summary style="cursor:pointer; font-family:'Fraunces',serif; font-size:17px; color:var(--ink); list-style:none;">¿Cómo cancelo o reprogramo mi cita?</summary>
+          <p style="margin-top:12px; font-size:14.5px; color:var(--ink-soft); line-height:1.6;">Escríbenos por WhatsApp con al menos 24 horas de anticipación, o hazlo desde tu cuenta si ya estás registrada.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="ubicacion">
+    <div class="wrap">
+      <div class="loc">
+        <div class="locmap">
+          <iframe
+            title="Mapa del consultorio — Cra. 00 # 50-159, Centro Médico, Barranquilla"
+            src="https://www.google.com/maps?q=Calle%2085%20%2350-159%20Centro%20Tower%2C%20Barranquilla%2C%20Atl%C3%A1ntico%2C%20Colombia&output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            style="width:100%; height:100%; border:0; display:block;"></iframe>
+          <a class="mapopen" href="https://www.google.com/maps/search/?api=1&query=Calle%2085%20%2350-159%20Centro%20Tower%2C%20Barranquilla%2C%20Atl%C3%A1ntico%2C%20Colombia" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>Cómo llegar</a>
+        </div>
+        <div class="locinfo">
+          <h3 class="serif">Visítanos en el consultorio</h3>
+          <div class="locrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><div>Cra. 00 # 00-00, Centro Médico · Ofic. 000<br><span>Barranquilla, Atlántico, Colombia</span></div></div>
+          <div class="locrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v12H7l-3 3V4Z"/></svg><div>Escríbenos por WhatsApp<br><span>Respuesta el mismo día</span></div></div>
+          <div class="locrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5l3 2"/></svg><div>Lun–Vie 8:00–12:00 · 2:00–5:00<br><span>Sábados 8:00–12:00 · Presencial o virtual</span></div></div>
+          <div class="locrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8l9 5 9-5"/></svg><div>@consultoriodemo<br><span>Salud femenina, embarazo y fertilidad en Instagram</span></div></div>
+          <a class="btn btn-primary" style="margin-top:26px;" href="#agendar">Agendar mi cita</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="final">
+        <span class="eyebrow" style="color:var(--gold);">Da el primer paso</span>
+        <h2 class="serif" style="margin-top:16px;">Tu cita está a un clic de distancia</h2>
+        <p>Agenda en línea cuando quieras. Nosotros nos encargamos del recordatorio para que solo tengas que llegar.</p>
+        <div class="finalbtns">
+          <a class="btn btn-primary" href="#agendar">Agendar cita en línea</a>
+          <a class="btn btn-ghost js-wa" data-msg="Hola, quiero agendar una cita con la Dra. Laura" href="https://web.whatsapp.com/send?phone=573000000000&text=Hola%2C%20quiero%20agendar%20una%20cita%20con%20la%20Dra.%20Laura" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footgrid">
+      <div>
+        <a class="brand" href="#inicio" style="margin-bottom:16px;">
+          <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9Z"/></svg></span>
+          <span><b>Dra. Laura Restrepo</b><span>Ginecología · Medicina Reproductiva</span></span>
+        </a>
+        <p style="font-size:13.5px; color:var(--ink-soft); max-width:36ch; line-height:1.6;">Atención ginecológica, obstétrica y reproductiva en Barranquilla, con agendamiento en línea.</p>
+        <div class="socials">
+          <a class="social js-ig" href="https://www.instagram.com/consultoriodemo/" target="_blank" rel="noopener" aria-label="Instagram @consultoriodemo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a class="social js-wa" href="https://web.whatsapp.com/send?phone=573000000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.54a9.9 9.9 0 0 0 4.9 1.32c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.16c-.24.68-1.4 1.31-1.93 1.35-.5.05-1.02.24-3.42-.72-2.9-1.16-4.76-4.1-4.9-4.29-.14-.19-1.17-1.56-1.17-2.97s.74-2.1 1-2.39c.26-.28.56-.35.74-.35.19 0 .38 0 .54.01.18.01.42-.07.65.5.24.58.82 2 .9 2.14.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.63-.08.17-.2.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.15.48.22.55.34.07.13.07.72-.17 1.4Z"/></svg>
+          </a>
+          <a class="social js-fb" style="display:none" href="#" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.3c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2H7.6v3.6h2.7V22H14v-9.9h2.7l.4-3.6H14Z"/></svg></a>
+          <a class="social js-x" style="display:none" href="#" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.3L5.3 21H2.2l7.2-8.3L2 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z"/></svg></a>
+          <a class="social js-tg" style="display:none" href="#" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 3.6 2.9 10.7c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5ZM9.7 13.4l8.5-5.4c.4-.3.8-.1.5.2l-7 6.4-.3 3.2-1.7-4.4Z"/></svg></a>
+          <a class="social js-tiktok" style="display:none" href="#" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 2h-3.3v13.3a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.1a6.3 6.3 0 1 0 5.3 6.2V8.6a7.8 7.8 0 0 0 4.4 1.4V6.7A4.5 4.5 0 0 1 16.6 2Z"/></svg></a>
+          <a class="social js-tel" href="tel:+573000000000" aria-label="Llamar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h5>Consultorio</h5>
+        <a href="#servicios">Servicios y precios</a>
+        <a href="#agendar">Agendar cita</a>
+        <a href="#doctora">Sobre la doctora</a>
+        <a href="#ubicacion">Ubicación</a>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <a class="js-wa js-wa-label" href="https://web.whatsapp.com/send?phone=573000000000" target="_blank" rel="noopener">WhatsApp: +57 304 2978173</a>
+        <a class="js-ig js-ig-label" href="https://www.instagram.com/consultoriodemo/" target="_blank" rel="noopener">@consultoriodemo</a>
+        <a class="js-mail" style="display:none" href="#"></a>
+        <a href="#ubicacion">Cra. 00 # 50-159, Centro Médico, Barranquilla</a>
+      </div>
+    </div>
+    <div class="footbottom">
+      <span>© 2026 Dra. Laura Restrepo. Todos los derechos reservados.</span>
+      <span>Tus datos se tratan con tu autorización, solo para tu atención.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wafloat js-wa" data-msg="Hola, quiero agendar una cita" href="https://web.whatsapp.com/send?phone=573000000000&text=Hola%2C%20quiero%20agendar%20una%20cita" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.54a9.9 9.9 0 0 0 4.9 1.32c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.16c-.24.68-1.4 1.31-1.93 1.35-.5.05-1.02.24-3.42-.72-2.9-1.16-4.76-4.1-4.9-4.29-.14-.19-1.17-1.56-1.17-2.97s.74-2.1 1-2.39c.26-.28.56-.35.74-.35.19 0 .38 0 .54.01.18.01.42-.07.65.5.24.58.82 2 .9 2.14.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.63-.08.17-.2.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.15.48.22.55.34.07.13.07.72-.17 1.4Z"/></svg>
+</a>
+
+<script>
+function setRole(role){
+  document.querySelectorAll('.roletab').forEach(b=>b.classList.toggle('on', b.dataset.role===role));
+  document.querySelectorAll('.roleform').forEach(f=>f.classList.remove('on'));
+  document.getElementById('rf-'+role).classList.add('on');
+}
+/* ===== Menú móvil ===== */
+function toggleMenu(open){
+  var m=document.getElementById('mobileMenu');
+  m.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+/* ===== Detalle de servicio ===== */
+var SVC = {
+  gineco:{
+    tag:'Ginecología y Obstetricia', price:'$240.000', dur:'30 min', mode:'Presencial o virtual',
+    ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9Z"/></svg>',
+    lede:'Valoración ginecológica completa y acompañamiento en cada etapa de tu embarazo, con trato cercano y sin juicios.',
+    includes:['Anamnesis y examen ginecológico','Orientación en salud sexual y reproductiva','Control prenatal y seguimiento del embarazo','Citología / tamizaje cuando aplica','Plan de manejo claro y explicado'],
+    fory:'Buscas un control de rutina, inicias tu embarazo, o quieres una segunda opinión con acompañamiento humano.'
+  },
+  eco:{
+    tag:'Ecografía obstétrica', price:'$150.000', dur:'40 min', mode:'Presencial',
+    ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
+    lede:'Seguimiento del bebé y del embarazo con imagen especializada, para acompañar cada semana con tranquilidad.',
+    includes:['Evaluación del crecimiento y bienestar fetal','Medición y control por semanas de gestación','Registro de imágenes del estudio','Explicación de hallazgos en la misma cita'],
+    fory:'Estás en control prenatal y necesitas seguimiento por imagen, o tu médico solicitó una ecografía.'
+  },
+  fert:{
+    tag:'Medicina reproductiva y fertilidad', price:'Según valoración', dur:'45 min', mode:'Presencial o virtual',
+    ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M5 8c0 4 3 6 7 6M19 8c0 4-3 6-7 6"/></svg>',
+    lede:'Evaluación integral de fertilidad y un plan personalizado hacia tu embarazo, con ciencia y empatía.',
+    includes:['Historia clínica reproductiva de la pareja','Estudios hormonales y ecográficos según el caso','Inducción de ovulación y seguimiento folicular','Alternativas reproductivas explicadas a tu ritmo','Acompañamiento cercano en todo el proceso'],
+    fory:'Llevas tiempo buscando un embarazo, quieres conocer tu reserva ovárica o planear tu fertilidad a futuro.'
+  },
+  endo:{
+    tag:'Endocrinología ginecológica', price:'Según valoración', dur:'40 min', mode:'Presencial o virtual',
+    ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg>',
+    lede:'Manejo hormonal integral: ciclo menstrual, ovario poliquístico y trastornos endocrinos de la mujer.',
+    includes:['Estudio de trastornos del ciclo menstrual','Manejo del síndrome de ovario poliquístico (SOP)','Evaluación de tiroides y su impacto en fertilidad','Ajuste y seguimiento de tratamiento hormonal'],
+    fory:'Tienes ciclos irregulares, síntomas de SOP, o sospechas que un tema hormonal afecta tu salud o fertilidad.'
+  }
+};
+var SVC_EN = {
+  gineco:{ tag:'Gynecology and Obstetrics', price:'$240,000', dur:'30 min', mode:'In person or online',
+    lede:'Complete gynecological assessment and support through every stage of your pregnancy, with warm, judgment-free care.',
+    includes:['Medical history and gynecological exam','Sexual and reproductive health guidance','Prenatal care and pregnancy follow-up','Pap smear / screening when needed','A clear, explained care plan'],
+    fory:'You want a routine check-up, are starting your pregnancy, or want a second opinion with human support.' },
+  eco:{ tag:'Obstetric ultrasound', price:'$150,000', dur:'40 min', mode:'In person',
+    lede:'Monitoring of your baby and pregnancy with specialized imaging, so you can go through each week with peace of mind.',
+    includes:['Assessment of fetal growth and wellbeing','Measurements by week of pregnancy','Images from the scan','Findings explained in the same visit'],
+    fory:'You are in prenatal care and need imaging follow-up, or your doctor requested an ultrasound.' },
+  fert:{ tag:'Reproductive medicine and fertility', price:'After assessment', dur:'45 min', mode:'In person or online',
+    lede:'A complete fertility assessment and a personalized plan toward your pregnancy, with science and empathy.',
+    includes:['Reproductive history of the couple','Hormonal and ultrasound tests as needed','Ovulation induction and follicle monitoring','Reproductive options explained at your pace','Close support throughout the process'],
+    fory:'You have been trying to get pregnant for a while, want to know your ovarian reserve, or plan your future fertility.' },
+  endo:{ tag:'Gynecological endocrinology', price:'After assessment', dur:'40 min', mode:'In person or online',
+    lede:'Comprehensive hormonal care: menstrual cycle, polycystic ovary syndrome and endocrine disorders in women.',
+    includes:['Evaluation of menstrual cycle disorders','Polycystic ovary syndrome (PCOS) management','Thyroid assessment and its effect on fertility','Hormonal treatment adjustment and follow-up'],
+    fory:'You have irregular cycles, PCOS symptoms, or suspect a hormonal issue is affecting your health or fertility.' }
+};
+function openService(key){
+  var s=SVC[key]; if(!s) return;
+  if(window.SITE_LANG==='en' && SVC_EN[key]) s=Object.assign({}, s, SVC_EN[key]);
+  document.getElementById('svcIc').innerHTML=s.ic;
+  document.getElementById('svcTag').textContent=window.SITE_LANG==='en'?'Service':'Servicio';
+  document.getElementById('svcTitle').textContent=s.tag;
+  document.getElementById('svcLede').textContent=s.lede;
+  document.getElementById('svcPrice').textContent=s.price;
+  document.getElementById('svcDur').textContent=s.dur;
+  document.getElementById('svcMode').textContent=s.mode;
+  document.getElementById('svcFor').textContent=s.fory;
+  var ul=document.getElementById('svcIncludes'); ul.innerHTML='';
+  s.includes.forEach(function(i){ var li=document.createElement('li'); li.textContent=i; ul.appendChild(li); });
+  var wa=waLink(window.SITE_WA||'573000000000','Hola, quiero agendar: '+s.tag+' con la Dra. Laura');
+  document.getElementById('svcWa').href=wa;
+  var m=document.getElementById('svcModal');
+  m.classList.add('open'); m.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeService(){
+  var m=document.getElementById('svcModal');
+  m.classList.remove('open'); m.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+function waLink(phone,text){
+  phone=String(phone||'').replace(/\D/g,'');
+  var mobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent||'');
+  var t=text?encodeURIComponent(text):'';
+  return mobile ? 'https://wa.me/'+phone+(t?'?text='+t:'') : 'https://web.whatsapp.com/send?phone='+phone+(t?'&text='+t:'');
+}
+function getContactSettings(){
+  var d={ wa:'573000000000', ig:'@consultoriodemo', correo:'', fb:'', x:'', tg:'', tiktok:'' };
+  try{ return Object.assign(d, JSON.parse(localStorage.getItem('siteContact')||'{}')); }catch(e){ return d; }
+}
+function applyContactSettings(){
+  var s=getContactSettings();
+  document.querySelectorAll('.js-wa').forEach(function(a){
+    var msg=a.getAttribute('data-msg');
+    a.href=waLink(s.wa,msg);
+  });
+  document.querySelectorAll('.js-wa-label').forEach(function(a){ a.textContent='WhatsApp: +'+s.wa; });
+  document.querySelectorAll('.js-ig').forEach(function(a){ a.href='https://www.instagram.com/'+s.ig+'/'; });
+  document.querySelectorAll('.js-ig-label').forEach(function(a){ a.textContent='@'+s.ig; });
+  document.querySelectorAll('.js-tel').forEach(function(a){ a.href='tel:+'+s.wa; });
+  var redes={ fb:'https://www.facebook.com/', x:'https://x.com/', tg:'https://t.me/', tiktok:'https://www.tiktok.com/@' };
+  Object.keys(redes).forEach(function(k){
+    document.querySelectorAll('.js-'+k).forEach(function(a){
+      if(s[k]){ a.href=redes[k]+s[k]; a.style.display=''; } else { a.style.display='none'; }
+    });
+  });
+  document.querySelectorAll('.js-mail').forEach(function(a){
+    if(s.correo){ a.href='mailto:'+s.correo; a.textContent=s.correo; a.style.display=''; } else { a.style.display='none'; }
+  });
+  window.SITE_WA=s.wa;
+}
+document.addEventListener('DOMContentLoaded', applyContactSettings);
+function openContact(){
+  var m=document.getElementById('contactModal');
+  m.classList.add('open'); m.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeContact(){
+  var m=document.getElementById('contactModal');
+  m.classList.remove('open'); m.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+function submitContact(e){
+  e.preventDefault();
+  var lead={
+    nombre:document.getElementById('ctName').value,
+    contacto:document.getElementById('ctContact').value,
+    caso:document.getElementById('ctCase').value,
+    fecha:new Date().toISOString()
+  };
+  var leads=JSON.parse(localStorage.getItem('leadsCRM')||'[]');
+  leads.push(lead);
+  localStorage.setItem('leadsCRM', JSON.stringify(leads));
+  var base=JSON.parse(localStorage.getItem('campaignDB')||'[]');
+  var isPhone=/^[+\d][\d\s()-]{5,}$/.test(lead.contacto);
+  var entry={ nombre:lead.nombre, telefono:isPhone?lead.contacto:'', correo:isPhone?'':lead.contacto };
+  var dup=base.find(function(b){ return (entry.telefono && b.telefono===entry.telefono) || (entry.correo && b.correo===entry.correo); });
+  if(!dup) base.push(entry);
+  localStorage.setItem('campaignDB', JSON.stringify(base));
+  document.getElementById('contactForm').style.display='none';
+  document.getElementById('ctOk').style.display='block';
+  setTimeout(function(){
+    closeContact();
+    document.getElementById('contactForm').style.display='flex';
+    document.getElementById('ctOk').style.display='none';
+    document.getElementById('contactForm').reset();
+  },1800);
+}
+function openAuth(){
+  var ov=document.getElementById('authPage');
+  ov.classList.add('open'); ov.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  window.scrollTo(0,0);
+}
+function closeAuth(){
+  var ov=document.getElementById('authPage');
+  ov.classList.remove('open'); ov.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+
+var _toolBooted=false;
+var TOOL_URL='consultorio-gestion.html';
+function openTool(role){
+  var map={user:'client', pro:'pro', admin:'admin'};
+  var r=map[role]||'admin';
+  var ov=document.getElementById('toolOverlay');
+  var fr=document.getElementById('toolFrame');
+  fr.src=TOOL_URL+'?role='+r;
+  var ap=document.getElementById('authPage');
+  if(ap){ ap.classList.remove('open'); ap.setAttribute('aria-hidden','true'); }
+  ov.classList.add('open'); ov.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeTool(){
+  var ov=document.getElementById('toolOverlay');
+  ov.classList.remove('open'); ov.setAttribute('aria-hidden','true');
+  document.getElementById('toolFrame').src='about:blank';
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ closeTool(); closeAuth(); closeService(); toggleMenu(false); } });
+
+</script>
+
+
+<!-- ===== Modal de contacto / captura de leads (CRM) ===== -->
+<div id="contactModal" class="svc-modal" aria-hidden="true" onclick="if(event.target===this)closeContact()">
+  <div class="svc-dialog" role="dialog" aria-modal="true" style="max-width:480px;">
+    <button class="svc-x" onclick="closeContact()" aria-label="Cerrar">&times;</button>
+    <div class="svc-modal-head">
+      <div>
+        <span class="eyebrow">Contacto</span>
+        <h3 class="serif">¿Quieres que nos pongamos en contacto contigo?</h3>
+      </div>
+    </div>
+    <p class="svc-modal-lede">Déjanos tus datos y cuéntanos tu caso: un experto de nuestro equipo te va a asesorar.</p>
+    <form id="contactForm" onsubmit="submitContact(event)" style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+      <label class="fld"><span>Nombre</span><input type="text" id="ctName" required placeholder="Tu nombre"></label>
+      <label class="fld"><span>Celular o correo</span><input type="text" id="ctContact" required placeholder="300 000 0000 o tú@correo.com"></label>
+      <label class="fld"><span>Cuéntanos tu caso para asesorarte con un experto</span><textarea id="ctCase" rows="4" required placeholder="Describe brevemente tu situación o lo que necesitas" style="width:100%; resize:vertical; font-family:inherit; font-size:14px; padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:var(--white); color:var(--ink);"></textarea></label>
+      <div class="svc-modal-cta" style="margin-top:6px;">
+        <button type="submit" class="btn btn-primary">Enviar y que me contacten</button>
+        <button type="button" class="btn btn-ghost" onclick="closeContact()">Cerrar</button>
+      </div>
+      <p id="ctOk" style="display:none; font-size:13.5px; color:var(--slate);">¡Gracias! Recibimos tu caso, te contactaremos pronto.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Modal de detalle de servicio ===== -->
+<div id="svcModal" class="svc-modal" aria-hidden="true" onclick="if(event.target===this)closeService()">
+  <div class="svc-dialog" role="dialog" aria-modal="true">
+    <button class="svc-x" onclick="closeService()" aria-label="Cerrar">&times;</button>
+    <div class="svc-modal-head">
+      <span class="svc-modal-ic" id="svcIc"></span>
+      <div>
+        <span class="eyebrow" id="svcTag">Servicio</span>
+        <h3 class="serif" id="svcTitle">—</h3>
+      </div>
+    </div>
+    <p class="svc-modal-lede" id="svcLede">—</p>
+    <div class="svc-modal-meta">
+      <div class="svc-meta"><span class="k">Precio</span><span class="v" id="svcPrice">—</span></div>
+      <div class="svc-meta"><span class="k">Duración</span><span class="v" id="svcDur">—</span></div>
+      <div class="svc-meta"><span class="k">Modalidad</span><span class="v" id="svcMode">—</span></div>
+    </div>
+    <div class="svc-modal-section">
+      <h4>¿Qué incluye?</h4>
+      <ul id="svcIncludes"></ul>
+    </div>
+    <div class="svc-modal-section">
+      <h4>Ideal si…</h4>
+      <p id="svcFor">—</p>
+    </div>
+    <div class="svc-modal-cta">
+      <a class="btn btn-primary" id="svcWa" href="#" target="_blank" rel="noopener">Agendar por WhatsApp</a>
+      <button class="btn btn-secondary" onclick="closeService();openTool('user')">Registrarse</button>
+      <button class="btn btn-ghost" onclick="closeService()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Página de acceso (registro / ingreso) ===== -->
+<div id="authPage" class="auth-page" aria-hidden="true">
+  <header class="auth-top">
+    <a class="brand" href="#" onclick="closeAuth();return false;">
+      <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9Z"/></svg></span>
+      <span><b>Dra. Laura Restrepo</b><span>Ginecología · Medicina Reproductiva</span></span>
+    </a>
+    <button class="auth-back" onclick="closeAuth()">Volver al sitio</button>
+  </header>
+  <div class="auth-body">
+    <div class="auth-card">
+      <span class="eyebrow" style="text-align:center; display:block;">Acceso a la herramienta</span>
+      <h2 class="serif">Crea tu cuenta o ingresa</h2>
+      <p class="auth-lede">Elige tu rol para continuar. Cada acceso abre su propia vista dentro del sistema.</p>
+
+      <div class="roletabs">
+        <button class="roletab on" data-role="user" onclick="setRole('user')">Usuario</button>
+        <button class="roletab" data-role="pro" onclick="setRole('pro')">Profesional</button>
+        <button class="roletab" data-role="admin" onclick="setRole('admin')">Admin</button>
+      </div>
+
+      <div class="roleform on" id="rf-user">
+        <p class="rf-note">Para pacientes. Crea tu cuenta y agenda tu cita en segundos.</p>
+        <label class="fld"><span>Nombre completo</span><input type="text" placeholder="Ej. Camila Sánchez"></label>
+        <label class="fld"><span>Número de documento</span><input type="text" inputmode="numeric" placeholder="Cédula"></label>
+        <label class="fld"><span>Celular</span><input type="tel" inputmode="numeric" placeholder="300 000 0000"></label>
+        <label class="chk"><input type="checkbox"><span>Autorizo el tratamiento de mis datos para agendar y recibir recordatorios.</span></label>
+        <button class="btn btn-primary go" onclick="openTool('user')">Crear cuenta y agendar</button>
+        <p class="rf-alt">¿Ya tienes cuenta? <a href="#" onclick="openTool('user');return false;">Ingresa con tu documento</a></p>
+        <div class="demo-box"><b>Acceso demo</b> · Ingresa cualquier cédula, o usa <code>1090001122</code> (Camilo Zapata).</div>
+      </div>
+
+      <div class="roleform" id="rf-pro">
+        <p class="rf-note">Para el equipo médico. Ingresa con el código que te asignó el consultorio.</p>
+        <label class="fld"><span>Nombre del profesional</span><input type="text" placeholder="Ej. Dra. Laura Restrepo"></label>
+        <label class="fld"><span>Código de acceso</span><input type="password" inputmode="numeric" placeholder="••••"></label>
+        <button class="btn btn-primary go" onclick="openTool('pro')">Entrar a mi agenda</button>
+        <p class="rf-alt">Verás tu agenda del día, tus tiempos y tu comisión del mes.</p>
+        <div class="demo-box"><b>Acceso demo</b> · Código <code>1111</code> Dra. Laura · <code>2222</code> Dra. Dewi · <code>3333</code> Dra. Susana · <code>4444</code> Dra. Natalia.</div>
+      </div>
+
+      <div class="roleform" id="rf-admin">
+        <p class="rf-note">Para la administración del consultorio. Control total del negocio.</p>
+        <label class="fld"><span>Usuario</span><input type="text" placeholder="admin" value="admin"></label>
+        <label class="fld"><span>Clave</span><input type="password" placeholder="••••••••" value="admin2026"></label>
+        <button class="btn btn-primary go" onclick="openTool('admin')">Entrar al panel</button>
+        <p class="rf-alt">Gestiona equipo, servicios, promociones, comisiones y balance.</p>
+        <div class="demo-box"><b>Acceso demo</b> · Usuario <code>admin</code> · Clave <code>admin2026</code>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Herramienta de gestión (cargada por URL en iframe) ===== -->
+<div id="toolOverlay" class="tool-overlay" aria-hidden="true">
+  <div class="tool-topbar">
+    <span class="tool-topbar-label">Herramienta de gestión · vista de demostración</span>
+    <button class="tool-close" onclick="closeTool()">Volver al sitio</button>
+  </div>
+  <iframe id="toolFrame" title="Herramienta de gestión de agenda"></iframe>
+</div>
+<script>/* Cambio de idioma ES/EN — detecta el idioma del navegador; el visitante puede cambiarlo con el botón. */
+(function(){
+var EN={
+"Ginecología · Medicina Reproductiva":"Gynecology · Reproductive Medicine",
+"Servicios":"Services","Agendar":"Book","La doctora":"The doctor","Opiniones":"Reviews","Ubicación":"Location","Preguntas":"FAQ",
+"Contáctanos":"Contact us","Regístrate":"Sign up","Nuestro mensaje":"Our message","Preguntas frecuentes":"Frequently asked questions",
+"¿Quieres que nos pongamos en contacto contigo?":"Would you like us to contact you?","Escribir por WhatsApp":"Message on WhatsApp",
+"Barranquilla · Presencial o virtual":"Barranquilla · In person or online","Tu salud reproductiva,":"Your reproductive health,","en las mejores manos":"in the best hands",
+"Ginecología, obstetricia y medicina reproductiva con acompañamiento cercano en cada etapa. Agenda tu cita en línea, sin llamar y sin esperar respuesta.":"Gynecology, obstetrics and reproductive medicine with close support at every stage. Book your appointment online, no calls and no waiting for a reply.",
+"Agendar cita en línea":"Book online","índice de satisfacción":"satisfaction rate","pacientes atendidas":"patients seen","años de experiencia":"years of experience",
+"Perfil verificado":"Verified profile",
+"Ginecología · Endocrinología reproductiva · Fertilidad. Más de 7 años en el área, con estudios en Salud Reproductiva Humana.":"Gynecology · Reproductive endocrinology · Fertility. Over 7 years in the field, with studies in Human Reproductive Health.",
+"Fertilidad":"Fertility","Obstetricia":"Obstetrics","Endocrinología":"Endocrinology","Ecografía":"Ultrasound",
+"Trabajamos con tus convenios y aseguradoras":"We work with your health plans and insurers","Particular":"Private pay",
+"Consultas y estudios para cada etapa":"Consultations and tests for every stage",
+"Atención ginecológica y reproductiva con precios claros. Puedes agendar uno o varios servicios el mismo día.":"Gynecological and reproductive care with clear prices. Book one or several services on the same day.",
+"consulta":"visit","Ginecología y Obstetricia":"Gynecology and Obstetrics",
+"Valoración completa, control y acompañamiento en tu salud ginecológica y tu embarazo.":"Complete assessment, check-ups and support for your gynecological health and pregnancy.",
+"Agendar consulta":"Book a visit","estudio":"scan","Ecografía obstétrica":"Obstetric ultrasound",
+"Seguimiento del bebé y del embarazo con equipos de imagen especializados.":"Monitoring of your baby and pregnancy with specialized imaging equipment.",
+"Agendar estudio":"Book a scan","Valoración":"Assessment","según caso":"case by case","Medicina reproductiva y fertilidad":"Reproductive medicine and fertility",
+"Estudio de fertilidad, inducción de ovulación y planeación para lograr tu embarazo.":"Fertility testing, ovulation induction and planning to help you get pregnant.",
+"Solicitar valoración":"Request an assessment","Endocrinología ginecológica":"Gynecological endocrinology",
+"Manejo hormonal, ovario poliquístico, tiroides y trastornos del ciclo menstrual.":"Hormonal care, polycystic ovary syndrome, thyroid and menstrual cycle disorders.",
+"1 de cada 4 parejas lo vive":"1 in 4 couples go through this","A veces, intentarlo de forma natural":"Sometimes, trying naturally","no es suficiente.":"is not enough.",
+"Y pedir ayuda no es rendirse: es dar el paso más valiente. Aquí no estás sola. Te escuchamos sin juicios, te explicamos con ciencia y te acompañamos con calidez en cada etapa de tu proceso.":"Asking for help is not giving up: it is the bravest step. You are not alone here. We listen without judgment, explain with science and support you warmly at every stage.",
+"Da el primer paso hoy":"Take the first step today","Ver los servicios":"See services","Tu experiencia":"Your experience","Más que agendar, un acompañamiento":"More than booking: ongoing support",
+"Agenda 24/7":"Book 24/7","Reserva tu cita a cualquier hora desde el celular, incluso cuando el consultorio está cerrado.":"Book from your phone at any time, even when the office is closed.",
+"Recordatorio por WhatsApp":"WhatsApp reminder","Tres horas antes recibes un aviso con tu hora exacta, para que no se te pase la cita.":"Three hours before, you get a message with your exact time so you don't miss it.",
+"Reagenda si algo cambia":"Reschedule if plans change","¿Te surgió algo? Modifica o cancela tu propia cita desde tu perfil, sin depender de una llamada.":"Something came up? Change or cancel your appointment from your profile, no phone call needed.",
+"Tu historial a la mano":"Your history at hand","Tus consultas anteriores quedan registradas para que cada control sea más rápido y personalizado.":"Your past visits are recorded so every check-up is faster and more personal.",
+"Varios servicios, un día":"Several services, one day","Pide consulta y ecografía juntas: el sistema las organiza sin cruces de horario.":"Book a visit and an ultrasound together: the system schedules them without overlaps.",
+"Tus datos protegidos":"Your data protected","Autorizas el tratamiento de tus datos de forma clara y solo se usan para tu atención.":"You clearly authorize how your data is used, and it is only used for your care.",
+"Ciencia y calidez para tu proyecto de familia":"Science and warmth for your family plans",
+"La Dra. Laura Restrepo cuenta con más de 7 años en ginecología, endocrinología reproductiva y fertilidad, con estudios en Salud Reproductiva Humana. Su enfoque es cálido y comprometido: acompaña a cada paciente sin juicios, con información clara y el respaldo de la ciencia en cada decisión.":"Dr. Laura Restrepo has over 7 years in gynecology, reproductive endocrinology and fertility, with studies in Human Reproductive Health. Her approach is warm and committed: she supports every patient without judgment, with clear information and science behind every decision.",
+"Endocrinología reproductiva y fertilidad":"Reproductive endocrinology and fertility","Estudios en Salud Reproductiva Humana":"Studies in Human Reproductive Health","Más de 7 años acompañando pacientes":"Over 7 years caring for patients",
+"Lo que dicen sus pacientes":"What her patients say",
+"Una atención muy humana. Me explicó todo con paciencia y salí sabiendo exactamente qué seguía en mi tratamiento.":"Very human care. She explained everything patiently and I left knowing exactly what came next in my treatment.",
+"Paciente verificada":"Verified patient","Consulta ginecológica":"Gynecology visit",
+"Después de mucho tiempo intentándolo, encontré el acompañamiento que necesitaba. Cercana, profesional y siempre disponible.":"After trying for a long time, I found the support I needed. Warm, professional and always available.",
+"Medicina reproductiva":"Reproductive medicine",
+"Agendar en línea fue lo más fácil. Elegí mi hora, me llegó el recordatorio y la atención fue puntual y completa.":"Booking online was the easiest part. I picked my time, got the reminder, and the visit was on time and thorough.",
+"Con un índice de satisfacción del 97% y más de 3.500 pacientes atendidas. Los textos mostrados son ilustrativos; podemos reemplazarlos por reseñas verificadas de tus plataformas.":"97% satisfaction rate and more than 3,500 patients seen.",
+"Antes de agendar":"Before you book","¿Cómo agendo una cita?":"How do I book an appointment?",
+"Elige el servicio que necesitas, revisa el detalle y confirma por WhatsApp o desde tu cuenta en línea. Recibirás confirmación y un recordatorio antes de la hora.":"Choose the service you need, review the details and confirm on WhatsApp or from your online account. You'll get a confirmation and a reminder before your time.",
+"¿Puedo agendar varios servicios el mismo día?":"Can I book several services on the same day?",
+"Sí. El sistema organiza consulta y estudios sin cruces de horario, en una sola visita cuando es posible.":"Yes. The system schedules visits and tests without overlaps, in a single trip when possible.",
+"¿La atención es presencial o virtual?":"Is care in person or online?","Ambas modalidades están disponibles según el servicio; lo verás indicado en el detalle de cada uno.":"Both are available depending on the service; each service shows which applies.",
+"¿Cómo cancelo o reprogramo mi cita?":"How do I cancel or reschedule?","Escríbenos por WhatsApp con al menos 24 horas de anticipación, o hazlo desde tu cuenta si ya estás registrada.":"Message us on WhatsApp at least 24 hours ahead, or do it from your account if you're registered.",
+"Cómo llegar":"Get directions","Visítanos en el consultorio":"Visit us at the office","Barranquilla, Atlántico, Colombia":"Barranquilla, Atlántico, Colombia",
+"Escríbenos por WhatsApp":"Message us on WhatsApp","Respuesta el mismo día":"Same-day reply","Lun–Vie 8:00–12:00 · 2:00–5:00":"Mon–Fri 8:00–12:00 · 2:00–5:00","Sábados 8:00–12:00 · Presencial o virtual":"Saturdays 8:00–12:00 · In person or online",
+"Salud femenina, embarazo y fertilidad en Instagram":"Women's health, pregnancy and fertility on Instagram","Agendar mi cita":"Book my appointment","Da el primer paso":"Take the first step",
+"Tu cita está a un clic de distancia":"Your appointment is one click away","Agenda en línea cuando quieras. Nosotros nos encargamos del recordatorio para que solo tengas que llegar.":"Book online whenever you like. We handle the reminder so all you have to do is show up.",
+"Atención ginecológica, obstétrica y reproductiva en Barranquilla, con agendamiento en línea.":"Gynecological, obstetric and reproductive care in Barranquilla, with online booking.",
+"Consultorio":"Office","Servicios y precios":"Services and prices","Agendar cita":"Book appointment","Sobre la doctora":"About the doctor","Contacto":"Contact",
+"© 2026 Dra. Laura Restrepo. Todos los derechos reservados.":"© 2026 Dr. Laura Restrepo. All rights reserved.","Tus datos se tratan con tu autorización, solo para tu atención.":"Your data is handled with your consent, only for your care.",
+"Déjanos tus datos y cuéntanos tu caso: un experto de nuestro equipo te va a asesorar.":"Leave your details and tell us about your case: an expert from our team will advise you.",
+"Nombre":"Name","Celular o correo":"Phone or email","Cuéntanos tu caso para asesorarte con un experto":"Tell us your case so an expert can advise you","Enviar y que me contacten":"Send and contact me","Cerrar":"Close",
+"¡Gracias! Recibimos tu caso, te contactaremos pronto.":"Thank you! We received your case and will contact you soon.",
+"Servicio":"Service","Precio":"Price","Duración":"Duration","Modalidad":"Format","¿Qué incluye?":"What's included?","Ideal si…":"Ideal if…","Agendar por WhatsApp":"Book on WhatsApp","Registrarse":"Sign up",
+"Volver al sitio":"Back to site","Acceso a la herramienta":"Access","Crea tu cuenta o ingresa":"Create your account or sign in","Elige tu rol para continuar. Cada acceso abre su propia vista dentro del sistema.":"Choose your role to continue. Each one opens its own view.",
+"Usuario":"Patient","Profesional":"Professional","Para pacientes. Crea tu cuenta y agenda tu cita en segundos.":"For patients. Create your account and book in seconds.",
+"Nombre completo":"Full name","Número de documento":"ID number","Celular":"Phone","Autorizo el tratamiento de mis datos para agendar y recibir recordatorios.":"I authorize the use of my data for booking and reminders.",
+"Crear cuenta y agendar":"Create account and book","¿Ya tienes cuenta?":"Already have an account?","Ingresa con tu documento":"Sign in with your ID","Acceso demo":"Demo access","· Ingresa cualquier cédula, o usa":"· Enter any ID, or use",
+"Para el equipo médico. Ingresa con el código que te asignó el consultorio.":"For the medical team. Sign in with the code the office gave you.","Nombre del profesional":"Professional's name","Código de acceso":"Access code","Entrar a mi agenda":"Open my schedule",
+"Verás tu agenda del día, tus tiempos y tu comisión del mes.":"You'll see today's schedule, your times and your monthly commission.","· Código":"· Code",
+"Para la administración del consultorio. Control total del negocio.":"For office management. Full control of the practice.","Clave":"Password","Entrar al panel":"Open dashboard",
+"Gestiona equipo, servicios, promociones, comisiones y balance.":"Manage team, services, promotions, commissions and balance.","· Usuario":"· User","· Clave":"· Password",
+"Herramienta de gestión · vista de demostración":"Management tool · demo view","Abrir menú":"Open menu","Cerrar menú":"Close menu","Convenios y aseguradoras":"Health plans and insurers","Llamar":"Call",
+"Tu nombre":"Your name","300 000 0000 o tú@correo.com":"300 000 0000 or you@email.com","Describe brevemente tu situación o lo que necesitas":"Briefly describe your situation or what you need","Cédula":"ID","Herramienta de gestión de agenda":"Booking management tool"
+};
+var orig=new WeakMap(), origAttr=new WeakMap();
+function tr(root,lang){
+  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT), n;
+  while((n=w.nextNode())){
+    var p=n.parentElement; if(!p||/^(SCRIPT|STYLE|NOSCRIPT)$/.test(p.tagName)||p.closest('[data-noi18n]')) continue;
+    if(!orig.has(n)) orig.set(n,n.nodeValue);
+    var o=orig.get(n), k=o.replace(/\s+/g,' ').trim();
+    if(!k) continue;
+    n.nodeValue = (lang==='en' && EN[k]) ? o.replace(k,EN[k]) : o;
+  }
+  root.querySelectorAll('[placeholder],[aria-label],[title]').forEach(function(e){
+    if(!origAttr.has(e)) origAttr.set(e,{placeholder:e.getAttribute('placeholder'),'aria-label':e.getAttribute('aria-label'),title:e.getAttribute('title')});
+    var a=origAttr.get(e);
+    Object.keys(a).forEach(function(at){ if(a[at]==null) return; e.setAttribute(at,(lang==='en'&&EN[a[at].trim()])||a[at]); });
+  });
+}
+function current(){ var s=null; try{s=localStorage.getItem('siteLang');}catch(e){} return s || ((navigator.language||'es').toLowerCase().indexOf('en')===0?'en':'es'); }
+function apply(lang){
+  document.documentElement.lang=lang;
+  tr(document.body,lang);
+  document.querySelectorAll('.js-lang').forEach(function(b){ b.textContent = lang==='en'?'ES':'EN'; b.setAttribute('aria-label', lang==='en'?'Cambiar a español':'Switch to English'); });
+  window.SITE_LANG=lang;
+}
+window.toggleLang=function(){ var l=current()==='en'?'es':'en'; try{localStorage.setItem('siteLang',l);}catch(e){} apply(l); };
+window.reapplyLang=function(el){ if(current()==='en') tr(el||document.body,'en'); };
+function init(){ apply(current()); }
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+</body>
+</html>

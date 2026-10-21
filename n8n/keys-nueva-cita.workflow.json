@@ -1,0 +1,207 @@
+{
+  "name": "KEYS · Nueva cita desde el landing",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "keys-nueva-cita",
+        "authentication": "headerAuth",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "a1f0c1c2-0001-4a00-9000-000000000001",
+      "name": "Nueva cita (Supabase)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        200
+      ],
+      "webhookId": "keys-nueva-cita"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c1d0e6a1-0010-4a00-9000-000000000010",
+              "leftValue": "={{ $json.body.record.tenant_id }}",
+              "rightValue": "61847ab9-eb11-42ad-aef6-f41e5f0afa0d",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1f0c1c2-0006-4a00-9000-000000000006",
+      "name": "¿Es una cita de KEYS?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        260,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "correo@tudominio.com",
+        "subject": "=Nueva reunión KEYS: {{ $json.body.record.appt_date }} a las {{ String($json.body.record.appt_time).slice(0, 5) }}",
+        "emailType": "text",
+        "message": "=Tienes una nueva solicitud de reunión desde el landing.\n\nCuándo: {{ $json.body.record.appt_date }} a las {{ String($json.body.record.appt_time).slice(0, 5) }}\nNombre: {{ $json.body.record.name }}\nWhatsApp: {{ $json.body.record.phone }}\nCorreo: {{ $json.body.record.email || 'No indicado' }}\nNegocio: {{ $json.body.record.business_name || 'No indicado' }}\nTipo de negocio: {{ $json.body.record.business_type || 'No indicado' }}\nCiudad: {{ $json.body.record.city || 'No indicada' }}\nLe interesa: {{ ($json.body.record.interests || []).join(', ') || 'No indicó' }}\nMensaje: {{ $json.body.record.message || '(sin mensaje)' }}\n\nEstado: pendiente. Confírmala escribiéndole por WhatsApp.\nWhatsApp directo: https://wa.me/{{ String($json.body.record.phone).replace(/\\D/g, '') }}\n\nEl contacto ya quedó en tu CRM (Supabase → contacts, negocio KEYS).",
+        "options": {}
+      },
+      "id": "a1f0c1c2-0002-4a00-9000-000000000002",
+      "name": "Aviso a KEYS",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        540,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "b7d0e6a1-0003-4a00-9000-000000000003",
+              "leftValue": "={{ $json.body.record.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1f0c1c2-0004-4a00-9000-000000000004",
+      "name": "¿Dejó su correo?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        540,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "={{ $json.body.record.email }}",
+        "subject": "Recibimos tu solicitud de reunión con KEYS",
+        "emailType": "text",
+        "message": "=Hola {{ $json.body.record.name }},\n\nRecibimos tu solicitud de reunión gratis de 30 minutos para el {{ $json.body.record.appt_date }} a las {{ String($json.body.record.appt_time).slice(0, 5) }}.\n\nTe escribiremos por WhatsApp para confirmarla.\n\nEquipo KEYS",
+        "options": {}
+      },
+      "id": "a1f0c1c2-0005-4a00-9000-000000000005",
+      "name": "Confirmación al cliente",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        820,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "primary"
+        },
+        "start": "={{ DateTime.fromISO(`${$json.body.record.appt_date}T${String($json.body.record.appt_time).slice(0,5)}:00`, { zone: 'America/Bogota' }).toISO() }}",
+        "end": "={{ DateTime.fromISO(`${$json.body.record.appt_date}T${String($json.body.record.appt_time).slice(0,5)}:00`, { zone: 'America/Bogota' }).plus({ minutes: 30 }).toISO() }}",
+        "additionalFields": {
+          "summary": "=Reunión KEYS · {{ $json.body.record.name }}{{ $json.body.record.business_name ? ' (' + $json.body.record.business_name + ')' : '' }}",
+          "description": "=Reunión gratis de 30 minutos agendada desde el landing de KEYS.\n\nNombre: {{ $json.body.record.name }}\nWhatsApp: {{ $json.body.record.phone }}\nCorreo: {{ $json.body.record.email || 'No indicado' }}\nNegocio: {{ $json.body.record.business_name || 'No indicado' }}\nTipo de negocio: {{ $json.body.record.business_type || 'No indicado' }}\nCiudad: {{ $json.body.record.city || 'No indicada' }}\nLe interesa: {{ ($json.body.record.interests || []).join(', ') || 'No indicó' }}\nMensaje: {{ $json.body.record.message || '(sin mensaje)' }}\n\nWhatsApp directo: https://wa.me/{{ String($json.body.record.phone).replace(/\\D/g, '') }}",
+          "location": "WhatsApp / videollamada"
+        }
+      },
+      "id": "a1f0c1c2-0007-4a00-9000-000000000007",
+      "name": "Crear evento en Google Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.2,
+      "position": [
+        540,
+        540
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "REEMPLAZAR_CON_TU_CREDENCIAL",
+          "name": "Google Calendar · KEYS"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Nueva cita (Supabase)": {
+      "main": [
+        [
+          {
+            "node": "¿Es una cita de KEYS?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Es una cita de KEYS?": {
+      "main": [
+        [
+          {
+            "node": "Aviso a KEYS",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "¿Dejó su correo?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Crear evento en Google Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "¿Dejó su correo?": {
+      "main": [
+        [
+          {
+            "node": "Confirmación al cliente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
