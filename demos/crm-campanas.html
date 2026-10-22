@@ -834,7 +834,9 @@ body.unlocked #authGate{display:none}
         '<div class="item-sub">' + [parts.product ? esc(parts.product) : '', when, channels].filter(Boolean).join(' · ') + '</div>' +
         (parts.rest ? '<div class="item-msg">' + esc(parts.rest) + '</div>' : '') +
         '<div class="item-actions">' +
-        '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="programada">Programada</button>' +
+        '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="programada" title="' +
+          (c.channel_email ? 'Al marcarla Programada, el sistema la enviará SOLA por correo en la fecha/hora indicada, a los leads que marcaste en Destinatarios.' : 'Programada: solo queda marcada para referencia, esta campaña no tiene el canal Correo activo.') +
+          '">Programada' + (c.channel_email ? ' ⚡' : '') + '</button>' +
         '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="pendiente">Pendiente</button>' +
         '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="realizada">Realizada</button>' +
         '<button class="btn sm ghost" data-act="edit" data-id="' + c.id + '">Editar</button>' +
@@ -850,7 +852,14 @@ body.unlocked #authGate{display:none}
   $('campList').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-act]'); if (!b) return;
     var id = b.getAttribute('data-id'), act = b.getAttribute('data-act');
-    if (act === 'status') API.setCampStatus(id, b.getAttribute('data-status')).then(refreshCamps);
+    if (act === 'status') {
+      var newStatus = b.getAttribute('data-status');
+      var cc = (window.__camps || []).find(function (x) { return String(x.id) === String(id); });
+      if (newStatus === 'programada' && cc && cc.channel_email) {
+        if (!confirm('Al marcar esta campaña como "Programada", el sistema la enviará SOLA por correo (usando tu llave de Brevo) en la fecha y hora que pusiste, a los leads que marcaste en Destinatarios. ¿Confirmas?')) return;
+      }
+      API.setCampStatus(id, newStatus).then(refreshCamps);
+    }
     else if (act === 'del') { if (confirm('¿Eliminar esta campaña?')) API.delCamp(id).then(refreshCamps); }
     else if (act === 'sendreal') { sendCampaignReal(id); }
     else if (act === 'wa') { toggleWaLinks(id); }
