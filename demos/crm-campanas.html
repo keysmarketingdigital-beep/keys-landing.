@@ -95,6 +95,14 @@ input[type=date],input[type=time]{color-scheme:dark}
 .wa-links a{font-size:12.5px;color:var(--acc);text-decoration:none}
 .wa-links a:hover{text-decoration:underline}
 .loading{color:var(--dim);font-size:13px;padding:10px 0}
+.msgs-badge{display:inline-flex;min-width:16px;height:16px;align-items:center;justify-content:center;padding:0 4px;background:var(--err);color:#1a0a08;border-radius:8px;font-size:10.5px;font-weight:700;margin-left:4px}
+.conv-item{cursor:pointer}
+.conv-item.on{border-color:var(--acc)}
+.msg-thread{max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:9px;padding:4px 2px}
+.mt-bub{max-width:88%;padding:9px 12px;border-radius:11px;font-size:13.5px;line-height:1.45}
+.mt-bub.v{align-self:flex-start;background:var(--inset);border:1px solid var(--line2)}
+.mt-bub.k{align-self:flex-end;background:var(--acc);color:var(--onacc)}
+.mt-meta{display:block;font-size:10.5px;opacity:.7;margin-top:4px}
 footer{border-top:1px solid var(--line);padding:20px 0;color:var(--dim);font-size:12px;text-align:center}
 
 #appRoot{display:none}
@@ -150,6 +158,7 @@ body.unlocked #authGate{display:none}
     <button class="tab on" id="tabBtnCrm" data-tab="crm">CRM · Leads</button>
     <button class="tab" id="tabBtnCat" data-tab="cat">Categorías</button>
     <button class="tab" id="tabBtnCamp" data-tab="camp">Campañas</button>
+    <button class="tab" id="tabBtnMsgs" data-tab="msgs">Mensajes <span id="msgsBadge" class="msgs-badge" hidden></span></button>
   </div>
 </div>
 
@@ -257,6 +266,30 @@ body.unlocked #authGate{display:none}
       </div>
       <div>
         <div id="campList" class="list"><div class="loading">Cargando campañas…</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="viewMsgs" style="display:none">
+    <p style="color:var(--dim);font-size:13px;margin-bottom:14px">Conversaciones del chat con traducción automática de la página pública. Cada una ya quedó como lead en CRM · Leads. Tú siempre escribes en español — se traduce sola al idioma del visitante antes de enviarse.</p>
+    <div class="grid2">
+      <div>
+        <div id="convList" class="list"><div class="loading">Cargando conversaciones…</div></div>
+      </div>
+      <div class="card" id="convDetail" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <h3 id="convTitle" style="font-size:16px"></h3>
+          <span id="convLang" class="badge" style="font-size:11px"></span>
+        </div>
+        <div id="convMsgs" class="msg-thread"></div>
+        <div style="margin-top:12px">
+          <textarea id="convReply" rows="2" placeholder="Escribe tu respuesta en español…"></textarea>
+          <button class="btn" type="button" id="convSendBtn" style="width:100%;margin-top:8px">Enviar respuesta (se traduce sola)</button>
+          <div id="convErr" style="color:var(--err);font-size:12.5px;margin-top:6px"></div>
+        </div>
+      </div>
+      <div class="card" id="convEmpty">
+        <p style="color:var(--dim)">Elige una conversación de la lista para ver los mensajes y responder.</p>
       </div>
     </div>
   </section>
@@ -559,7 +592,22 @@ body.unlocked #authGate{display:none}
       payload.tenant_id = TENANT_ID;
       return restPost('categories', payload);
     },
-    delCat: function (id) { return restDelete('categories', id); }
+    delCat: function (id) { return restDelete('categories', id); },
+    conversations: function () {
+      return restGet('chat_conversations?tenant_id=eq.' + TENANT_ID + '&order=last_message_at.desc&select=id,visitor_name,visitor_lang,last_message_at,contact_id');
+    },
+    convMessages: function (convId) {
+      return restGet('chat_messages_widget?conversation_id=eq.' + convId + '&tenant_id=eq.' + TENANT_ID + '&order=created_at.asc');
+    },
+    sendReply: function (convId, originalEs, translated, visitorLang) {
+      return restPost('chat_messages_widget', {
+        tenant_id: TENANT_ID, conversation_id: convId, sender: 'keys',
+        original_text: originalEs, original_lang: 'es',
+        translated_text: translated, translated_lang: visitorLang
+      }).then(function () {
+        return restPatch('chat_conversations', convId, { last_message_at: new Date().toISOString() });
+      });
+    }
   } : {
     leads: function () { return Promise.resolve(loadLocal(LKEY)); },
     addLead: function (f) {
@@ -644,7 +692,13 @@ body.unlocked #authGate{display:none}
       }
       saveLocal(TKEY, rows); return Promise.resolve();
     },
-    delCat: function (id) { saveLocal(TKEY, loadLocal(TKEY).filter(function (c) { return c.id !== id; })); return Promise.resolve(); }
+    delCat: function (id) { saveLocal(TKEY, loadLocal(TKEY).filter(function (c) { return c.id !== id; })); return Promise.resolve(); },
+    // El chat de la web necesita Supabase real (los visitantes anónimos
+    // escriben a través de la función pública chat-public) — sin conexión
+    // no hay nada que mostrar aquí.
+    conversations: function () { return Promise.resolve([]); },
+    convMessages: function () { return Promise.resolve([]); },
+    sendReply: function () { return Promise.reject(new Error('El chat solo funciona con Supabase conectado.')); }
   };
 
   /* ---------- Estado de conexión ---------- */
@@ -659,13 +713,16 @@ body.unlocked #authGate{display:none}
   $('tabBtnCrm').addEventListener('click', function () { setTab('crm'); });
   $('tabBtnCat').addEventListener('click', function () { setTab('cat'); });
   $('tabBtnCamp').addEventListener('click', function () { setTab('camp'); });
+  $('tabBtnMsgs').addEventListener('click', function () { setTab('msgs'); refreshConvs(); });
   function setTab(t) {
     $('tabBtnCrm').classList.toggle('on', t === 'crm');
     $('tabBtnCat').classList.toggle('on', t === 'cat');
     $('tabBtnCamp').classList.toggle('on', t === 'camp');
+    $('tabBtnMsgs').classList.toggle('on', t === 'msgs');
     $('viewCrm').style.display = t === 'crm' ? '' : 'none';
     $('viewCat').style.display = t === 'cat' ? '' : 'none';
     $('viewCamp').style.display = t === 'camp' ? '' : 'none';
+    $('viewMsgs').style.display = t === 'msgs' ? '' : 'none';
   }
 
   /* ---------- CRM: render ---------- */
@@ -681,7 +738,7 @@ body.unlocked #authGate{display:none}
     if (!rows.length) { $('leadsList').innerHTML = '<div class="empty">Todavía no hay leads. Agrega uno o sube un archivo.</div>'; return; }
     $('leadsList').innerHTML = rows.map(function (l) {
       var stage = l.stage || 'nuevo';
-      var sub = [l.phone ? ('📞 ' + l.phone) : '', l.email ? ('✉ ' + l.email) : '', (l.interests && l.interests.length) ? l.interests.join(', ') : '']
+      var sub = [l.phone ? ('📞 ' + l.phone) : '', l.email ? ('✉ ' + l.email) : '', (l.interests && l.interests.length) ? l.interests.join(', ') : '', (l.source === 'Chat web') ? '💬 Chat web' : '']
         .filter(Boolean).join(' · ');
       return '<div class="item">' +
         '<div class="item-top"><span class="item-name">' + esc(l.name) + '</span>' +
@@ -1102,6 +1159,76 @@ body.unlocked #authGate{display:none}
     }).then(function () { resetCatForm(); refreshCats(); })
       .catch(function (err) { alert('No se pudo guardar: ' + err.message); })
       .finally(function () { submitBtn.disabled = false; submitBtn.textContent = editingCatId ? 'Guardar cambios' : 'Crear categoría'; });
+  });
+
+  /* ---------- Mensajes (chat con traducción automática) ---------- */
+  var activeConvId = null, activeConvLang = 'es', convPoll = null;
+  var LANG_NAMES = { es: 'Español', en: 'Inglés', pt: 'Portugués', fr: 'Francés', de: 'Alemán', it: 'Italiano' };
+  function langLabel(l) { return LANG_NAMES[l] || (l || '').toUpperCase(); }
+
+  function refreshConvs() {
+    $('convList').innerHTML = '<div class="loading">Cargando conversaciones…</div>';
+    return API.conversations().then(function (rows) { window.__convs = rows || []; renderConvs(rows || []); })
+      .catch(function (err) { $('convList').innerHTML = '<div class="empty">No pude cargar los mensajes: ' + esc(err.message) + '</div>'; });
+  }
+  function renderConvs(rows) {
+    if (!rows.length) { $('convList').innerHTML = '<div class="empty">Todavía no te ha escrito nadie por el chat de la web.</div>'; return; }
+    $('convList').innerHTML = rows.map(function (c) {
+      var when = c.last_message_at ? new Date(c.last_message_at).toLocaleString('es-CO', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+      return '<div class="item conv-item' + (c.id === activeConvId ? ' on' : '') + '" data-id="' + c.id + '" data-lang="' + esc(c.visitor_lang || 'es') + '">' +
+        '<div class="item-top"><span class="item-name">' + esc(c.visitor_name || 'Visitante sin nombre') + '</span>' +
+        '<span class="badge">' + esc(langLabel(c.visitor_lang)) + '</span></div>' +
+        '<div class="item-sub">' + esc(when) + '</div></div>';
+    }).join('');
+  }
+  $('convList').addEventListener('click', function (e) {
+    var it = e.target.closest('.conv-item'); if (!it) return;
+    openConv(it.getAttribute('data-id'), it.getAttribute('data-lang') || 'es');
+  });
+
+  function openConv(id, lang) {
+    activeConvId = id; activeConvLang = lang || 'es';
+    if (convPoll) { clearInterval(convPoll); convPoll = null; }
+    $('convEmpty').style.display = 'none';
+    $('convDetail').style.display = '';
+    $('convLang').textContent = langLabel(activeConvLang);
+    $('convErr').textContent = '';
+    $('convReply').value = '';
+    loadConvMsgs();
+    convPoll = setInterval(loadConvMsgs, 6000);
+    document.querySelectorAll('.conv-item').forEach(function (el) { el.classList.toggle('on', el.getAttribute('data-id') === id); });
+    var row = (window.__convs || []).find(function (c) { return c.id === id; });
+    $('convTitle').textContent = (row && row.visitor_name) || 'Visitante sin nombre';
+  }
+  function loadConvMsgs() {
+    if (!activeConvId) return;
+    API.convMessages(activeConvId).then(function (rows) {
+      window.__convs = window.__convs || [];
+      $('convMsgs').innerHTML = (rows || []).map(function (m) {
+        var cls = m.sender === 'keys' ? 'k' : 'v';
+        var txt = m.sender === 'keys' ? m.original_text : m.translated_text; // lo que KEYS ve siempre en español
+        var meta = m.sender === 'visitante' ? ('Traducido del ' + langLabel(m.original_lang).toLowerCase()) : 'Enviado por KEYS';
+        return '<div class="mt-bub ' + cls + '">' + esc(txt).replace(/\n/g, '<br>') + '<span class="mt-meta">' + esc(meta) + '</span></div>';
+      }).join('') || '<p style="color:var(--dim);font-size:13px">Sin mensajes todavía.</p>';
+      $('convMsgs').scrollTop = $('convMsgs').scrollHeight;
+    }).catch(function () {});
+  }
+
+  $('convSendBtn').addEventListener('click', function () {
+    var text = $('convReply').value.trim();
+    if (!text || !activeConvId) return;
+    var btn = $('convSendBtn');
+    btn.disabled = true; btn.textContent = 'Enviando…'; $('convErr').textContent = '';
+    var translateStep = activeConvLang === 'es'
+      ? Promise.resolve(text)
+      : fetch(CFG.SUPABASE_URL + '/functions/v1/chat-translate', {
+          method: 'POST', headers: restHeaders(), body: JSON.stringify({ text: text, target_lang: activeConvLang })
+        }).then(function (r) { return r.json(); }).then(function (j) { return j.translated || text; });
+    translateStep
+      .then(function (translated) { return API.sendReply(activeConvId, text, translated, activeConvLang); })
+      .then(function () { $('convReply').value = ''; loadConvMsgs(); refreshConvs(); })
+      .catch(function (err) { $('convErr').textContent = 'No se pudo enviar: ' + err.message; })
+      .finally(function () { btn.disabled = false; btn.textContent = 'Enviar respuesta (se traduce sola)'; });
   });
 
   initGate();
