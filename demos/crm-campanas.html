@@ -136,7 +136,7 @@ body.unlocked #authGate{display:none}
   <a class="back" href="../index.html#vitrina">← Volver al landing de KEYS</a>
   <span class="spacer"></span>
   <button id="logoutBtn" class="btn ghost sm" style="display:none">Cerrar sesión</button>
-  <span id="statusBadge" class="status demo"><span class="dot"></span><span id="statusText">Cargando…</span></span>
+  <span id="statusBadge" class="status"><span class="dot"></span><span id="statusText">Cargando…</span></span>
 </div></header>
 
 <div class="wrap intro">
@@ -263,7 +263,7 @@ body.unlocked #authGate{display:none}
 
 </main>
 
-<footer class="wrap">KEYS Marketing Digital · módulo de demostración — los datos son de prueba, no de un cliente real.</footer>
+<footer class="wrap">KEYS Marketing Digital · panel privado de CRM y campañas — acceso exclusivo del equipo.</footer>
 </div><!-- /appRoot -->
 
 <script src="../config.js"></script>
@@ -281,8 +281,9 @@ body.unlocked #authGate{display:none}
   var LKEY = 'keys_crmdemo_leads_v1', CKEY = 'keys_crmdemo_camps_v1', TKEY = 'keys_crmdemo_cats_v1', RKEY = 'keys_crmdemo_camprecip_v1';
   var GATE_LOCAL_KEY = 'keys_crmdemo_unlocked_v1';
   var AUTH_TOKEN_KEY = 'keys_crmdemo_auth_v1';
-  // Clave del modo demo (sin Supabase activo todavía). Solo protege la
-  // vista mientras los datos son de prueba — cámbiala si quieres otra.
+  // Clave de respaldo solo para el caso en que Supabase no esté disponible
+  // (sin conexión / config.js sin llenar). En producción normal siempre se
+  // entra con el inicio de sesión real de Supabase, no con esta clave.
   var LOCAL_PASSPHRASE = 'keys2026';
 
   function $(id) { return document.getElementById(id); }
@@ -649,9 +650,9 @@ body.unlocked #authGate{display:none}
   /* ---------- Estado de conexión ---------- */
   var badge = $('statusBadge'), statusText = $('statusText');
   if (LIVE) {
-    badge.className = 'status live'; statusText.textContent = 'Conectado a Supabase · datos reales';
+    badge.className = 'status live'; statusText.textContent = 'Conectado · datos reales';
   } else {
-    badge.className = 'status demo'; statusText.textContent = 'Modo demo (local) · pendiente activar Supabase';
+    badge.className = 'status demo'; statusText.textContent = 'Sin conexión a Supabase · guardando localmente en este navegador';
   }
 
   /* ---------- Tabs ---------- */
