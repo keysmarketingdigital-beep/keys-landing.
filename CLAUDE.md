@@ -12,6 +12,14 @@ Landing de servicios de KEYS (Rionegro / Oriente Antioqueño). Un solo `index.ht
 - JSON-LD LocalBusiness + WebSite ya están en el `<head>` de `index.html`.
 - Falta: verificación de Google Search Console (dejar el archivo `googleXXXX.html` cuando se genere) y envío del sitemap.
 - Favicon actual: emoji 🔑 inline (no hay archivo de logo cuadrado todavía).
+- **Versión en inglés con URL propia — `/en/index.html` (22 oct 2026)**: antes solo había un botón EN/ES que cambiaba el texto con JavaScript en la misma URL — eso Google no lo reconoce como una versión en inglés real, ni la mostraría a alguien buscando en Estados Unidos. Ahora `en/index.html` es una página aparte, generada a partir de `index.html` con el texto en inglés "congelado" en el HTML (no depende de que el JS cargue para que Google la vea en inglés), con:
+  - `<html lang="en">`, `<link rel="canonical" href=".../en/">`, y las etiquetas `hreflang` recíprocas en AMBAS páginas (`es` → `/`, `en` → `/en/`, `x-default` → `/`) — así Google sabe que son la misma página en dos idiomas y le muestra la correcta a cada buscador.
+  - Meta/og/twitter y los 3 bloques JSON-LD (WebSite, LocalBusiness + catálogo de servicios, FAQPage) traducidos al inglés.
+  - Rutas relativas ajustadas (`../config.js`, `../demos/...`, `../mantenimiento-web.html`, `../politica-privacidad.html`) porque la página vive un nivel más adentro.
+  - `sitemap.xml` ya incluye las dos URLs con sus anotaciones `hreflang`.
+  - **Cómo se generó**: con un script de Node (no quedó en el repo, se usó una sola vez) que tomó las traducciones que YA existían en el objeto `T` de `index.html` (el botón EN/ES ya traducía absolutamente todo, incluidas las 6 preguntas frecuentes) y las "congeló" en el HTML estático de `en/index.html`, en vez de dejarlas solo para cuando el JS corre en el navegador. El resto del JavaScript (galería de ejemplos, agenda, formulario) se dejó intacto — esas partes ya tenían su propio sistema de traducción en tiempo real (objetos `TR`/`MSGS`) y funcionan solas en inglés porque la página arranca con `LANG = 'en'` por defecto.
+  - **Importante al editar contenido a futuro**: si cambias texto en `index.html` (los `data-t`/`data-tph`, el `<title>`/meta, o los JSON-LD), `en/index.html` NO se actualiza solo — hay que repetir el cambio ahí también (o pedir que se regenere el archivo completo). Son dos archivos independientes, no una plantilla compartida.
+  - **Pendiente**: el dominio real todavía está pendiente (ver arriba) — en cuanto se compre, además de reemplazar la URL en todos los archivos ya mencionados, hay que actualizarla también en `en/index.html` y en las dos entradas nuevas de `sitemap.xml`.
 
 ## Conversiones (Google Ads) y Analytics
 - Andamio ya instalado en `index.html`: `window.SJ_TRACK = { GADS_ID:'', GADS_LABELS:{whatsapp:'',form:'',call:''}, GA4_ID:'' }`.
