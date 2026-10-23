@@ -1,4 +1,52 @@
+# Buscadores y asistentes de IA (ChatGPT, Claude, Gemini, Perplexity, etc.) son bienvenidos.
+# El panel privado (CRM) no necesita aparecer en buscadores.
+
 User-agent: *
 Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: GPTBot
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: Claude-User
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /demos/crm-campanas.html
+
+User-agent: Bingbot
+Allow: /
+Disallow: /demos/crm-campanas.html
 
 Sitemap: https://keysmarketingdigital.com/sitemap.xml

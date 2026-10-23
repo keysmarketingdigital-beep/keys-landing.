@@ -1,0 +1,43 @@
+# KEYS Marketing Digital
+
+> Agencia de marketing digital y tecnología para negocios. Creamos landing pages, catálogos online, sistemas de reservas, chatbots y automatización por WhatsApp, y CRM con campañas. Trabajamos de forma remota con negocios en Colombia, Estados Unidos y otros países, en español e inglés.
+
+> Digital marketing and technology agency for businesses: landing pages, online catalogs, booking systems, chatbots and WhatsApp automation, and CRM with campaigns. We work remotely with businesses in the United States, Colombia and worldwide, in English and Spanish.
+
+## Contacto / Contact
+
+- WhatsApp: +57 304 555 0119 (https://wa.me/573045550119)
+- Email: keysmarketingdigital@gmail.com
+- Reunión inicial gratis de 30 minutos / Free 30-minute first meeting: https://keysmarketingdigital.com/#agenda
+
+## Páginas / Pages
+
+- [Inicio (español)](https://keysmarketingdigital.com/): servicios, prototipos, proceso y preguntas frecuentes
+- [Home (English)](https://keysmarketingdigital.com/en/): services, prototypes, process and FAQ
+- [Mantenimiento web](https://keysmarketingdigital.com/mantenimiento-web.html): actualizaciones, copias de seguridad, seguridad, velocidad y cambios de contenido para páginas web de negocios
+- [Política de privacidad](https://keysmarketingdigital.com/politica-privacidad.html)
+
+## Servicios / Services
+
+- Creación de landing page y mantenimiento / Landing page creation & maintenance
+- Vitrina virtual / catálogo online / Online catalog
+- Sistema de reservas y agenda de citas / Booking and appointment scheduling system
+- Chatbots y automatización por WhatsApp / Chatbots and WhatsApp automation
+- CRM y marketing digital / CRM and digital marketing
+
+## Prototipos y ejemplos / Prototypes and examples
+
+- [Catálogo virtual / Online catalog](https://vitrinavirtual.netlify.app/): Tu catálogo en línea para que tus clientes vean tus productos, los pidan por WhatsApp y vuelvan a comprar. Vendes a cualquier hora, sin depender de estar disponible, y tu negocio proyecta una imagen profesional que genera confianza. Ideal para: Barbería, Uñas, Cejas, Pestañas, Spa, Estética facial, Estética corporal, Salones de belleza.
+- [Plataforma para restaurantes / Restaurant platform](https://keysmarketingdigital.com/demos/cocina-oculta.html): Tu propio canal de pedidos y domicilios, sin pagar comisiones a terceros. Tus clientes ven el menú, piden y pagan, mientras tú recibes todo organizado. Más pedidos, menos llamadas y una operación más ordenada. Ideal para: Restaurantes, Cocinas ocultas, Comidas rápidas, Domicilios, Postres y repostería, Cafeterías.
+- [Página web profesional / Professional website](https://silver-bubblegum-ea769c.netlify.app/#faq): Una página que transmite confianza y convierte visitas en citas. Tus clientes conocen tus servicios, ven tus precios y agendan en línea o te escriben por WhatsApp, sin llamadas ni esperas. Tu presencia profesional, disponible las 24 horas. Ideal para: Consultorios médicos, Odontología, Psicología, Fisioterapia, Nutrición, Profesionales independientes.
+- [Sistema de agenda y citas / Booking & appointment system](https://silver-bubblegum-ea769c.netlify.app/): Una herramienta para ordenar tus citas y dejar de perder tiempo coordinando por mensajes. Cada rol tiene su vista, los recordatorios reducen las inasistencias y tienes el control de tu agenda en un solo lugar. Ideal para: Consultorios, Barberías, Salones y spa, Centros de estética, Profesionales con cita previa.
+- [Plataforma para servicios / Service platform](https://reformasycocinassj.com): Un sitio web completo para que un negocio de servicios se vea profesional, genere confianza y reciba más solicitudes. Presenta tu oferta, muestra tus trabajos con fotos, deja que tus clientes agenden visitas y te escriban por WhatsApp. Lo adaptamos a tu marca y a los servicios que ofreces. Ideal para: Reformas y remodelación, Construcción, Mantenimiento, Plomería, Electricidad, Carpintería, Jardinería, Servicios para el hogar.
+- [Portal para contadores y sus clientes / Portal for accountants & clients](https://mecsolucionescontables.netlify.app/): Una plataforma web donde tus clientes suben sus documentos y siguen el estado de su declaración de renta, mientras tú gestionas todo desde un solo panel. Menos mensajes por WhatsApp, menos papeles perdidos y un servicio que se ve profesional. También puede incluir herramientas financieras para tus clientes. La adaptamos a tu marca. Ideal para: Contadores independientes, Firmas contables, Asesores tributarios, Declaración de renta, Outsourcing contable, Asesores financieros.
+
+## Cómo trabajamos / How we work
+
+- El precio se define en la reunión inicial gratis, antes de empezar y sin costos ocultos. / Pricing is set in the free first meeting, before starting, with no hidden costs.
+- El montaje toma 10 días hábiles una vez definido el alcance; antes se muestra un prototipo. / Setup takes 10 business days once scope is defined; a prototype is shown first.
+- Se trabaja con el WhatsApp y las herramientas que el negocio ya usa. / We work with the WhatsApp and tools the business already uses.
+- El dominio, las cuentas y los datos quedan a nombre del cliente. / The domain, accounts and data belong to the client.
+- Después de la entrega: capacitación, soporte y ajustes continuos. / After delivery: training, support and ongoing adjustments.
