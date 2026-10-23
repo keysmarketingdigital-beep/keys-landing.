@@ -404,6 +404,25 @@ footer{border-top:1px solid #141C2A}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
+<style id="luz-fondo">
+/* ===== Destellos de luz de fondo (23 oct 2026) ===== */
+html,body{overflow-x:clip}
+.hero{isolation:isolate}
+.hero::before{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(10px)}
+.hero::before{width:760px;height:620px;right:-120px;top:-60px;background:radial-gradient(closest-side,rgba(53,229,208,.40),rgba(53,229,208,.12) 55%,transparent)}
+.sec{position:relative}
+.sec::before{content:"";position:absolute;z-index:-1;pointer-events:none;width:780px;height:640px;top:-60px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(53,229,208,.22),rgba(53,229,208,.06) 60%,transparent)}
+.sec:nth-of-type(odd)::before{left:-300px}
+.sec:nth-of-type(even)::before{right:-300px;background:radial-gradient(closest-side,rgba(90,140,255,.20),rgba(53,229,208,.07) 60%,transparent)}
+.sec::after{content:"";position:absolute;z-index:-1;pointer-events:none;left:50%;top:0;transform:translateX(-50%);width:min(900px,90%);height:1px;
+  background:linear-gradient(90deg,transparent,rgba(53,229,208,.35),transparent)}
+#agenda,.faq{position:relative}
+#agenda::before{opacity:1.4;content:"";position:absolute;z-index:-1;pointer-events:none;width:900px;height:700px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(closest-side,rgba(53,229,208,.24),transparent)}
+.detail,.agenda{box-shadow:0 0 0 1px rgba(53,229,208,.06),0 30px 120px -40px rgba(53,229,208,.22)}
+.btn-main{box-shadow:0 8px 30px -8px rgba(53,229,208,.55)}
+</style>
 </head>
 <body>
 
