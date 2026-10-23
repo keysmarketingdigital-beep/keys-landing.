@@ -434,6 +434,11 @@ body.unlocked #authGate{display:none}
       method: 'DELETE', headers: restHeaders()
     }).then(handleRest);
   }
+  function restPatchWhere(table, query, body) {
+    return fetch(CFG.SUPABASE_URL + '/rest/v1/' + table + '?' + query, {
+      method: 'PATCH', headers: restHeaders({ Prefer: 'return=representation' }), body: JSON.stringify(body)
+    }).then(handleRest);
+  }
   function restDelete(table, id) {
     return fetch(CFG.SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + encodeURIComponent(id), {
       method: 'DELETE', headers: restHeaders()
@@ -607,6 +612,17 @@ body.unlocked #authGate{display:none}
       }).then(function () {
         return restPatch('chat_conversations', convId, { last_message_at: new Date().toISOString() });
       });
+    },
+    unreadCount: function () {
+      return restGet('chat_messages_widget?tenant_id=eq.' + TENANT_ID + '&sender=eq.visitante&read_at=is.null&select=conversation_id')
+        .then(function (rows) {
+          var set = {};
+          (rows || []).forEach(function (r) { set[r.conversation_id] = true; });
+          return Object.keys(set).length;
+        });
+    },
+    markConvRead: function (convId) {
+      return restPatchWhere('chat_messages_widget', 'conversation_id=eq.' + convId + '&sender=eq.visitante&read_at=is.null', { read_at: new Date().toISOString() });
     }
   } : {
     leads: function () { return Promise.resolve(loadLocal(LKEY)); },
@@ -698,7 +714,9 @@ body.unlocked #authGate{display:none}
     // no hay nada que mostrar aquí.
     conversations: function () { return Promise.resolve([]); },
     convMessages: function () { return Promise.resolve([]); },
-    sendReply: function () { return Promise.reject(new Error('El chat solo funciona con Supabase conectado.')); }
+    sendReply: function () { return Promise.reject(new Error('El chat solo funciona con Supabase conectado.')); },
+    unreadCount: function () { return Promise.resolve(0); },
+    markConvRead: function () { return Promise.resolve(); }
   };
 
   /* ---------- Estado de conexión ---------- */
@@ -1199,7 +1217,17 @@ body.unlocked #authGate{display:none}
     document.querySelectorAll('.conv-item').forEach(function (el) { el.classList.toggle('on', el.getAttribute('data-id') === id); });
     var row = (window.__convs || []).find(function (c) { return c.id === id; });
     $('convTitle').textContent = (row && row.visitor_name) || 'Visitante sin nombre';
+    API.markConvRead(id).then(refreshBadge).catch(function () {});
   }
+  function refreshBadge() {
+    API.unreadCount().then(function (n) {
+      var el = $('msgsBadge');
+      if (!n) { el.hidden = true; el.textContent = ''; return; }
+      el.hidden = false; el.textContent = n > 99 ? '99+' : String(n);
+    }).catch(function () {});
+  }
+  refreshBadge();
+  setInterval(refreshBadge, 30000);
   function loadConvMsgs() {
     if (!activeConvId) return;
     API.convMessages(activeConvId).then(function (rows) {
