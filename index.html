@@ -87,6 +87,13 @@ button{font:inherit;color:inherit}
 
 /* nav */
 .top{position:sticky;top:0;z-index:20;background:rgba(8,11,18,.86);backdrop-filter:blur(10px);border-bottom:1px solid transparent}
+.lang-banner{background:var(--card);border-bottom:1px solid var(--line2)}
+.lang-banner-in{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px;padding:10px 32px;font-size:13.5px;color:var(--soft)}
+.lang-banner-link{color:var(--acc);font-weight:600;text-decoration:none;white-space:nowrap}
+.lang-banner-link:hover{text-decoration:underline}
+#langBannerClose{margin-left:auto;background:none;border:none;color:var(--dim);cursor:pointer;font-size:14px;padding:4px}
+#langBannerClose:hover{color:var(--txt)}
+@media (max-width:560px){.lang-banner-in{padding:10px 16px}}
 .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--txt)}
 .brand span{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:26px;letter-spacing:3px}
@@ -404,6 +411,52 @@ footer{border-top:1px solid #141C2A}
 </style>
 </head>
 <body>
+
+<div id="langBanner" class="lang-banner" hidden>
+  <div class="wrap lang-banner-in">
+    <span id="langBannerText"></span>
+    <a id="langBannerLink" class="lang-banner-link" href="en/">
+      <span id="langBannerLinkText"></span> →
+    </a>
+    <button id="langBannerClose" type="button" aria-label="Cerrar aviso">✕</button>
+  </div>
+</div>
+<script>
+(function () {
+  'use strict';
+  // Google recomienda NO redirigir automáticamente según el idioma del
+  // navegador cuando el sitio ya usa hreflang (como este) — puede estorbar
+  // a que Google indexe bien la versión en español, y a alguien que
+  // comparte este link en español sin querer le cambiaría el idioma solo.
+  // En vez de redirigir, mostramos un aviso discreto de que puede cambiar
+  // de idioma para navegar mejor, y que la persona decida — se puede
+  // cerrar y no vuelve a salir en ese navegador.
+  try {
+    if (localStorage.getItem('keys_lang')) return; // ya eligió idioma antes en esta página
+    if (localStorage.getItem('keys_lang_banner_dismissed')) return;
+  } catch (e) {}
+
+  var BL = ((navigator.language || navigator.userLanguage || '').slice(0, 2) || '').toLowerCase();
+  if (BL === 'es') return; // ya está en su idioma
+
+  var MSG = {
+    en: { text: 'For a better experience, you can switch the language of this page —', link: 'View this page in English' },
+    pt: { text: 'Para uma navegação melhor, você pode mudar o idioma desta página —', link: 'Ver esta página em inglês' },
+    fr: { text: 'Pour une meilleure navigation, vous pouvez changer la langue de cette page —', link: 'Voir cette page en anglais' },
+    de: { text: 'Für eine bessere Navigation können Sie die Sprache dieser Seite ändern —', link: 'Diese Seite auf Englisch ansehen' },
+    it: { text: 'Per una navigazione migliore, puoi cambiare la lingua di questa pagina —', link: 'Vedi questa pagina in inglese' }
+  }[BL] || { text: 'For a better experience, you can switch the language of this page —', link: 'View this page in English' };
+
+  var el = document.getElementById('langBanner');
+  document.getElementById('langBannerText').textContent = MSG.text;
+  document.getElementById('langBannerLinkText').textContent = MSG.link;
+  el.hidden = false;
+  document.getElementById('langBannerClose').addEventListener('click', function () {
+    el.hidden = true;
+    try { localStorage.setItem('keys_lang_banner_dismissed', '1'); } catch (e) {}
+  });
+})();
+</script>
 
 <header class="top">
 <div class="wrap nav">
