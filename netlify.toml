@@ -14,6 +14,13 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'"
 
+# Imágenes: caché de 1 año. Si una imagen cambia, se guarda con OTRO nombre
+# (si se reemplaza con el mismo nombre, los visitantes seguirían viendo la vieja).
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # Las demos son páginas completas con su propio código: se les permite lo suyo.
 [[headers]]
   for = "/demos/*"
