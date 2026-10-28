@@ -1356,16 +1356,26 @@ html,body{overflow-x:clip}
 #kc-send{background:var(--acc);color:var(--onacc);border:none;border-radius:8px;padding:0 16px;font-weight:700;cursor:pointer;font-size:14px}
 #kc-send[disabled]{opacity:.5;cursor:wait}
 #kc-err{color:var(--err);font-size:12.5px;padding:0 14px 10px}
+#kc-head .t span.kc-any{color:var(--acc);font-size:11px;margin-top:5px}
+#kc-teaser{position:fixed;bottom:34px;right:94px;z-index:92;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:9px 10px 9px 14px;box-shadow:0 10px 30px rgba(0,0,0,.4);font-family:'Sora',sans-serif;font-size:13px;color:var(--txt);max-width:calc(100vw - 120px);opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
+#kc-teaser.on{opacity:1;transform:none}
+#kc-teaser[hidden]{display:none}
+#kc-teaser::after{content:"";position:absolute;right:-6px;bottom:14px;width:10px;height:10px;background:var(--card);border-right:1px solid var(--line2);border-top:1px solid var(--line2);transform:rotate(45deg)}
+#kc-teaser-txt{cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .25s}
+#kc-teaser-x{background:none;border:none;color:var(--dim);cursor:pointer;font-size:13px;padding:2px 4px;line-height:1}
+#kc-teaser-x:hover{color:var(--txt)}
 @media (max-width:480px){#kc-panel{right:16px;bottom:16px;left:16px;width:auto}}
 </style>
 <button id="kc-btn" type="button" aria-label="Abrir chat — disponible en varios idiomas"><span id="kc-badge"></span><span id="kc-globe" aria-hidden="true">🌐</span>
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
 </button>
+<div id="kc-teaser" hidden><span id="kc-teaser-txt">🌐</span><button id="kc-teaser-x" type="button" aria-label="Cerrar">✕</button></div>
 <div id="kc-panel">
   <div id="kc-head">
     <div class="t">
       <b id="kc-t-title">Chat con KEYS</b>
       <span id="kc-t-note">Escribe en el idioma que prefieras: tu mensaje llega traducido automáticamente y nuestra respuesta vuelve traducida al tuyo.</span>
+      <span id="kc-t-any" class="kc-any"></span>
     </div>
     <button id="kc-close" type="button" aria-label="Cerrar">✕</button>
   </div>
@@ -1463,6 +1473,11 @@ html,body{overflow-x:clip}
 
   $('kc-t-title').textContent = STR.title;
   $('kc-t-note').textContent = STR.note;
+  // Línea extra en otro idioma, para que SIEMPRE se note que el chat es multilingüe
+  // (aunque el navegador del visitante esté en español verá también el aviso en inglés).
+  $('kc-t-any').textContent = LANG === 'en'
+    ? '🌐 También puedes escribirnos en español o en cualquier otro idioma.'
+    : '🌐 You can write to us in English or any other language.';
   $('kc-input').placeholder = STR.placeholder;
 
   var FN_URL = CFG.SUPABASE_URL + '/functions/v1/chat-public';
@@ -1578,8 +1593,37 @@ html,body{overflow-x:clip}
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('kc-send').click(); }
   });
 
+  // ---- Burbuja "escríbenos en tu idioma" junto al botón (antes de abrir el chat) ----
+  var TEASER_KEY = 'keys_chat_teaser_off';
+  var TEASE = { es: 'Escríbenos en tu idioma', en: 'Write to us in your language', pt: 'Escreva no seu idioma',
+    fr: 'Écrivez-nous dans votre langue', de: 'Schreiben Sie uns in Ihrer Sprache', it: 'Scrivici nella tua lingua' };
+  var teaseOrder = [LANG].concat(['es', 'en', 'pt', 'fr', 'de', 'it'].filter(function (l) { return l !== LANG; }));
+  var teaseTimer = null, teaseIdx = 0;
+  function teaserOff() { try { return localStorage.getItem(TEASER_KEY) === '1'; } catch (e) { return false; } }
+  function hideTeaser(remember) {
+    var t = $('kc-teaser'); t.classList.remove('on');
+    if (teaseTimer) { clearInterval(teaseTimer); teaseTimer = null; }
+    setTimeout(function () { t.hidden = true; }, 350);
+    if (remember) { try { localStorage.setItem(TEASER_KEY, '1'); } catch (e) {} }
+  }
+  function showTeaser() {
+    if (open || teaserOff()) return;
+    var t = $('kc-teaser'), txt = $('kc-teaser-txt');
+    txt.textContent = '🌐 ' + TEASE[teaseOrder[0]];
+    t.hidden = false; requestAnimationFrame(function () { t.classList.add('on'); });
+    teaseTimer = setInterval(function () {
+      teaseIdx = (teaseIdx + 1) % teaseOrder.length;
+      txt.style.opacity = 0;
+      setTimeout(function () { txt.textContent = '🌐 ' + TEASE[teaseOrder[teaseIdx]]; txt.style.opacity = 1; }, 250);
+    }, 2600);
+  }
+  setTimeout(showTeaser, 3500);
+  $('kc-teaser-txt').addEventListener('click', function () { $('kc-btn').click(); });
+  $('kc-teaser-x').addEventListener('click', function () { hideTeaser(true); });
+
   $('kc-btn').addEventListener('click', function () {
     open = !open;
+    if (open) hideTeaser(true);
     $('kc-panel').classList.toggle('open', open);
     if (open) {
       if (convId) { poll(); if (!pollTimer) pollTimer = setInterval(poll, 4000); }
