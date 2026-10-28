@@ -279,7 +279,10 @@ body.unlocked #authGate{display:none}
       <div class="card" id="convDetail" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <h3 id="convTitle" style="font-size:16px"></h3>
-          <span id="convLang" class="badge" style="font-size:11px"></span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span id="convLang" class="badge" style="font-size:11px"></span>
+            <button class="btn sm danger" type="button" id="convDelBtn" title="Quitar esta conversación de la bandeja">Eliminar chat</button>
+          </div>
         </div>
         <div id="convMsgs" class="msg-thread"></div>
         <div style="margin-top:12px">
@@ -599,7 +602,7 @@ body.unlocked #authGate{display:none}
     },
     delCat: function (id) { return restDelete('categories', id); },
     conversations: function () {
-      return restGet('chat_conversations?tenant_id=eq.' + TENANT_ID + '&order=last_message_at.desc&select=id,visitor_name,visitor_lang,last_message_at,contact_id');
+      return restGet('chat_conversations?tenant_id=eq.' + TENANT_ID + '&status=neq.eliminada&order=last_message_at.desc&select=id,visitor_name,visitor_lang,last_message_at,contact_id');
     },
     convMessages: function (convId) {
       return restGet('chat_messages_widget?conversation_id=eq.' + convId + '&tenant_id=eq.' + TENANT_ID + '&order=created_at.asc');
@@ -623,6 +626,12 @@ body.unlocked #authGate{display:none}
     },
     markConvRead: function (convId) {
       return restPatchWhere('chat_messages_widget', 'conversation_id=eq.' + convId + '&sender=eq.visitante&read_at=is.null', { read_at: new Date().toISOString() });
+    },
+    deleteConv: function (convId) {
+      // Se marca como leída (para que no cuente en el numerito) y se oculta.
+      return API.markConvRead(convId).then(function () {
+        return restPatchWhere('chat_conversations', 'id=eq.' + convId + '&tenant_id=eq.' + TENANT_ID, { status: 'eliminada' });
+      });
     }
   } : {
     leads: function () { return Promise.resolve(loadLocal(LKEY)); },
@@ -716,7 +725,8 @@ body.unlocked #authGate{display:none}
     convMessages: function () { return Promise.resolve([]); },
     sendReply: function () { return Promise.reject(new Error('El chat solo funciona con Supabase conectado.')); },
     unreadCount: function () { return Promise.resolve(0); },
-    markConvRead: function () { return Promise.resolve(); }
+    markConvRead: function () { return Promise.resolve(); },
+    deleteConv: function () { return Promise.resolve(); }
   };
 
   /* ---------- Estado de conexión ---------- */
@@ -1190,19 +1200,41 @@ body.unlocked #authGate{display:none}
       .catch(function (err) { $('convList').innerHTML = '<div class="empty">No pude cargar los mensajes: ' + esc(err.message) + '</div>'; });
   }
   function renderConvs(rows) {
-    if (!rows.length) { $('convList').innerHTML = '<div class="empty">Todavía no te ha escrito nadie por el chat de la web.</div>'; return; }
+    if (!rows.length) { $('convList').innerHTML = '<div class="empty">No hay conversaciones en tu bandeja. Cuando alguien te escriba por el chat de la web (o vuelva a escribir alguien cuyo chat eliminaste), aparecerá aquí.</div>'; return; }
     $('convList').innerHTML = rows.map(function (c) {
       var when = c.last_message_at ? new Date(c.last_message_at).toLocaleString('es-CO', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
       return '<div class="item conv-item' + (c.id === activeConvId ? ' on' : '') + '" data-id="' + c.id + '" data-lang="' + esc(c.visitor_lang || 'es') + '">' +
         '<div class="item-top"><span class="item-name">' + esc(c.visitor_name || 'Visitante sin nombre') + '</span>' +
         '<span class="badge">' + esc(langLabel(c.visitor_lang)) + '</span></div>' +
-        '<div class="item-sub">' + esc(when) + '</div></div>';
+        '<div class="item-top"><span class="item-sub">' + esc(when) + '</span>' +
+        '<button class="btn sm ghost" type="button" data-act="delconv" data-id="' + c.id + '" title="Quitar de la bandeja" style="padding:4px 9px">🗑</button></div></div>';
     }).join('');
   }
   $('convList').addEventListener('click', function (e) {
+    var del = e.target.closest('button[data-act="delconv"]');
+    if (del) { e.stopPropagation(); deleteConv(del.getAttribute('data-id')); return; }
     var it = e.target.closest('.conv-item'); if (!it) return;
     openConv(it.getAttribute('data-id'), it.getAttribute('data-lang') || 'es');
   });
+
+  // "Eliminar chat" = quitarlo de la bandeja (status 'eliminada'), no borrarlo:
+  // si esa persona vuelve a escribir desde su navegador, chat-public lo reabre
+  // con el historial. El lead en CRM · Leads no se toca.
+  function deleteConv(id) {
+    var row = (window.__convs || []).find(function (c) { return c.id === id; });
+    var name = (row && row.visitor_name) || 'este visitante';
+    if (!confirm('¿Eliminar el chat con ' + name + ' de tu bandeja?\n\n• Si esa persona vuelve a escribir, el chat reaparece con su historial.\n• Su contacto se queda en CRM · Leads.')) return;
+    API.deleteConv(id).then(function () {
+      if (activeConvId === id) {
+        activeConvId = null;
+        if (convPoll) { clearInterval(convPoll); convPoll = null; }
+        $('convDetail').style.display = 'none';
+        $('convEmpty').style.display = '';
+      }
+      refreshConvs(); refreshBadge();
+    }).catch(function (err) { alert('No se pudo eliminar: ' + err.message); });
+  }
+  $('convDelBtn').addEventListener('click', function () { if (activeConvId) deleteConv(activeConvId); });
 
   function openConv(id, lang) {
     activeConvId = id; activeConvLang = lang || 'es';
