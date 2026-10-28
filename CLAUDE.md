@@ -6,12 +6,12 @@ Landing de servicios de KEYS (Rionegro / Oriente Antioqueño). Un solo `index.ht
 - WhatsApp: 3045550119 (+57 304 555 0119)
 - Email: keysmarketingdigital@gmail.com
 - Zona: **atención remota** — Colombia, Estados Unidos (ya tiene una clienta en Florida) y otros países, en español e inglés. **No mencionar Rionegro ni el Oriente Antioqueño en el sitio** (pedido explícito, 23 oct 2026: no quiere que se vea como un negocio local). En los datos estructurados la dirección quedó solo con `addressCountry: CO` y `areaServed` = Colombia + Estados Unidos + todo el mundo (remoto).
-- Dominio: **pendiente** — el sitio usa `https://keysmarketingdigital.com/` como placeholder en canonical, og:url, JSON-LD, robots.txt y sitemap.xml. Cuando se compre el dominio real, reemplazar esa URL en todos esos archivos.
+- Dominio: **comprado el 28 oct 2026 en Netlify: `keysmarketingdigital.com`** (HTTPS Let's Encrypt activo, `www` redirige al principal; el placeholder ya coincide, no hay que reemplazar nada). Texto anterior sobre el placeholder, por historial — el sitio usa `https://keysmarketingdigital.com/` como placeholder en canonical, og:url, JSON-LD, robots.txt y sitemap.xml. Cuando se compre el dominio real, reemplazar esa URL en todos esos archivos.
 
 ## SEO / Google (ver `politica-privacidad.html`, `robots.txt`, `sitemap.xml`)
 - JSON-LD LocalBusiness + WebSite ya están en el `<head>` de `index.html`.
 - Falta: verificación de Google Search Console (dejar el archivo `googleXXXX.html` cuando se genere) y envío del sitemap.
-- Favicon actual: emoji 🔑 inline (no hay archivo de logo cuadrado todavía).
+- Favicon real (28 oct 2026): `favicon.svg` (llave turquesa→azul sobre fondo oscuro), `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` y `site.webmanifest`, enlazados en los 4 HTML. Reemplazó al emoji 🔑.
 - **Versión en inglés con URL propia — `/en/index.html` (22 oct 2026)**: antes solo había un botón EN/ES que cambiaba el texto con JavaScript en la misma URL — eso Google no lo reconoce como una versión en inglés real, ni la mostraría a alguien buscando en Estados Unidos. Ahora `en/index.html` es una página aparte, generada a partir de `index.html` con el texto en inglés "congelado" en el HTML (no depende de que el JS cargue para que Google la vea en inglés), con:
   - `<html lang="en">`, `<link rel="canonical" href=".../en/">`, y las etiquetas `hreflang` recíprocas en AMBAS páginas (`es` → `/`, `en` → `/en/`, `x-default` → `/`) — así Google sabe que son la misma página en dos idiomas y le muestra la correcta a cada buscador.
   - Meta/og/twitter y los 3 bloques JSON-LD (WebSite, LocalBusiness + catálogo de servicios, FAQPage) traducidos al inglés.
@@ -103,3 +103,9 @@ Los tres bloques pendientes de `supabase/migracion-keys-crm.sql` ya se corrieron
 ## No inventar
 - Teléfonos, años de experiencia, garantías, cifras o NIT que el cliente no haya dado.
 - El equipo del prototipo "Sistema de agenda y citas" es ficticio, excepto el nombre "Laura Restrepo" (antes Dra. Paola) que sí debe mantenerse como alias ficticio consistente.
+
+
+## Dominio, seguridad y medición (28 oct 2026)
+- `netlify.toml`: HSTS (`max-age=31536000`, sin `includeSubDomains`/`preload`) y CSP ampliada para que **Google Analytics / Ads funcionen** (scripts, conexiones y frames de googletagmanager, google-analytics, doubleclick, googleadservices). Sin esto el navegador los bloqueaba aunque se rellenaran los IDs. Si se agrega otra herramienta (Meta Pixel, etc.) hay que añadir su dominio a la CSP.
+- Nuevos: `404.html`, `.well-known/security.txt` (vence 2027-10-28, renovar), `sitemap.xml` con lastmod 2026-10-28.
+- **Pendiente del cliente**: verificar en Google Search Console por **DNS (registro TXT en Netlify DNS)**, mejor que archivo HTML porque el dominio ya está en Netlify DNS; luego enviar `sitemap.xml`; importar a Bing Webmaster Tools desde Search Console; crear GA4 (ID `G-…`) y Google Ads (`AW-…` y etiquetas) y rellenar `SJ_TRACK` en `index.html` y `en/index.html`; perfil de Google Business; 2FA en Netlify y GitHub.

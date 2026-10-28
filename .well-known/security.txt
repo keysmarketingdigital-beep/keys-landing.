@@ -1,0 +1,4 @@
+Contact: mailto:keysmarketingdigital@gmail.com
+Expires: 2027-10-28T00:00:00.000Z
+Preferred-Languages: es, en
+Canonical: https://keysmarketingdigital.com/.well-known/security.txt
