@@ -1250,12 +1250,20 @@ body.unlocked #authGate{display:none}
     var translateStep = activeConvLang === 'es'
       ? Promise.resolve(text)
       : fetch(CFG.SUPABASE_URL + '/functions/v1/chat-translate', {
-          method: 'POST', headers: restHeaders(), body: JSON.stringify({ text: text, target_lang: activeConvLang })
-        }).then(function (r) { return r.json(); }).then(function (j) { return j.translated || text; });
+          method: 'POST', headers: restHeaders(), body: JSON.stringify({ text: text, target_lang: activeConvLang, source_lang: 'es' })
+        }).then(function (r) { return r.json(); }).then(function (j) {
+          // Si el traductor falló, no mandar el español en silencio: preguntar.
+          if (j.warning || !j.translated) {
+            var ok = window.confirm('No se pudo traducir la respuesta a ' + langLabel(activeConvLang) + ' en este momento.\n\n¿Enviarla en español de todas formas? (Cancelar = no enviar y reintentar en un momento)');
+            if (!ok) throw new Error('__cancelado__');
+            return text;
+          }
+          return j.translated;
+        });
     translateStep
       .then(function (translated) { return API.sendReply(activeConvId, text, translated, activeConvLang); })
       .then(function () { $('convReply').value = ''; loadConvMsgs(); refreshConvs(); })
-      .catch(function (err) { $('convErr').textContent = 'No se pudo enviar: ' + err.message; })
+      .catch(function (err) { $('convErr').textContent = err.message === '__cancelado__' ? 'No se envió. Tu texto sigue ahí para reintentar.' : 'No se pudo enviar: ' + err.message; })
       .finally(function () { btn.disabled = false; btn.textContent = 'Enviar respuesta (se traduce sola)'; });
   });
 
