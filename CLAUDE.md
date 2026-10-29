@@ -48,6 +48,7 @@ Landing de servicios de KEYS (Rionegro / Oriente Antioqueño). Un solo `index.ht
 ## Conversiones (Google Ads) y Analytics
 - Andamio ya instalado en `index.html`: `window.SJ_TRACK = { GADS_ID:'', GADS_LABELS:{whatsapp:'',form:'',call:''}, GA4_ID:'' }`.
 - `trackLead('whatsapp'|'form'|'call')` ya está conectado: se dispara con cualquier clic a un enlace `wa.me/...` o `tel:...`, y al enviar el formulario de agenda (funciona igual conectado a Supabase o, como respaldo, sin conexión).
+- **GA4 conectado (29 oct 2026)**: ID `G-QD1Y5P1HTS` (propiedad "KEYS Marketing Digital" en la cuenta keysmarketingdigital@gmail.com, flujo web "keys web") puesto en `SJ_TRACK.GA4_ID` de los dos HTML; el cargador de gtag ya lo usa, no se pegó el snippet aparte.
 - **Pendiente del cliente**: el ID de Google Ads (`AW-...`) y las etiquetas de conversión por acción, y/o el ID de GA4 (`G-...`). En cuanto los tenga, se rellenan en `SJ_TRACK` y se vuelve a publicar — no hay que tocar nada más del código.
 
 ## CRM y Campañas (en vivo, conectado a Supabase) — `demos/crm-campanas.html`
