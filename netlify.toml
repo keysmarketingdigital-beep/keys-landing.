@@ -27,3 +27,12 @@
   for = "/demos/*"
   [headers.values]
     Content-Security-Policy = "default-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data: https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self'"
+
+# El subdominio .netlify.app no debe seguir sirviendo el sitio: redirige al
+# dominio propio (evita contenido duplicado y que los correos/enlaces viejos
+# muestren una URL distinta a la de la marca).
+[[redirects]]
+  from = "https://keys-digital.netlify.app/*"
+  to = "https://keysmarketingdigital.com/:splat"
+  status = 301
+  force = true

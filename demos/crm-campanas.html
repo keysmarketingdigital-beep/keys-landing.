@@ -558,6 +558,7 @@ body.unlocked #authGate{display:none}
     camps: function () { return restGet('campaigns?tenant_id=eq.' + TENANT_ID + '&order=scheduled_date.asc'); },
     saveCamp: function (f) {
       var payload = {
+        landing_url: CAMPAIGN_LINK,
         name: f.name,
         message: packProduct(f.product, f.message),
         channel_email: !!f.email,
@@ -984,12 +985,15 @@ body.unlocked #authGate{display:none}
   // función send-campaign-test de Supabase. Si el envío de prueba falla
   // (p. ej. falta el secreto KEYS_BREVO_API_KEY), la campaña igual queda
   // guardada: solo se avisa aparte, sin bloquear el guardado.
+  // Enlace del botón de los correos de campaña: siempre el dominio propio
+  // (no el subdominio .netlify.app) y con UTM para medir en Analytics.
+  var CAMPAIGN_LINK = 'https://keysmarketingdigital.com/?utm_source=email&utm_medium=campana';
   function sendCampaignTest(name, message, channelEmail) {
     if (!LIVE || !channelEmail) return Promise.resolve();
     return fetch(CFG.SUPABASE_URL + '/functions/v1/send-campaign-test', {
       method: 'POST',
       headers: restHeaders(),
-      body: JSON.stringify({ name: name, message: message, landing_url: 'https://keys-digital.netlify.app/', channel_email: true })
+      body: JSON.stringify({ name: name, message: message, landing_url: CAMPAIGN_LINK, channel_email: true })
     }).then(function (r) { return r.json().catch(function () { return {}; }); });
   }
   // Envío real (no de prueba): manda el correo de verdad solo a los leads
@@ -1013,7 +1017,7 @@ body.unlocked #authGate{display:none}
         method: 'POST',
         headers: restHeaders(),
         body: JSON.stringify({
-          name: c.name, message: parts.rest || c.message || '', landing_url: 'https://keys-digital.netlify.app/',
+          name: c.name, message: parts.rest || c.message || '', landing_url: CAMPAIGN_LINK,
           recipients: leads.map(function (l) { return { email: l.email, name: l.name }; })
         })
       }).then(function (r) { return r.json().catch(function () { return {}; }); }).then(function (res) {
