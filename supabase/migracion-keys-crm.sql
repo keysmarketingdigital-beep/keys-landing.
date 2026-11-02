@@ -598,3 +598,28 @@ drop policy if exists catalog_images_staff_delete on storage.objects;
 create policy catalog_images_staff_delete on storage.objects
   for delete to authenticated
   using (bucket_id = 'catalog-images' and public.my_role() in ('admin', 'developer', 'employee'));
+
+
+-- ============================================================
+-- 8. Carpetas de campañas (2 nov 2026)
+-- Cada lead y cada campaña pertenecen a UNA sola carpeta, para que las
+-- campañas no se mezclen (p. ej. "Crear landing page" vs "Mantenimiento web").
+-- Solo agrega una tabla y dos columnas opcionales; no toca datos existentes.
+-- ============================================================
+create table if not exists public.campaign_folders (
+  id uuid primary key default gen_random_uuid(),
+  tenant_id uuid not null references public.tenants(id) on delete cascade,
+  name text not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists campaign_folders_tenant_idx on public.campaign_folders (tenant_id);
+alter table public.campaign_folders enable row level security;
+drop policy if exists campaign_folders_tenant_staff on public.campaign_folders;
+create policy campaign_folders_tenant_staff on public.campaign_folders
+  for all to authenticated
+  using ((tenant_id = auth_tenant_id()) and (my_role() = any (array['admin'::text, 'developer'::text, 'employee'::text])))
+  with check ((tenant_id = auth_tenant_id()) and (my_role() = any (array['admin'::text, 'developer'::text, 'employee'::text])));
+alter table public.contacts  add column if not exists folder_id uuid references public.campaign_folders(id) on delete set null;
+alter table public.campaigns add column if not exists folder_id uuid references public.campaign_folders(id) on delete set null;
+create index if not exists contacts_folder_idx  on public.contacts  (folder_id);
+create index if not exists campaigns_folder_idx on public.campaigns (folder_id);
