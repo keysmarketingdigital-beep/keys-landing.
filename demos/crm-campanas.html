@@ -157,6 +157,7 @@ body.unlocked #authGate{display:none}
 <div class="wrap">
   <div class="tabs">
     <button class="tab on" id="tabBtnCrm" data-tab="crm">CRM · Leads</button>
+    <button class="tab" id="tabBtnFol" data-tab="fol">Carpetas</button>
     <button class="tab" id="tabBtnCat" data-tab="cat">Categorías</button>
     <button class="tab" id="tabBtnCamp" data-tab="camp">Campañas</button>
     <button class="tab" id="tabBtnMsgs" data-tab="msgs">Mensajes <span id="msgsBadge" class="msgs-badge" hidden></span></button>
@@ -176,6 +177,8 @@ body.unlocked #authGate{display:none}
           <input type="tel" id="lWa" placeholder="300 123 4567">
           <label>Correo</label>
           <input type="email" id="lEmail" placeholder="nombre@correo.com">
+          <label>Carpeta (grupo de campañas)</label>
+          <select id="lFolder"></select>
           <label>Interés / producto</label>
           <input type="text" id="lProduct" placeholder="Ej. kit de tratamiento capilar">
           <label>Mensaje</label>
@@ -186,6 +189,8 @@ body.unlocked #authGate{display:none}
         <div class="import">
           <h4>Carga masiva</h4>
           <p>Sube un CSV o Excel (.xlsx) con tus contactos. Si trae columnas como <span class="mono">nombre</span>, <span class="mono">correo</span> / <span class="mono">email</span> y <span class="mono">whatsapp</span> / <span class="mono">teléfono</span>, las detecta solas — el orden de las columnas no importa.</p>
+          <label>Guardar los contactos importados en la carpeta</label>
+          <select id="importFolder"></select>
           <label class="filebtn">⬆ Elegir archivo CSV o Excel
             <input type="file" id="fileImport" accept=".csv,.xlsx,.xls,text/csv">
           </label>
@@ -194,7 +199,30 @@ body.unlocked #authGate{display:none}
       </div>
 
       <div>
+        <div style="margin-bottom:10px"><label>Ver leads de la carpeta</label><select id="leadFolderFilter"></select></div>
         <div id="leadsList" class="list"><div class="loading">Cargando leads…</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="viewFol" style="display:none">
+    <p style="color:var(--dim);font-size:13px;margin-bottom:14px">Cada carpeta agrupa leads y campañas de un mismo servicio (por ejemplo "Crear landing page" o "Mantenimiento web"). Un lead está en una sola carpeta, y una campaña solo se envía a los leads de su carpeta — así nunca le ofreces algo que ya tiene.</p>
+    <div class="grid2">
+      <div class="card">
+        <h3 id="folFormTitle">Nueva carpeta</h3>
+        <form id="folForm">
+          <label>Nombre *</label>
+          <input type="text" id="folName" required placeholder="Ej. Mantenimiento web">
+          <label>Descripción</label>
+          <textarea id="folDesc" rows="3" placeholder="Para quién es esta carpeta (ej. clientes que ya tienen landing)…"></textarea>
+          <div class="row2">
+            <button class="btn" type="submit" id="folSubmitBtn" style="flex:1">Crear carpeta</button>
+            <button class="btn ghost" type="button" id="folCancelBtn" style="display:none">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <div id="folList" class="list"><div class="loading">Cargando carpetas…</div></div>
       </div>
     </div>
   </section>
@@ -251,7 +279,9 @@ body.unlocked #authGate{display:none}
           </div>
           <label>Mensaje</label>
           <textarea id="cMsg" rows="3" placeholder="Elige un servicio arriba para rellenar un mensaje listo, o escribe el tuyo…"></textarea>
-          <label>Destinatarios</label>
+          <label>Carpeta *</label>
+          <select id="cFolder"></select>
+          <label>Destinatarios <span style="color:var(--dim);font-weight:400">(solo leads de esa carpeta)</span></label>
           <div class="row2" style="margin-bottom:6px">
             <button class="btn sm ghost" type="button" id="cLeadsAll">Marcar todos</button>
             <button class="btn sm ghost" type="button" id="cLeadsNone">Desmarcar todos</button>
@@ -266,6 +296,7 @@ body.unlocked #authGate{display:none}
         </form>
       </div>
       <div>
+        <div style="margin-bottom:10px"><label>Ver campañas de la carpeta</label><select id="campFolderFilter"></select></div>
         <div id="campList" class="list"><div class="loading">Cargando campañas…</div></div>
       </div>
     </div>
@@ -315,7 +346,7 @@ body.unlocked #authGate{display:none}
   // Tenant real creado para esta demo (ver supabase/migracion-keys-crm.sql, sección 7).
   // Aislado de todos los demás negocios: ningún dato de AM Belleza ni de otro cliente pasa por aquí.
   var TENANT_ID = 'b0595b11-afa2-41de-8296-51ead8b14ecf';
-  var LKEY = 'keys_crmdemo_leads_v1', CKEY = 'keys_crmdemo_camps_v1', TKEY = 'keys_crmdemo_cats_v1', RKEY = 'keys_crmdemo_camprecip_v1';
+  var LKEY = 'keys_crmdemo_leads_v1', CKEY = 'keys_crmdemo_camps_v1', TKEY = 'keys_crmdemo_cats_v1', RKEY = 'keys_crmdemo_camprecip_v1', FKEY = 'keys_crmdemo_folders_v1';
   var GATE_LOCAL_KEY = 'keys_crmdemo_unlocked_v1';
   var AUTH_TOKEN_KEY = 'keys_crmdemo_auth_v1';
   // Clave de respaldo solo para el caso en que Supabase no esté disponible
@@ -356,7 +387,7 @@ body.unlocked #authGate{display:none}
   function unlockUI() {
     document.body.classList.add('unlocked');
     $('logoutBtn').style.display = '';
-    refreshLeads(); refreshCats(); refreshCamps();
+    refreshFolders().then(function () { refreshLeads(); refreshCamps(); }); refreshCats();
   }
 
   function initGate() {
@@ -509,6 +540,20 @@ body.unlocked #authGate{display:none}
     leads: function () {
       return restGet('contacts?tenant_id=eq.' + TENANT_ID + '&order=created_at.desc');
     },
+    folders: function () { return restGet('campaign_folders?tenant_id=eq.' + TENANT_ID + '&order=created_at.asc'); },
+    saveFolder: function (f) {
+      var payload = { name: f.name, description: f.description || null };
+      if (f.id) return restPatch('campaign_folders', f.id, payload);
+      payload.tenant_id = TENANT_ID;
+      return restPost('campaign_folders', payload);
+    },
+    delFolder: function (id) {
+      // Los leads y campañas de la carpeta quedan "sin carpeta" (no se borran).
+      return restPatchWhere('contacts', 'folder_id=eq.' + id + '&tenant_id=eq.' + TENANT_ID, { folder_id: null }).then(function () {
+        return restPatchWhere('campaigns', 'folder_id=eq.' + id + '&tenant_id=eq.' + TENANT_ID, { folder_id: null });
+      }).then(function () { return restDelete('campaign_folders', id); });
+    },
+    setLeadFolder: function (id, folderId) { return restPatch('contacts', id, { folder_id: folderId || null }); },
     addLead: function (f) {
       var phone = f.whatsapp ? digits(f.whatsapp) : '';
       var lookup = phone
@@ -519,19 +564,22 @@ body.unlocked #authGate{display:none}
         var interests = (ex && ex.interests) ? ex.interests.slice() : [];
         if (f.product && interests.indexOf(f.product) === -1) interests.push(f.product);
         if (ex) {
-          return restPatch('contacts', ex.id, {
+          var upd = {
             name: f.name, email: f.email || ex.email, interests: interests,
             notes: f.message || ex.notes, last_contact_at: new Date().toISOString()
-          });
+          };
+          if (f.folderId) upd.folder_id = f.folderId;
+          return restPatch('contacts', ex.id, upd);
         }
         return restPost('contacts', {
           tenant_id: TENANT_ID, name: f.name, email: f.email || null, phone: phone || null,
           source: 'manual', interests: interests, notes: f.message || null, stage: 'nuevo',
+          folder_id: f.folderId || null,
           last_contact_at: new Date().toISOString()
         });
       });
     },
-    bulkLeads: function (rows) {
+    bulkLeads: function (rows, folderId) {
       return restGet('contacts?tenant_id=eq.' + TENANT_ID + '&select=id,phone').then(function (existing) {
         var byPhone = {};
         (existing || []).forEach(function (r) { if (r.phone) byPhone[digits(r.phone)] = r.id; });
@@ -543,9 +591,10 @@ body.unlocked #authGate{display:none}
             var patch = {};
             if (r.name) patch.name = r.name;
             if (r.email) patch.email = r.email;
+            if (folderId) patch.folder_id = folderId;
             updates.push(restPatch('contacts', byPhone[phone], patch));
           } else {
-            toInsert.push({ tenant_id: TENANT_ID, name: r.name || null, email: r.email || null, phone: phone || null, source: 'import', stage: 'nuevo' });
+            toInsert.push({ tenant_id: TENANT_ID, name: r.name || null, email: r.email || null, phone: phone || null, source: 'import', stage: 'nuevo', folder_id: folderId || null });
           }
           n++;
         });
@@ -559,6 +608,7 @@ body.unlocked #authGate{display:none}
     saveCamp: function (f) {
       var payload = {
         landing_url: CAMPAIGN_LINK,
+        folder_id: f.folderId || null,
         name: f.name,
         message: packProduct(f.product, f.message),
         channel_email: !!f.email,
@@ -637,6 +687,23 @@ body.unlocked #authGate{display:none}
     }
   } : {
     leads: function () { return Promise.resolve(loadLocal(LKEY)); },
+    folders: function () { return Promise.resolve(loadLocal(FKEY)); },
+    saveFolder: function (f) {
+      var rows = loadLocal(FKEY);
+      if (f.id) rows.forEach(function (x) { if (x.id === f.id) { x.name = f.name; x.description = f.description || null; } });
+      else rows.push({ id: rid('f'), name: f.name, description: f.description || null, created_at: new Date().toISOString() });
+      saveLocal(FKEY, rows); return Promise.resolve();
+    },
+    delFolder: function (id) {
+      saveLocal(FKEY, loadLocal(FKEY).filter(function (x) { return x.id !== id; }));
+      var l = loadLocal(LKEY); l.forEach(function (r) { if (r.folder_id === id) r.folder_id = null; }); saveLocal(LKEY, l);
+      var c = loadLocal(CKEY); c.forEach(function (r) { if (r.folder_id === id) r.folder_id = null; }); saveLocal(CKEY, c);
+      return Promise.resolve();
+    },
+    setLeadFolder: function (id, folderId) {
+      var rows = loadLocal(LKEY); rows.forEach(function (r) { if (r.id === id) r.folder_id = folderId || null; });
+      saveLocal(LKEY, rows); return Promise.resolve();
+    },
     addLead: function (f) {
       var rows = loadLocal(LKEY);
       var phone = digits(f.whatsapp);
@@ -645,21 +712,22 @@ body.unlocked #authGate{display:none}
         existing.name = f.name; existing.email = f.email || existing.email;
         if (f.product) existing.interests = (existing.interests || []).concat(f.product);
         if (f.message) existing.notes = f.message;
+        if (f.folderId) existing.folder_id = f.folderId;
       } else {
         rows.unshift({ id: rid('l'), name: f.name, email: f.email || null, phone: phone || null,
-          interests: f.product ? [f.product] : [], notes: f.message || null, stage: 'nuevo', created_at: new Date().toISOString() });
+          interests: f.product ? [f.product] : [], notes: f.message || null, stage: 'nuevo', folder_id: f.folderId || null, created_at: new Date().toISOString() });
       }
       saveLocal(LKEY, rows); return Promise.resolve();
     },
-    bulkLeads: function (rowsIn) {
+    bulkLeads: function (rowsIn, folderId) {
       var rows = loadLocal(LKEY), n = 0;
       rowsIn.forEach(function (r) {
         if (!r.name) return;
         var phone = digits(r.whatsapp);
         var existing = phone && rows.find(function (x) { return digits(x.phone) === phone; });
-        if (existing) { existing.name = r.name; existing.email = r.email || existing.email; }
+        if (existing) { existing.name = r.name; existing.email = r.email || existing.email; if (folderId) existing.folder_id = folderId; }
         else rows.unshift({ id: rid('l'), name: r.name, email: r.email || null, phone: phone || null,
-          interests: [], notes: null, stage: 'nuevo', created_at: new Date().toISOString() });
+          interests: [], notes: null, stage: 'nuevo', folder_id: folderId || null, created_at: new Date().toISOString() });
         n++;
       });
       saveLocal(LKEY, rows); return Promise.resolve(n);
@@ -677,12 +745,12 @@ body.unlocked #authGate{display:none}
           if (c.id === f.id) {
             c.name = f.name; c.product_ref = f.product || null; c.scheduled_date = f.date || null;
             c.scheduled_time = f.time || null; c.message = f.message || null;
-            c.channel_email = !!f.email; c.channel_whatsapp = !!f.whatsapp;
+            c.channel_email = !!f.email; c.channel_whatsapp = !!f.whatsapp; c.folder_id = f.folderId || null;
           }
         });
       } else {
         rows.unshift({ id: rid('c'), name: f.name, product_ref: f.product || null, scheduled_date: f.date || null,
-          scheduled_time: f.time || null, message: f.message || null, channel_email: !!f.email, channel_whatsapp: !!f.whatsapp,
+          scheduled_time: f.time || null, message: f.message || null, channel_email: !!f.email, channel_whatsapp: !!f.whatsapp, folder_id: f.folderId || null,
           status: 'pendiente', created_at: new Date().toISOString() });
       }
       saveLocal(CKEY, rows);
@@ -741,18 +809,96 @@ body.unlocked #authGate{display:none}
 
   /* ---------- Tabs ---------- */
   $('tabBtnCrm').addEventListener('click', function () { setTab('crm'); });
+  $('tabBtnFol').addEventListener('click', function () { setTab('fol'); });
   $('tabBtnCat').addEventListener('click', function () { setTab('cat'); });
   $('tabBtnCamp').addEventListener('click', function () { setTab('camp'); });
   $('tabBtnMsgs').addEventListener('click', function () { setTab('msgs'); refreshConvs(); });
   function setTab(t) {
     $('tabBtnCrm').classList.toggle('on', t === 'crm');
+    $('tabBtnFol').classList.toggle('on', t === 'fol');
     $('tabBtnCat').classList.toggle('on', t === 'cat');
     $('tabBtnCamp').classList.toggle('on', t === 'camp');
     $('tabBtnMsgs').classList.toggle('on', t === 'msgs');
     $('viewCrm').style.display = t === 'crm' ? '' : 'none';
+    $('viewFol').style.display = t === 'fol' ? '' : 'none';
     $('viewCat').style.display = t === 'cat' ? '' : 'none';
     $('viewCamp').style.display = t === 'camp' ? '' : 'none';
     $('viewMsgs').style.display = t === 'msgs' ? '' : 'none';
+  }
+
+  /* ---------- Carpetas ---------- */
+  window.__folders = [];
+  var NO_FOLDER = '__none__';
+  function folderName(id) {
+    var f = (window.__folders || []).find(function (x) { return String(x.id) === String(id); });
+    return f ? f.name : '';
+  }
+  function folderOptions(withAll, withNone, noneLabel) {
+    var o = '';
+    if (withAll) o += '<option value="">Todas las carpetas</option>';
+    if (withNone) o += '<option value="' + (withAll ? NO_FOLDER : '') + '">' + (noneLabel || 'Sin carpeta') + '</option>';
+    return o + (window.__folders || []).map(function (f) { return '<option value="' + f.id + '">' + esc(f.name) + '</option>'; }).join('');
+  }
+  function fillFolderSelects() {
+    var keep = {};
+    ['lFolder', 'importFolder', 'cFolder', 'leadFolderFilter', 'campFolderFilter'].forEach(function (id) { keep[id] = $(id).value; });
+    $('lFolder').innerHTML = folderOptions(false, true);
+    $('importFolder').innerHTML = folderOptions(false, true);
+    $('cFolder').innerHTML = folderOptions(false, true);
+    $('leadFolderFilter').innerHTML = folderOptions(true, true);
+    $('campFolderFilter').innerHTML = folderOptions(true, true);
+    Object.keys(keep).forEach(function (id) {
+      var el = $(id); if (keep[id] && Array.prototype.some.call(el.options, function (o) { return o.value === keep[id]; })) el.value = keep[id];
+    });
+  }
+  function refreshFolders() {
+    return API.folders().then(function (rows) { window.__folders = rows || []; fillFolderSelects(); renderFolders(); })
+      .catch(function (err) { $('folList').innerHTML = '<div class="empty">No pude cargar las carpetas: ' + esc(err.message) + '</div>'; });
+  }
+  function renderFolders() {
+    var fs = window.__folders || [], leads = window.__leads || [], camps = window.__camps || [];
+    if (!fs.length) { $('folList').innerHTML = '<div class="empty">Todavía no hay carpetas. Crea la primera (ej. "Crear landing page").</div>'; return; }
+    $('folList').innerHTML = fs.map(function (f) {
+      var nl = leads.filter(function (l) { return String(l.folder_id) === String(f.id); }).length;
+      var nc = camps.filter(function (c) { return String(c.folder_id) === String(f.id); }).length;
+      return '<div class="item"><div class="item-top"><span class="item-name">📁 ' + esc(f.name) + '</span></div>' +
+        '<div class="item-sub">' + nl + ' lead(s) · ' + nc + ' campaña(s)</div>' +
+        (f.description ? '<div class="item-msg">' + esc(f.description) + '</div>' : '') +
+        '<div class="item-actions"><button class="btn sm ghost" data-act="edit" data-id="' + f.id + '">Editar</button>' +
+        '<button class="btn sm danger" data-act="del" data-id="' + f.id + '">Eliminar</button></div></div>';
+    }).join('');
+  }
+  var editingFolId = null;
+  function resetFolForm() {
+    editingFolId = null; $('folForm').reset();
+    $('folFormTitle').textContent = 'Nueva carpeta'; $('folSubmitBtn').textContent = 'Crear carpeta'; $('folCancelBtn').style.display = 'none';
+  }
+  $('folCancelBtn').addEventListener('click', resetFolForm);
+  $('folForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('folName').value.trim(); if (!name) return;
+    API.saveFolder({ id: editingFolId, name: name, description: $('folDesc').value.trim() })
+      .then(function () { resetFolForm(); return refreshFolders(); })
+      .then(function () { refreshLeads(); refreshCamps(); })
+      .catch(function (err) { alert('No se pudo guardar la carpeta: ' + err.message); });
+  });
+  $('folList').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var id = b.getAttribute('data-id');
+    var f = (window.__folders || []).find(function (x) { return String(x.id) === String(id); });
+    if (!f) return;
+    if (b.getAttribute('data-act') === 'edit') {
+      editingFolId = f.id; $('folName').value = f.name || ''; $('folDesc').value = f.description || '';
+      $('folFormTitle').textContent = 'Editando carpeta'; $('folSubmitBtn').textContent = 'Guardar cambios'; $('folCancelBtn').style.display = '';
+    } else if (confirm('¿Eliminar la carpeta "' + f.name + '"? Sus leads y campañas NO se borran: quedan "sin carpeta".')) {
+      API.delFolder(f.id).then(refreshFolders).then(function () { refreshLeads(); refreshCamps(); })
+        .catch(function (err) { alert('No se pudo eliminar: ' + err.message); });
+    }
+  });
+  function matchFolder(itemFolderId, filterVal) {
+    if (!filterVal) return true;
+    if (filterVal === NO_FOLDER) return !itemFolderId;
+    return String(itemFolderId) === String(filterVal);
   }
 
   /* ---------- CRM: render ---------- */
@@ -765,8 +911,11 @@ body.unlocked #authGate{display:none}
   function renderLeads(rows) {
     window.__leads = rows;
     renderLeadPicker();
+    renderFolders();
     if (!rows.length) { $('leadsList').innerHTML = '<div class="empty">Todavía no hay leads. Agrega uno o sube un archivo.</div>'; return; }
-    $('leadsList').innerHTML = rows.map(function (l) {
+    var shown = rows.filter(function (l) { return matchFolder(l.folder_id, $('leadFolderFilter').value); });
+    if (!shown.length) { $('leadsList').innerHTML = '<div class="empty">No hay leads en esa carpeta.</div>'; return; }
+    $('leadsList').innerHTML = shown.map(function (l) {
       var stage = l.stage || 'nuevo';
       var sub = [l.phone ? ('📞 ' + l.phone) : '', l.email ? ('✉ ' + l.email) : '', (l.interests && l.interests.length) ? l.interests.join(', ') : '', (l.source === 'Chat web') ? '💬 Chat web' : '']
         .filter(Boolean).join(' · ');
@@ -776,6 +925,10 @@ body.unlocked #authGate{display:none}
         (sub ? '<div class="item-sub">' + esc(sub) + '</div>' : '') +
         (l.notes ? '<div class="item-msg">' + esc(l.notes) + '</div>' : '') +
         '<div class="item-actions">' +
+        '<select class="leadFolderSel" data-id="' + l.id + '" title="Carpeta del lead" style="width:auto;padding:5px 8px;font-size:12px">' +
+          '<option value="">Sin carpeta</option>' +
+          (window.__folders || []).map(function (f) { return '<option value="' + f.id + '"' + (String(f.id) === String(l.folder_id) ? ' selected' : '') + '>📁 ' + esc(f.name) + '</option>'; }).join('') +
+        '</select>' +
         '<button class="btn sm ghost" data-act="stage" data-id="' + l.id + '" data-stage="nuevo">Nuevo</button>' +
         '<button class="btn sm ghost" data-act="stage" data-id="' + l.id + '" data-stage="contactado">Contactado</button>' +
         '<button class="btn sm ghost" data-act="stage" data-id="' + l.id + '" data-stage="cerrado">Cerrado</button>' +
@@ -790,11 +943,18 @@ body.unlocked #authGate{display:none}
     else if (b.getAttribute('data-act') === 'del') { if (confirm('¿Eliminar este contacto?')) API.delLead(id).then(refreshLeads); }
   });
 
+  $('leadsList').addEventListener('change', function (e) {
+    var sel = e.target.closest('select.leadFolderSel'); if (!sel) return;
+    API.setLeadFolder(sel.getAttribute('data-id'), sel.value).then(refreshLeads)
+      .catch(function (err) { alert('No se pudo cambiar la carpeta: ' + err.message); });
+  });
+  $('leadFolderFilter').addEventListener('change', function () { renderLeads(window.__leads || []); });
+
   $('leadForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var name = $('lName').value.trim();
     if (!name) return;
-    API.addLead({ name: name, whatsapp: $('lWa').value.trim(), email: $('lEmail').value.trim(), product: $('lProduct').value.trim(), message: $('lMsg').value.trim() })
+    API.addLead({ name: name, whatsapp: $('lWa').value.trim(), email: $('lEmail').value.trim(), product: $('lProduct').value.trim(), message: $('lMsg').value.trim(), folderId: $('lFolder').value })
       .then(function () { e.target.reset(); refreshLeads(); })
       .catch(function (err) { alert('No se pudo guardar: ' + err.message); });
   });
@@ -865,7 +1025,7 @@ body.unlocked #authGate{display:none}
       : file.text().then(parseCSV);
     reading.then(function (rows) {
       if (!rows.length) { setImportMsg('No encontré filas con nombre, correo o WhatsApp en ese archivo.'); return; }
-      return API.bulkLeads(rows).then(function (n) {
+      return API.bulkLeads(rows, $('importFolder').value).then(function (n) {
         var count = (typeof n === 'number') ? n : rows.length;
         setImportMsg('Se importaron ' + count + ' de ' + rows.length + ' contactos. Revisa la lista de abajo.');
         return refreshLeads();
@@ -885,14 +1045,16 @@ body.unlocked #authGate{display:none}
     var keep = typeof selectedIds === 'undefined';
     var sel = {};
     (keep ? selectedLeadIds() : (selectedIds || [])).forEach(function (id) { sel[String(id)] = true; });
-    var leads = window.__leads || [];
-    if (!leads.length) { box.innerHTML = '<div class="leadpick-empty">Todavía no hay leads. Agrégalos en la pestaña CRM · Leads.</div>'; return; }
+    var fv = $('cFolder') ? $('cFolder').value : '';
+    var leads = (window.__leads || []).filter(function (l) { return fv ? String(l.folder_id) === String(fv) : !l.folder_id; });
+    if (!leads.length) { box.innerHTML = '<div class="leadpick-empty">No hay leads en esta carpeta. Asígnalos en la pestaña CRM · Leads.</div>'; return; }
     box.innerHTML = leads.map(function (l) {
       var sub = [l.email ? ('✉ ' + l.email) : '', l.phone ? ('📞 ' + l.phone) : ''].filter(Boolean).join(' · ');
       return '<label class="chk"><input type="checkbox" class="cLead" value="' + l.id + '"' + (sel[String(l.id)] ? ' checked' : '') + '> ' +
         esc(l.name) + (sub ? ' <span style="color:var(--dim)">(' + esc(sub) + ')</span>' : '') + '</label>';
     }).join('');
   }
+  $('cFolder').addEventListener('change', function () { renderLeadPicker([]); });
   $('cLeadsAll').addEventListener('click', function () {
     Array.prototype.forEach.call(document.querySelectorAll('#cLeadsPicker .cLead'), function (c) { c.checked = true; });
   });
@@ -910,8 +1072,12 @@ body.unlocked #authGate{display:none}
       .catch(function (err) { $('campList').innerHTML = '<div class="empty">No pude cargar las campañas: ' + esc(err.message) + '</div>'; });
   }
   function renderCamps(rows) {
+    window.__camps = rows;
+    renderFolders();
     if (!rows.length) { $('campList').innerHTML = '<div class="empty">No hay campañas programadas todavía.</div>'; return; }
-    $('campList').innerHTML = rows.map(function (c) {
+    var shown = rows.filter(function (c) { return matchFolder(c.folder_id, $('campFolderFilter').value); });
+    if (!shown.length) { $('campList').innerHTML = '<div class="empty">No hay campañas en esa carpeta.</div>'; return; }
+    $('campList').innerHTML = shown.map(function (c) {
       var status = c.status || 'programada';
       var channels = [c.channel_email ? 'Correo' : '', c.channel_whatsapp ? 'WhatsApp' : ''].filter(Boolean).join(' + ') || 'Sin canal';
       var when = [fmtDate(c.scheduled_date), c.scheduled_time ? String(c.scheduled_time).slice(0, 5) : ''].filter(Boolean).join(' · ');
@@ -919,7 +1085,7 @@ body.unlocked #authGate{display:none}
       return '<div class="item">' +
         '<div class="item-top"><span class="item-name">' + esc(c.name) + '</span>' +
         '<span class="badge b-' + status + '">' + STATUS_LABEL[status] + '</span></div>' +
-        '<div class="item-sub">' + [parts.product ? esc(parts.product) : '', when, channels].filter(Boolean).join(' · ') + '</div>' +
+        '<div class="item-sub">' + [c.folder_id && folderName(c.folder_id) ? ('📁 ' + esc(folderName(c.folder_id))) : '📁 sin carpeta', parts.product ? esc(parts.product) : '', when, channels].filter(Boolean).join(' · ') + '</div>' +
         (parts.rest ? '<div class="item-msg">' + esc(parts.rest) + '</div>' : '') +
         '<div class="item-actions">' +
         '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="programada" title="' +
@@ -935,8 +1101,8 @@ body.unlocked #authGate{display:none}
         (c.channel_whatsapp ? '<div class="wa-links" id="walinks-' + c.id + '" style="display:none"></div>' : '') +
         '</div>';
     }).join('');
-    window.__camps = rows;
   }
+  $('campFolderFilter').addEventListener('change', function () { renderCamps(window.__camps || []); });
   $('campList').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-act]'); if (!b) return;
     var id = b.getAttribute('data-id'), act = b.getAttribute('data-act');
@@ -944,7 +1110,12 @@ body.unlocked #authGate{display:none}
       var newStatus = b.getAttribute('data-status');
       var cc = (window.__camps || []).find(function (x) { return String(x.id) === String(id); });
       if (newStatus === 'programada' && cc && cc.channel_email) {
-        if (!confirm('Al marcar esta campaña como "Programada", el sistema la enviará SOLA por correo (usando tu llave de Brevo) en la fecha y hora que pusiste, a los leads que marcaste en Destinatarios. ¿Confirmas?')) return;
+        API.campRecipients(cc.id).then(function (rr) {
+          if (!rr || !rr.length) { alert('Esta campaña no tiene destinatarios guardados. Edítala, elige su carpeta y marca los leads; si no, no se puede programar (el sistema automático podría enviarla a todos tus contactos).'); return; }
+          if (!confirm('Al marcar esta campaña como "Programada", el sistema la enviará SOLA por correo (usando tu llave de Brevo) en la fecha y hora que pusiste, a los leads de su carpeta que marcaste en Destinatarios. ¿Confirmas?')) return;
+          API.setCampStatus(id, newStatus).then(refreshCamps);
+        }).catch(function (err) { alert('No pude verificar los destinatarios: ' + err.message); });
+        return;
       }
       API.setCampStatus(id, newStatus).then(refreshCamps);
     }
@@ -957,6 +1128,7 @@ body.unlocked #authGate{display:none}
       editingCampId = c.id;
       var parts = (typeof unpackProduct === 'function') ? unpackProduct(c.message) : { product: c.product_ref || '', rest: c.message || '' };
       $('cName').value = c.name || '';
+      $('cFolder').value = c.folder_id || '';
       var svc = findServiceByLabel(parts.product);
       if (svc) { $('cProductSelect').value = svc.label; $('cProduct').style.display = 'none'; $('cProduct').value = svc.label; }
       else { $('cProductSelect').value = parts.product ? CAMP_CUSTOM : ''; $('cProduct').style.display = parts.product ? '' : 'none'; $('cProduct').value = parts.product || ''; }
@@ -975,6 +1147,7 @@ body.unlocked #authGate{display:none}
     editingCampId = null; $('campForm').reset();
     $('cProductSelect').value = ''; $('cProduct').style.display = 'none'; $('cProduct').value = '';
     setCampDateMin();
+    $('cFolder').value = '';
     renderLeadPicker([]);
     $('campFormTitle').textContent = 'Nueva campaña'; $('campSubmitBtn').textContent = 'Crear campaña';
     $('campCancelBtn').style.display = 'none';
@@ -1005,7 +1178,7 @@ body.unlocked #authGate{display:none}
     if (!LIVE) { alert('El envío real solo funciona conectado a Supabase (ahora está en modo demo local).'); return; }
     API.campRecipients(campaignId).then(function (rows) {
       var ids = {}; (rows || []).forEach(function (r) { ids[String(r.contact_id)] = true; });
-      var leads = (window.__leads || []).filter(function (l) { return ids[String(l.id)] && l.email; });
+      var leads = (window.__leads || []).filter(function (l) { return ids[String(l.id)] && l.email && String(l.folder_id || '') === String(c.folder_id || ''); });
       if (!leads.length) {
         alert('No hay destinatarios con correo seleccionados para esta campaña. Edítala y marca los leads en "Destinatarios".');
         return;
@@ -1041,7 +1214,7 @@ body.unlocked #authGate{display:none}
     if (!c) return;
     API.campRecipients(campaignId).then(function (rows) {
       var ids = {}; (rows || []).forEach(function (r) { ids[String(r.contact_id)] = true; });
-      var leads = (window.__leads || []).filter(function (l) { return ids[String(l.id)] && l.phone; });
+      var leads = (window.__leads || []).filter(function (l) { return ids[String(l.id)] && l.phone && String(l.folder_id || '') === String(c.folder_id || ''); });
       if (!leads.length) {
         box.innerHTML = '<div class="leadpick-empty">No hay destinatarios con WhatsApp seleccionados para esta campaña.</div>';
         box.style.display = '';
@@ -1066,7 +1239,7 @@ body.unlocked #authGate{display:none}
     var campaignId = editingCampId;
     API.saveCamp({
       id: editingCampId, name: name, product: $('cProduct').value.trim(), date: $('cDate').value, time: $('cTime').value,
-      message: message, email: channelEmail, whatsapp: $('cWa').checked
+      message: message, email: channelEmail, whatsapp: $('cWa').checked, folderId: $('cFolder').value
     }).then(function (saved) {
       if (!campaignId) {
         var row = Array.isArray(saved) ? saved[0] : saved;
