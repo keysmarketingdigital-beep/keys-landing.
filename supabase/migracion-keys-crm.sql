@@ -610,8 +610,10 @@ create table if not exists public.campaign_folders (
   id uuid primary key default gen_random_uuid(),
   tenant_id uuid not null references public.tenants(id) on delete cascade,
   name text not null,
+  description text,
   created_at timestamptz not null default now()
 );
+alter table public.campaign_folders add column if not exists description text;
 create index if not exists campaign_folders_tenant_idx on public.campaign_folders (tenant_id);
 alter table public.campaign_folders enable row level security;
 drop policy if exists campaign_folders_tenant_staff on public.campaign_folders;
