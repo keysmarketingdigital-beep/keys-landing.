@@ -621,6 +621,8 @@ body.unlocked #authGate{display:none}
       };
       if (f.time) payload.scheduled_time = f.time;
       if (f.id) {
+        // Al editar también se guarda la fecha nueva (antes se ignoraba y siempre volvía la vieja).
+        if (f.date) payload.scheduled_date = f.date;
         return restPatch('campaigns', f.id, payload);
       }
       if (!f.date) return Promise.reject(new Error('La fecha es obligatoria para programar la campaña.'));
