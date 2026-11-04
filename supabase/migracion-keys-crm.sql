@@ -625,3 +625,19 @@ alter table public.contacts  add column if not exists folder_id uuid references 
 alter table public.campaigns add column if not exists folder_id uuid references public.campaign_folders(id) on delete set null;
 create index if not exists contacts_folder_idx  on public.contacts  (folder_id);
 create index if not exists campaigns_folder_idx on public.campaigns (folder_id);
+
+-- ============================================================
+-- 9. Resultado y envío automático de campañas de KEYS (4 nov 2026)
+--    (ya aplicado). "Programada" en el panel = auto_send true con status
+--    'pendiente'; la función keys-campaign-runner (supabase/functions/) la envía
+--    en hora de Colombia, marca realizada, avisa por correo y reporta rebotes.
+-- ============================================================
+alter table public.campaigns
+  add column if not exists auto_send boolean not null default false,
+  add column if not exists sent_count integer,
+  add column if not exists failed_count integer,
+  add column if not exists bounced_count integer,
+  add column if not exists sent_at timestamptz,
+  add column if not exists bounce_report_at timestamptz,
+  add column if not exists run_note text;
+-- Cron cada 5 min (ya creado): job 'keys-campaign-runner-5min' -> POST .../functions/v1/keys-campaign-runner

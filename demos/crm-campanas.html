@@ -85,6 +85,11 @@ input[type=date],input[type=time]{color-scheme:dark}
 .b-programada{background:rgba(53,229,208,.12);color:var(--acc)}
 .b-pendiente{background:rgba(245,195,91,.12);color:var(--warn)}
 .b-realizada{background:rgba(95,217,138,.12);color:var(--ok)}
+.b-enviando{background:rgba(245,195,91,.12);color:var(--warn)}
+.camp-result{margin-top:8px;font-size:12.5px;color:var(--muted)}
+.camp-result b{color:var(--text,#e8eef2)}
+.res-box{margin-top:8px;font-size:12.5px;border-top:1px solid var(--line);padding-top:8px}
+.res-box div{padding:2px 0}
 .item-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .item-msg{font-size:13px;color:var(--soft);margin:6px 0 0}
 .empty{color:var(--dim);font-size:14px;padding:26px 0;text-align:center}
@@ -629,7 +634,15 @@ body.unlocked #authGate{display:none}
       payload.status = 'pendiente';
       return restPost('campaigns', payload);
     },
-    setCampStatus: function (id, status) { return restPatch('campaigns', id, { status: status }); },
+    // "Programada" = auto_send (status sigue 'pendiente'): el despachador compartido
+    // de la plataforma solo mira status 'programada', así que NUNCA ve estas campañas;
+    // las envía la función propia de KEYS (keys-campaign-runner) en hora de Colombia.
+    setCampStatus: function (id, status) {
+      var patch = status === 'programada' ? { status: 'pendiente', auto_send: true }
+        : status === 'pendiente' ? { status: 'pendiente', auto_send: false }
+        : { status: status, auto_send: false };
+      return restPatch('campaigns', id, patch);
+    },
     delCamp: function (id) { return restDelete('campaigns', id); },
     campRecipients: function (campaignId) {
       return restGet('campaign_recipients?campaign_id=eq.' + campaignId + '&channel=eq.email&select=contact_id');
@@ -757,7 +770,7 @@ body.unlocked #authGate{display:none}
       return Promise.resolve(f.id ? rows.find(function (c) { return c.id === f.id; }) : rows[0]);
     },
     setCampStatus: function (id, status) {
-      var rows = loadLocal(CKEY); rows.forEach(function (c) { if (c.id === id) c.status = status; });
+      var rows = loadLocal(CKEY); rows.forEach(function (c) { if (c.id === id) { c.status = status === 'programada' ? 'pendiente' : status; c.auto_send = status === 'programada'; } });
       saveLocal(CKEY, rows); return Promise.resolve();
     },
     delCamp: function (id) { saveLocal(CKEY, loadLocal(CKEY).filter(function (c) { return c.id !== id; })); return Promise.resolve(); },
@@ -1063,7 +1076,7 @@ body.unlocked #authGate{display:none}
   });
 
   /* ---------- Campañas: render ---------- */
-  var STATUS_LABEL = { programada: 'Programada', pendiente: 'Pendiente', realizada: 'Realizada' };
+  var STATUS_LABEL = { programada: 'Programada', pendiente: 'Pendiente', enviando: 'Enviando…', realizada: 'Realizada' };
   var editingCampId = null;
 
   function refreshCamps() {
@@ -1078,7 +1091,8 @@ body.unlocked #authGate{display:none}
     var shown = rows.filter(function (c) { return matchFolder(c.folder_id, $('campFolderFilter').value); });
     if (!shown.length) { $('campList').innerHTML = '<div class="empty">No hay campañas en esa carpeta.</div>'; return; }
     $('campList').innerHTML = shown.map(function (c) {
-      var status = c.status || 'programada';
+      var status = (c.status === 'pendiente' && c.auto_send) ? 'programada' : (c.status || 'pendiente');
+      if (!STATUS_LABEL[status]) status = 'pendiente';
       var channels = [c.channel_email ? 'Correo' : '', c.channel_whatsapp ? 'WhatsApp' : ''].filter(Boolean).join(' + ') || 'Sin canal';
       var when = [fmtDate(c.scheduled_date), c.scheduled_time ? String(c.scheduled_time).slice(0, 5) : ''].filter(Boolean).join(' · ');
       var parts = unpackProduct(c.message);
@@ -1087,21 +1101,72 @@ body.unlocked #authGate{display:none}
         '<span class="badge b-' + status + '">' + STATUS_LABEL[status] + '</span></div>' +
         '<div class="item-sub">' + [c.folder_id && folderName(c.folder_id) ? ('📁 ' + esc(folderName(c.folder_id))) : '📁 sin carpeta', parts.product ? esc(parts.product) : '', when, channels].filter(Boolean).join(' · ') + '</div>' +
         (parts.rest ? '<div class="item-msg">' + esc(parts.rest) + '</div>' : '') +
+        resultLine(c, status) +
         '<div class="item-actions">' +
         '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="programada" title="' +
-          (c.channel_email ? 'Al marcarla Programada, el sistema la enviará SOLA por correo en la fecha/hora indicada, a los leads que marcaste en Destinatarios.' : 'Programada: solo queda marcada para referencia, esta campaña no tiene el canal Correo activo.') +
+          (c.channel_email ? 'Al marcarla Programada, el sistema la enviará SOLA por correo en la fecha/hora indicada (hora de Colombia), a los leads que marcaste en Destinatarios.' : 'Programada: solo queda marcada para referencia, esta campaña no tiene el canal Correo activo.') +
           '">Programada' + (c.channel_email ? ' ⚡' : '') + '</button>' +
         '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="pendiente">Pendiente</button>' +
         '<button class="btn sm ghost" data-act="status" data-id="' + c.id + '" data-status="realizada">Realizada</button>' +
         '<button class="btn sm ghost" data-act="edit" data-id="' + c.id + '">Editar</button>' +
         '<button class="btn sm danger" data-act="del" data-id="' + c.id + '">Eliminar</button>' +
-        (c.channel_email ? '<button class="btn sm" data-act="sendreal" data-id="' + c.id + '">✉ Enviar correo real</button>' : '') +
+        (c.channel_email && status !== 'realizada' && status !== 'enviando' ? '<button class="btn sm" data-act="sendreal" data-id="' + c.id + '">✉ Enviar correo real</button>' : '') +
+        (c.channel_email && (c.sent_count != null || status === 'realizada') ? '<button class="btn sm ghost" data-act="result" data-id="' + c.id + '">📊 Ver entrega</button>' : '') +
         (c.channel_whatsapp ? '<button class="btn sm ghost" data-act="wa" data-id="' + c.id + '">💬 WhatsApp (manual)</button>' : '') +
         '</div>' +
+        '<div class="res-box" id="res-' + c.id + '" style="display:none"></div>' +
         (c.channel_whatsapp ? '<div class="wa-links" id="walinks-' + c.id + '" style="display:none"></div>' : '') +
         '</div>';
     }).join('');
   }
+  // Resultado de la campaña (lo escribe la función de envío): enviados, errores, rebotes.
+  function resultLine(c, status) {
+    if (status === 'enviando') return '<div class="camp-result">⏳ Enviando ahora… el estado se actualiza solo.</div>';
+    if (status === 'programada') {
+      return '<div class="camp-result">⚡ Programada: se envía sola el ' + esc(fmtDate(c.scheduled_date)) + ' a las ' +
+        esc(c.scheduled_time ? String(c.scheduled_time).slice(0, 5) : '00:00') + ' (hora de Colombia). Te llegará un correo de confirmación.' + '</div>';
+    }
+    if (c.sent_count == null && !c.run_note) return '';
+    var bits = [];
+    if (c.sent_count != null) bits.push('✉ <b>' + c.sent_count + '</b> enviados');
+    if (c.failed_count) bits.push('<b>' + c.failed_count + '</b> con error');
+    if (c.bounced_count != null) bits.push(c.bounced_count ? ('<b>' + c.bounced_count + '</b> rebotados') : 'sin rebotes');
+    else if (c.sent_count != null) bits.push('rebotes: se revisan ~20 min después del envío');
+    return '<div class="camp-result">' + bits.join(' · ') + (c.run_note ? '<br>' + esc(c.run_note) : '') + '</div>';
+  }
+  var RECIP_LABEL = { enviado: '✅ enviado', fallido: '❌ error de envío', rebotado: '⚠️ rebotó', pendiente: '⏳ pendiente' };
+  function toggleResult(id) {
+    var box = $('res-' + id); if (!box) return;
+    if (box.style.display !== 'none') { box.style.display = 'none'; return; }
+    box.innerHTML = 'Verificando entrega con Brevo…'; box.style.display = '';
+    var verify = LIVE ? fetch(CFG.SUPABASE_URL + '/functions/v1/keys-campaign-runner', {
+      method: 'POST', headers: restHeaders(), body: JSON.stringify({ action: 'check_bounces', campaign_id: id })
+    }).then(function (r) { return r.json().catch(function () { return {}; }); }) : Promise.resolve({});
+    verify.then(function () {
+      return restGet('campaign_recipients?campaign_id=eq.' + id + '&channel=eq.email&select=status,error_message,contacts(name,email)');
+    }).then(function (rows) {
+      box.innerHTML = (rows || []).map(function (r) {
+        var ct = r.contacts || {};
+        return '<div>' + (RECIP_LABEL[r.status] || esc(r.status)) + ' · ' + esc(ct.name || '') + ' (' + esc(ct.email || 'sin correo') + ')' +
+          (r.error_message && r.status !== 'enviado' ? ' — <span style="color:var(--warn)">' + esc(r.error_message) + '</span>' : '') + '</div>';
+      }).join('') || 'Sin destinatarios guardados.';
+      refreshCampsQuiet();
+    }).catch(function (err) { box.innerHTML = 'No pude verificar: ' + esc(err.message); });
+  }
+  function refreshCampsQuiet() {
+    return API.camps().then(function (rows) {
+      var open = {};
+      Array.prototype.forEach.call(document.querySelectorAll('.res-box'), function (b) { if (b.style.display !== 'none') open[b.id] = b.innerHTML; });
+      renderCamps(rows || []);
+      Object.keys(open).forEach(function (k) { var el = $(k); if (el) { el.innerHTML = open[k]; el.style.display = ''; } });
+    });
+  }
+  // Mientras haya campañas programadas o enviándose, se refresca sola cada 30 s.
+  setInterval(function () {
+    if (!document.body.classList.contains('unlocked') || $('viewCamp').style.display === 'none') return;
+    var watching = (window.__camps || []).some(function (c) { return c.status === 'enviando' || (c.status === 'pendiente' && c.auto_send) || (c.status === 'realizada' && c.sent_count != null && c.bounced_count == null); });
+    if (watching) refreshCampsQuiet().catch(function () {});
+  }, 30000);
   $('campFolderFilter').addEventListener('change', function () { renderCamps(window.__camps || []); });
   $('campList').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-act]'); if (!b) return;
@@ -1112,7 +1177,10 @@ body.unlocked #authGate{display:none}
       if (newStatus === 'programada' && cc && cc.channel_email) {
         API.campRecipients(cc.id).then(function (rr) {
           if (!rr || !rr.length) { alert('Esta campaña no tiene destinatarios guardados. Edítala, elige su carpeta y marca los leads; si no, no se puede programar (el sistema automático podría enviarla a todos tus contactos).'); return; }
-          if (!confirm('Al marcar esta campaña como "Programada", el sistema la enviará SOLA por correo (usando tu llave de Brevo) en la fecha y hora que pusiste, a los leads de su carpeta que marcaste en Destinatarios. ¿Confirmas?')) return;
+          var due = cc.scheduled_date && new Date(cc.scheduled_date + 'T' + String(cc.scheduled_time || '00:00:00').slice(0, 8) + '-05:00') <= new Date();
+          if (!confirm('Al marcar esta campaña como "Programada", el sistema la enviará SOLA por correo a ' + rr.length + ' lead(s) el ' + fmtDate(cc.scheduled_date) + ' a las ' + String(cc.scheduled_time || '00:00').slice(0, 5) + ' (hora de Colombia).' +
+            (due ? '\n\n⚠️ Esa fecha y hora YA pasó: se enviará en los próximos 5 minutos.' : '') +
+            '\n\nTe llegará un correo de confirmación y, ~20 min después, otro con los rebotes. ¿Confirmas?')) return;
           API.setCampStatus(id, newStatus).then(refreshCamps);
         }).catch(function (err) { alert('No pude verificar los destinatarios: ' + err.message); });
         return;
@@ -1121,6 +1189,7 @@ body.unlocked #authGate{display:none}
     }
     else if (act === 'del') { if (confirm('¿Eliminar esta campaña?')) API.delCamp(id).then(refreshCamps); }
     else if (act === 'sendreal') { sendCampaignReal(id); }
+    else if (act === 'result') { toggleResult(id); }
     else if (act === 'wa') { toggleWaLinks(id); }
     else if (act === 'edit') {
       var c = (window.__camps || []).find(function (x) { return String(x.id) === String(id); });
@@ -1185,21 +1254,17 @@ body.unlocked #authGate{display:none}
       }
       if (!confirm('Esto va a enviar un correo REAL a ' + leads.length + ' lead(s): ' +
         leads.map(function (l) { return l.name; }).join(', ') + '. ¿Confirmas?')) return;
-      var parts = unpackProduct(c.message);
-      fetch(CFG.SUPABASE_URL + '/functions/v1/send-campaign-send', {
-        method: 'POST',
-        headers: restHeaders(),
-        body: JSON.stringify({
-          name: c.name, message: parts.rest || c.message || '', landing_url: CAMPAIGN_LINK,
-          recipients: leads.map(function (l) { return { email: l.email, name: l.name }; })
-        })
+      fetch(CFG.SUPABASE_URL + '/functions/v1/keys-campaign-runner', {
+        method: 'POST', headers: restHeaders(), body: JSON.stringify({ action: 'send_now', campaign_id: campaignId })
       }).then(function (r) { return r.json().catch(function () { return {}; }); }).then(function (res) {
-        if (res && typeof res.sent === 'number') {
-          alert('Enviado: ' + res.sent + ' correo(s) · Fallidos: ' + (res.failed || 0));
-          API.setCampStatus(campaignId, 'realizada').then(refreshCamps);
+        if (res && typeof res.sent === 'number' && !res.error) {
+          alert('Enviado: ' + res.sent + ' correo(s) · Con error: ' + (res.failed || 0) + '\n\nTe llegó (o llegará en un momento) un correo de confirmación, y ~20 min después el reporte de rebotes.');
+        } else if (res && res.skipped) {
+          alert(res.reason || 'Esta campaña ya se envió o se está enviando.');
         } else {
           alert('No se pudo enviar: ' + (res && res.error ? res.error : 'error desconocido'));
         }
+        refreshCamps();
       }).catch(function (err) { alert('No se pudo enviar: ' + err.message); });
     }).catch(function (err) { alert('No pude leer los destinatarios: ' + err.message); });
   }
