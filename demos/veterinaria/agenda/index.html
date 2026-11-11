@@ -1,0 +1,31 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agendar cita · KEYS Veterinaria</title><meta name="robots" content="noindex"><link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="agenda.css"></head><body>
+<header><div class="wrap"><div><h1>KEYS Veterinaria</h1><p class="h24">Reserva tu cita las 24 horas del día · Demo</p></div><a href="../index.html">← Volver al sitio</a></div></header>
+<main class="wrap">
+<div class="urg" role="note"><b>¿Es una emergencia?</b> Sangrado, intoxicación, dificultad para respirar, convulsiones o atropello: no agendes, ven de inmediato. <button class="btn" id="bUrg" type="button">Registrar una urgencia</button></div>
+<section class="panel" id="pUrg" hidden aria-labelledby="hu"><h2 id="hu">Urgencia (sin cita)</h2>
+<form id="fUrg" class="f2" novalidate><label>Tu nombre<input name="dueno" autocomplete="name"></label><label>Celular (10 dígitos)<input name="cel" inputmode="numeric" autocomplete="tel"></label>
+<label>Nombre de la mascota<input name="mascota"></label><label>Especie<select name="especie" id="uEsp"></select></label>
+<label style="grid-column:1/-1">¿Qué le pasa?<textarea name="sint" rows="3"></textarea></label>
+<div style="grid-column:1/-1"><p class="err" id="uErr" role="alert" hidden></p><button class="btn dark" type="submit">Enviar a la clínica</button></div></form><div id="uRes" hidden></div></section>
+
+<section class="panel" id="pBook"><h2><span class="step">1</span>Especie</h2><div class="opts" id="oEsp"></div>
+<h2 style="margin-top:20px"><span class="step">2</span>Servicio</h2><div class="opts" id="oSrv"></div><p class="hint" id="hSrv"></p>
+<div id="bPro" hidden><h2 style="margin-top:20px"><span class="step">3</span>Profesional, fecha y hora</h2><div class="opts" id="oPro"></div><div class="opts" id="oDia" style="margin-top:12px"></div><div class="hrs" id="oHrs" aria-live="polite"></div></div>
+<form id="fDat" hidden novalidate><h2 style="margin-top:20px"><span class="step">4</span>Datos</h2><p class="hint" id="resumen"></p><div class="f2">
+<label>Tu nombre<input name="dueno" autocomplete="name"></label><label>Celular (10 dígitos)<input name="cel" inputmode="numeric" autocomplete="tel"></label>
+<label>Nombre de la mascota<input name="mascota"></label><label>Raza (opcional)<input name="raza"></label>
+<label>Edad<input name="edad" placeholder="Ej.: 3 años"></label><label>Peso en kg (opcional)<input name="peso" inputmode="decimal"></label>
+<label id="lVac" style="grid-column:1/-1" hidden>Historial de vacunas (o “sin carnet”)<input name="vacunas"></label>
+<label style="grid-column:1/-1">Motivo de la consulta<textarea name="notas" rows="2"></textarea></label></div>
+<p class="hint" id="prep" hidden></p>
+<label class="chk" style="margin-top:12px"><input type="checkbox" name="aut"> Autorizo el tratamiento de mis datos y los de mi mascota (Ley 1581 de 2012).</label>
+<p class="err" id="dErr" role="alert" hidden></p><button class="btn dark" type="submit" style="margin-top:12px">Confirmar cita</button></form>
+<div id="rOk" hidden></div></section>
+
+<section class="panel" aria-labelledby="hm"><h2 id="hm">Cambiar o cancelar mi cita</h2><div class="f2"><label>Código de la cita<input id="mId" placeholder="C-0001"></label><label>Celular<input id="mCel" inputmode="numeric"></label></div>
+<button class="btn" id="bMia" type="button" style="margin-top:12px">Buscar mi cita</button><p class="err" id="mErr" role="alert" hidden></p><div id="mRes"></div></section>
+</main>
+<footer><div class="wrap"><p>Demo: los datos se guardan solo en este navegador. Reglas de ejemplo: cambios hasta 24 h antes, máximo 3 citas futuras por celular. <a href="admin.html">Acceso del equipo</a> · <a href="../politica-privacidad.html">Política de privacidad</a></p></div></footer>
+<script src="config.js"></script><script src="data.js"></script><script src="engine.js"></script><script src="agenda.js"></script></body></html>

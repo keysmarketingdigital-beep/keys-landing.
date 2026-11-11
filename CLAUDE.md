@@ -123,3 +123,14 @@ Los tres bloques pendientes de `supabase/migracion-keys-crm.sql` ya se corrieron
 - Acciones desde el panel (con la sesión del usuario): `send_now` ("Enviar correo real", ahora también deja estado y avisos) y `check_bounces` ("📊 Ver entrega"). `send-campaign-send` quedó sin uso.
 - El panel refresca solo cada 30 s mientras haya campañas programadas/enviándose y muestra enviados / errores / rebotes en cada campaña.
 
+
+## Estilo Resend, secciones nuevas y marca verde (nov 2026)
+- Bloques `<style id="estilo-resend">` y `<style id="secciones-nuevas">` al final del `<head>` de `index.html` y `en/index.html` (solo fondo/forma/tipografía; los colores de las letras, el turquesa y el logo no se tocaron). Secciones nuevas: cinta `marq`, `#paquetes`, `#quickForm` (formulario rápido), `#plataformas`, `#resenas`.
+- Logo en verde: `img/marca/logo-keys-claro-verde.png` (el azul sigue en `logo-keys-claro.png`).
+- Estilos probados solo como vista previa (no aplicados al repo): Apple y Sauce Labs. No aplicarlos sin OK de Yeison.
+
+## Ejemplos nuevos en la galería (nov 2026)
+- **Odontología** — `demos/odontologia/` (copia local; agenda demo en `agenda/`, sin Supabase, `demo:true`). Capturas `img/prototipos/odontologia-1..7.webp`. Su texto ficticio menciona Rionegro (clínica inventada, no el negocio de KEYS).
+- **Veterinaria** — `demos/veterinaria/` (agenda demo, urgencias por prioridad, `noindex`). Capturas `img/prototipos/veterinaria-v2-1..8.webp` (con fotos reales). Se volvió a copiar el 10 nov 2026 desde la versión más nueva del artefacto (9 nov). También menciona Rionegro en la clínica ficticia.
+- **Barber Keys** — sitio vivo aparte (`https://barber-keys.netlify.app/`, Supabase `keys-citas` `egybmszmgpjpzwtvsxqw`, slug `barber-keys`); NO está copiado al repo, solo se enlaza. Capturas `img/prototipos/barberia-v2-1..8.webp`.
+- Al cambiar cualquiera de los tres: actualizar `PROJECTS`, `<noscript>`, `ItemList` en los dos HTML y `llms.txt`. No copiar `_headers`, `robots.txt` ni `sitemap.xml` de los demos.
