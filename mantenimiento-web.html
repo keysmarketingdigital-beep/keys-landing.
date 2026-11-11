@@ -23,9 +23,9 @@
 <link rel="manifest" href="/site.webmanifest">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","serviceType":"Mantenimiento de páginas web","name":"Mantenimiento de páginas web","description":"Actualizaciones, copias de seguridad, seguridad, velocidad y cambios de contenido para páginas web de negocios.","provider":{"@type":"LocalBusiness","name":"KEYS Marketing Digital","telephone":"+573045550119","email":"keysmarketingdigital@gmail.com","address":{"@type":"PostalAddress","addressCountry":"CO"}},"areaServed":[{"@type":"Country","name":"Colombia"},{"@type":"Country","name":"Estados Unidos"},{"@type":"Place","name":"Todo el mundo (atención remota)"}],"url":"https://keysmarketingdigital.com/mantenimiento-web.html"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Qué incluye el mantenimiento de una página web?","acceptedAnswer":{"@type":"Answer","text":"Incluye actualizaciones, copias de seguridad, revisión de seguridad, mejoras de velocidad, cambios de contenido y soporte para resolver dudas o fallas."}},{"@type":"Question","name":"¿Cada cuánto se hace el mantenimiento?","acceptedAnswer":{"@type":"Answer","text":"Depende de cada negocio; en la reunión inicial gratis revisamos tu página y te proponemos una frecuencia acorde a lo que necesitas."}},{"@type":"Question","name":"¿Cuánto cuesta el mantenimiento?","acceptedAnswer":{"@type":"Answer","text":"Te damos un precio claro después de la revisión, según el tamaño y las necesidades de tu página."}},{"@type":"Question","name":"¿Es obligatorio un contrato largo?","acceptedAnswer":{"@type":"Answer","text":"No. Trabajamos mes a mes, sin permanencia forzada."}},{"@type":"Question","name":"¿Sigo siendo dueño de mi dominio y mis cuentas?","acceptedAnswer":{"@type":"Answer","text":"Sí. Tu dominio, tus cuentas y tus datos siempre quedan a tu nombre."}},{"@type":"Question","name":"¿Qué pasa si mi página ya tiene problemas de seguridad o está caída?","acceptedAnswer":{"@type":"Answer","text":"La revisamos en la reunión inicial gratis y te explicamos qué encontramos antes de proponerte nada."}}]}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/sora-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts-paginas.css">
 <style>
 :root{--bg:#080B12;--panel:#0C1119;--card:#0E1420;--inset:#0A0E16;--raise:#101826;--line:#1C2536;--line2:#2A3648;--txt:#E6EDF7;--soft:#D3DBE8;--muted:#AEB9CC;--dim:#8B98AD;--acc:#35E5D0;--acc2:#7BF3E6;--onacc:#06121A}
 *{box-sizing:border-box}
@@ -151,16 +151,7 @@ footer{border-top:1px solid #141C2A}
 <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-controls="navLinks" aria-expanded="false"><i></i><i></i><i></i></button>
 </div>
 </header>
-<script>
-(function(){
-  var b=document.getElementById('burger'),n=document.getElementById('navLinks');
-  if(!b||!n)return;
-  function set(open){b.setAttribute('aria-expanded',open?'true':'false');n.classList.toggle('open',open);b.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');}
-  b.addEventListener('click',function(){set(b.getAttribute('aria-expanded')!=='true');});
-  n.addEventListener('click',function(e){if(e.target.closest('a'))set(false);});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false);});
-})();
-</script>
+<script src="js/mantenimiento-1.js"></script>
 
 <main>
 <div class="wrap">
@@ -261,38 +252,6 @@ footer{border-top:1px solid #141C2A}
 </footer>
 
 <script src="config.js"></script>
-<script>
-(function () {
-  'use strict';
-  var CFG = Object.assign(
-    { WHATSAPP: '57XXXXXXXXXX' },
-    window.KEYS_CONFIG || {}
-  );
-  function waLink(text) { return 'https://wa.me/' + CFG.WHATSAPP + (text ? '?text=' + encodeURIComponent(text) : ''); }
-
-  var TRACK = window.SJ_TRACK || { GADS_ID: '', GADS_LABELS: {}, GA4_ID: '' };
-  var lastTrack = {};
-  function trackLead(kind) {
-    var now = Date.now();
-    if (lastTrack[kind] && now - lastTrack[kind] < 3000) return;
-    lastTrack[kind] = now;
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'lead', lead_type: kind });
-    if (window.gtag && TRACK.GADS_ID && TRACK.GADS_LABELS && TRACK.GADS_LABELS[kind]) {
-      window.gtag('event', 'conversion', { send_to: TRACK.GADS_ID + '/' + TRACK.GADS_LABELS[kind] });
-    }
-    if (window.fbq) window.fbq('track', 'Lead');
-  }
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a[href]') : null;
-    if (!a) return;
-    var href = a.getAttribute('href') || '';
-    if (/^https:\/\/wa\.me\//.test(href)) trackLead('whatsapp');
-    else if (/^tel:/.test(href)) trackLead('call');
-  });
-
-  document.querySelectorAll('[data-wa]').forEach(function (a) { a.href = waLink(a.getAttribute('data-wa')); });
-})();
-</script>
+<script src="js/mantenimiento-2.js"></script>
 </body>
 </html>
