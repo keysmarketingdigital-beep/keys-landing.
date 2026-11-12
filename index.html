@@ -386,6 +386,16 @@ header.top .nav nav{min-width:0;overflow:hidden}
 @media(max-width:760px){.dgrid{grid-template-columns:1fr}.why{gap:64px}}
 </style>
 <style id="dinamismo">
+/* tarjetas del ecosistema: servicio visible + objetivo */
+.eco .ehd{display:flex;align-items:center;gap:14px;margin-bottom:18px;position:relative;z-index:1}
+.eco .en .ehd{padding-right:64px}.eco .en>span.wm{font-size:56px;top:16px;right:16px}
+.eco .en>.ehd>i.eic{position:relative;flex:none;width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#0b7a70,#35e5d0);box-shadow:0 10px 24px -10px rgba(11,122,112,.7)}
+.eco .eic svg{width:26px;height:26px}
+.eco .eic:after{content:"";position:absolute;inset:-5px;border-radius:20px;border:2px solid rgba(53,229,208,.5);animation:ping 2.6s cubic-bezier(.2,.7,.2,1) infinite}
+.eco .en:nth-child(2) .eic:after{animation-delay:.85s}.eco .en:nth-child(3) .eic:after{animation-delay:1.7s}
+.eco .en p.et{margin:0;font:700 22px/1.15 Inter,sans-serif;letter-spacing:-.02em;color:#0b5f57;text-transform:none}
+.eco .eobj{display:inline-block;font-style:normal;font:600 11.5px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a33d00;background:rgba(255,180,84,.16);border-radius:999px;padding:4px 10px;margin-bottom:8px}
+@media(max-width:900px){.hxv .hxv-media{width:100%;max-width:520px;margin-left:auto;margin-right:auto;align-self:center}}
 /* ===== arreglos de la auditoría ===== */
 .skip{position:absolute;left:12px;top:-60px;z-index:200;background:#35e5d0;color:#03201c;padding:10px 16px;border-radius:10px;font-weight:600}.skip:focus{top:12px}
 :focus-visible{outline:2px solid #35e5d0;outline-offset:2px}
@@ -545,9 +555,9 @@ header.top.hscr,header.top.hscr .nav{height:56px;max-height:56px}
 <div class="head rv" style="max-width:860px"><p class="eye">Un solo sistema</p><h2>Las tres piezas funcionan como un ecosistema.</h2><p class="lead">Cada una alimenta a la siguiente: la página te hace visible, la agenda convierte esas visitas en citas sin llenarte de mensajes, y la contabilidad te dice si todo eso te está dejando dinero.</p></div>
 
 <div class="eco rv">
-<div class="en"><span class="wm" aria-hidden="true">01</span><i>01</i><p class="et">Página web</p><b>Que te encuentren</b><span>Apareces en Google y tu información está disponible a toda hora, aunque el negocio esté cerrado.</span></div>
-<div class="en"><span class="wm" aria-hidden="true">02</span><i>02</i><p class="et">Agenda en línea</p><b>Que reserven solos</b><span>Esa visita se vuelve una cita sin que tengas que contestar mensajes uno por uno.</span></div>
-<div class="en"><span class="wm" aria-hidden="true">03</span><i>03</i><p class="et">Contabilidad</p><b>Que sepas si funciona</b><span>Al final del mes ves qué entró, qué quedó y si lo que estás haciendo vale la pena.</span></div>
+<div class="en"><span class="wm" aria-hidden="true">01</span><div class="ehd"><i class="eic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></i><p class="et">Página web</p></div><em class="eobj">Objetivo</em><b>Que te encuentren</b><span>Apareces en Google y tu información está disponible a toda hora, aunque el negocio esté cerrado.</span></div>
+<div class="en"><span class="wm" aria-hidden="true">02</span><div class="ehd"><i class="eic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></i><p class="et">Agenda en línea</p></div><em class="eobj">Objetivo</em><b>Que reserven solos</b><span>Esa visita se vuelve una cita sin que tengas que contestar mensajes uno por uno.</span></div>
+<div class="en"><span class="wm" aria-hidden="true">03</span><div class="ehd"><i class="eic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></i><p class="et">Contabilidad</p></div><em class="eobj">Objetivo</em><b>Que sepas si funciona</b><span>Al final del mes ves qué entró, qué quedó y si lo que estás haciendo vale la pena.</span></div>
 </div>
 <p class="eloop rv"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg> Y lo que ves en los números te dice dónde vale la pena invertir para que te encuentren más.</p>
 
