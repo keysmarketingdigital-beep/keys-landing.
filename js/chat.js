@@ -90,6 +90,14 @@
     ? '🌐 También puedes escribirnos en español o en cualquier otro idioma.'
     : '🌐 You can write to us in English or any other language.';
   $('kc-input').placeholder = STR.placeholder;
+  // Accesibilidad: nombre del campo y del botón, idioma del panel y rol de diálogo.
+  $('kc-input').setAttribute('aria-label', STR.placeholder.replace(/…$/, ''));
+  $('kc-send').setAttribute('aria-label', { es: 'Enviar', en: 'Send', pt: 'Enviar', fr: 'Envoyer', de: 'Senden', it: 'Invia' }[LANG]);
+  $('kc-panel').setAttribute('lang', LANG);
+  $('kc-panel').setAttribute('role', 'dialog');
+  $('kc-panel').setAttribute('aria-labelledby', 'kc-t-title');
+  $('kc-btn').setAttribute('aria-expanded', 'false');
+  $('kc-btn').setAttribute('aria-controls', 'kc-panel');
 
   var FN_URL = CFG.SUPABASE_URL + '/functions/v1/chat-public';
   function call(payload) {
@@ -117,9 +125,9 @@
     body.innerHTML =
       '<div id="kc-intake">' +
       '<p style="font-size:13px;color:var(--muted);margin:0 0 4px">' + esc(STR.hint) + '</p>' +
-      '<div><label>' + esc(STR.nameLbl) + '</label><input id="kc-name" type="text" autocomplete="name"></div>' +
-      '<div><label>' + esc(STR.emailLbl) + '</label><input id="kc-email" type="email" autocomplete="email"></div>' +
-      '<div><label>' + esc(STR.phoneLbl) + '</label><input id="kc-phone" type="tel" autocomplete="tel"></div>' +
+      '<div><label for="kc-name">' + esc(STR.nameLbl) + '</label><input id="kc-name" type="text" autocomplete="name"></div>' +
+      '<div><label for="kc-email">' + esc(STR.emailLbl) + '</label><input id="kc-email" type="email" autocomplete="email"></div>' +
+      '<div><label for="kc-phone">' + esc(STR.phoneLbl) + '</label><input id="kc-phone" type="tel" autocomplete="tel"></div>' +
       '<button id="kc-start" type="button" class="btn btn-main btn-sm" style="width:100%;margin-top:4px">' + esc(STR.startBtn) + '</button>' +
       '</div>';
     $('kc-start').addEventListener('click', function () {
@@ -236,10 +244,17 @@
     open = !open;
     if (open) hideTeaser(true);
     $('kc-panel').classList.toggle('open', open);
+    $('kc-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
     if (open) {
       if (convId) { poll(); if (!pollTimer) pollTimer = setInterval(poll, 4000); }
       else renderIntake();
-    } else if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+      // Lleva el foco dentro del panel: al primer campo o al cuadro de mensaje.
+      setTimeout(function () { var f = $('kc-name') || $('kc-input'); if (f) f.focus(); }, 30);
+    } else {
+      if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+      $('kc-btn').focus();
+    }
   });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && open) $('kc-btn').click(); });
   $('kc-close').addEventListener('click', function () { $('kc-btn').click(); });
 })();
