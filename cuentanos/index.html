@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#020204">
+<meta name="robots" content="noindex,nofollow">
+<title>Cuéntanos de tu negocio · KEYS Marketing Digital</title>
+<link rel="stylesheet" href="/fonts/fonts-landing.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/" aria-label="KEYS Marketing Digital">
+    <img src="/img/marca/logo-keys-claro-verde.png" alt="KEYS Marketing Digital" height="34">
+  </a>
+</header>
+
+<main class="wrap">
+  <section id="intro" class="intro">
+    <p class="eyebrow">Tu proyecto, paso a paso</p>
+    <h1>Cuéntanos de tu negocio.</h1>
+    <p class="lead">Son 3 pasos cortos y toma unos 5 minutos. Con esto armamos tu proyecto sin tener que pedirte todo por chat.</p>
+  </section>
+
+  <div id="progress" class="progress" aria-label="Progreso del formulario">
+    <ol>
+      <li data-step="1"><span>1</span><b>Contacto</b></li>
+      <li data-step="2"><span>2</span><b>Negocio</b></li>
+      <li data-step="3"><span>3</span><b>Materiales</b></li>
+    </ol>
+    <div class="bar"><i id="barFill"></i></div>
+    <p id="progressText" class="progress-text" aria-live="polite">Paso 1 de 3</p>
+  </div>
+
+  <div id="banner" class="banner" role="alert" hidden></div>
+
+  <form id="form" novalidate autocomplete="on">
+    <!-- Honeypot anti-spam: los humanos no lo ven -->
+    <div class="hp" aria-hidden="true"><label>No llenar <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+    <!-- PASO 1 -->
+    <fieldset class="step" data-step="1">
+      <legend>¿Cómo te contactamos?</legend>
+      <div class="field">
+        <label for="full_name">Nombre completo</label>
+        <input id="full_name" name="full_name" type="text" autocomplete="name" placeholder="Ej: Juan Pérez" maxlength="120" required>
+        <p class="err" data-err="full_name"></p>
+      </div>
+      <div class="field">
+        <label for="phone">Teléfono / WhatsApp</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 304 555 0119 o +57 304 555 0119" maxlength="25" required>
+        <p class="err" data-err="phone"></p>
+      </div>
+      <div class="field">
+        <label for="email">Correo electrónico</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tucorreo@ejemplo.com" maxlength="160" required>
+        <p class="err" data-err="email"></p>
+      </div>
+    </fieldset>
+
+    <!-- PASO 2 -->
+    <fieldset class="step" data-step="2" hidden>
+      <legend>Sobre tu negocio</legend>
+      <div class="field">
+        <label for="business_name">Nombre del negocio</label>
+        <input id="business_name" name="business_name" type="text" autocomplete="organization" placeholder="Ej: Barbería El Corte" maxlength="160" required>
+        <p class="err" data-err="business_name"></p>
+      </div>
+      <div class="field">
+        <label for="business_address">Dirección del negocio</label>
+        <input id="business_address" name="business_address" type="text" autocomplete="street-address" placeholder="Calle, número, barrio y ciudad" maxlength="250" required>
+        <p class="hint">Si atiendes solo en línea, escribe la ciudad y el país.</p>
+        <p class="err" data-err="business_address"></p>
+      </div>
+      <div class="field">
+        <label for="service_needed">¿Qué necesitas?</label>
+        <select id="service_needed" name="service_needed" required>
+          <option value="">Elige una opción…</option>
+          <option value="landing_page">Una página web (landing page)</option>
+          <option value="agenda_en_linea">Una agenda en línea</option>
+          <option value="vitrina_productos">Vitrina de productos / catálogo</option>
+          <option value="otro_sistema">Otro sistema web</option>
+          <option value="no_se">Todavía no lo sé</option>
+        </select>
+        <p class="err" data-err="service_needed"></p>
+      </div>
+      <div class="field">
+        <label for="business_description">Cuéntanos de tu negocio y de lo que necesitas</label>
+        <textarea id="business_description" name="business_description" rows="6" maxlength="3000" placeholder="¿Qué vendes o qué servicios ofreces? ¿A quién? ¿Qué quieres lograr con tu página o sistema?" required></textarea>
+        <p class="hint"><span id="descCount">0</span>/3000 · mínimo 10 caracteres</p>
+        <p class="err" data-err="business_description"></p>
+      </div>
+    </fieldset>
+
+    <!-- PASO 3 -->
+    <fieldset class="step" data-step="3" hidden>
+      <legend>Tus materiales</legend>
+      <p class="hint block">Usa fotos reales de tu negocio: se ven mucho mejor que las de internet. JPG, PNG, WebP o HEIC, hasta 10 MB cada una.</p>
+
+      <div class="field">
+        <label>Logo <span class="opt">(opcional)</span></label>
+        <div class="drop" id="logoDrop">
+          <input id="logoInput" type="file" accept="image/*" hidden>
+          <button type="button" class="btn ghost" id="logoBtn">Subir logo</button>
+          <span class="hint">Si no tienes logo, no pasa nada: te ayudamos.</span>
+        </div>
+        <ul id="logoList" class="thumbs one"></ul>
+        <p class="err" data-err="logo"></p>
+      </div>
+
+      <div class="field">
+        <label>Fotos reales del negocio <span class="opt">(hasta <span id="maxPhotos">12</span>)</span></label>
+        <div class="drop">
+          <input id="camInput" type="file" accept="image/*" capture="environment" hidden>
+          <input id="photoInput" type="file" accept="image/*" multiple hidden>
+          <button type="button" class="btn ghost" id="camBtn">📷 Tomar foto</button>
+          <button type="button" class="btn ghost" id="photoBtn">🖼️ Galería o archivos</button>
+        </div>
+        <p class="hint"><span id="photoCount">0</span> foto(s) agregadas. Puedes elegir varias a la vez.</p>
+        <ul id="photoList" class="thumbs"></ul>
+        <p class="err" data-err="photos"></p>
+      </div>
+
+      <div class="field check">
+        <label class="checkbox">
+          <input type="checkbox" id="consent" name="consent">
+          <span>Autorizo a KEYS Marketing Digital a usar estos datos y materiales para construir mi proyecto, de acuerdo con la
+            <a href="/politica-privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</span>
+        </label>
+        <p class="err" data-err="consent"></p>
+      </div>
+    </fieldset>
+
+    <div class="actions">
+      <button type="button" class="btn ghost" id="backBtn" hidden>Atrás</button>
+      <button type="button" class="btn primary" id="nextBtn">Continuar</button>
+      <button type="submit" class="btn primary" id="submitBtn" hidden>Enviar información</button>
+    </div>
+    <p id="sendStatus" class="send-status" aria-live="polite"></p>
+  </form>
+
+  <section id="success" class="success" hidden tabindex="-1">
+    <div class="check-circle" aria-hidden="true">✓</div>
+    <h2>¡Listo, recibimos tu información!</h2>
+    <p>Gracias, <b id="okName"></b>. Ya tenemos todo lo que necesitamos para empezar con <b id="okBiz"></b>. Te escribiremos pronto por WhatsApp o correo.</p>
+    <p class="hint">Referencia: <code id="okRef"></code></p>
+    <a class="btn primary" href="https://wa.me/573045550119?text=Hola%2C%20ya%20envi%C3%A9%20la%20informaci%C3%B3n%20de%20mi%20negocio" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+  </section>
+</main>
+
+<footer class="foot">KEYS Marketing Digital · Tus datos y archivos son tuyos y solo los usamos para tu proyecto.</footer>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

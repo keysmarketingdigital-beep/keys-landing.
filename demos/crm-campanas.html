@@ -41,6 +41,8 @@ header{position:sticky;top:0;z-index:10;background:rgba(8,11,18,.92);backdrop-fi
 main{padding:26px 0 70px}
 .grid2{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:22px;align-items:start}
 @media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.int-link{margin-bottom:16px}
+.msgs-badge[hidden]{display:none}
 .int-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
 .int-tools select{width:auto;margin:0}
 .int-data{display:grid;grid-template-columns:150px 1fr;gap:8px 14px;margin:14px 0 0;font-size:14px}
@@ -351,6 +353,20 @@ body.unlocked #authGate{display:none}
 
   <section id="viewInt" style="display:none">
     <p style="color:var(--dim);font-size:13px;margin-bottom:14px">Lo que envían los clientes por el formulario "Cuéntanos de tu negocio": datos de contacto, descripción, logo y fotos. Solo lo ve la cuenta de administrador de KEYS; los archivos se descargan con tu sesión y nunca quedan públicos.</p>
+    <div class="card int-link">
+      <h3 style="font-size:15px;margin:0 0 4px">Enlace para enviar a tus clientes</h3>
+      <p class="item-sub" style="margin:0 0 12px">El cliente llena sus datos, describe su negocio y sube logo y fotos. Si escribes su nombre o el de su negocio, el formulario le llega ya rellenado y en la lista sabrás de qué enlace vino.</p>
+      <div class="row2">
+        <div><label for="intLinkName">Nombre del cliente (opcional)</label><input type="text" id="intLinkName" maxlength="80" placeholder="Ej: Juan Pérez"></div>
+        <div><label for="intLinkBiz">Nombre del negocio (opcional)</label><input type="text" id="intLinkBiz" maxlength="120" placeholder="Ej: Barbería El Corte"></div>
+      </div>
+      <input type="text" id="intLinkOut" readonly aria-label="Enlace del formulario">
+      <div class="item-actions" style="margin-top:0">
+        <button class="btn sm" type="button" id="intLinkCopy">Copiar enlace</button>
+        <a class="btn sm ghost" id="intLinkWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+        <a class="btn sm ghost" id="intLinkOpen" target="_blank" rel="noopener">Abrir formulario</a>
+      </div>
+    </div>
     <div class="int-tools">
       <select id="intFilter" aria-label="Filtrar por estado">
         <option value="">Todos los estados</option>
@@ -1807,6 +1823,29 @@ body.unlocked #authGate{display:none}
       $('intDetail').style.display = 'none'; $('intEmpty').style.display = ''; intRender(); intBadge();
     }).catch(function (err) { intMsg(err.message, true); });
   });
+
+
+  /* Enlace del formulario para clientes (opcionalmente con nombre/negocio prellenados y ref para saber de dónde vino). */
+  var INT_FORM_URL = 'https://keysmarketingdigital.com/cuentanos/';
+  function intLinkBuild() {
+    var n = $('intLinkName').value.trim(), b = $('intLinkBiz').value.trim(), q = [];
+    if (n || b) q.push('ref=' + encodeURIComponent(intSlug(b || n)));
+    if (n) q.push('nombre=' + encodeURIComponent(n));
+    if (b) q.push('negocio=' + encodeURIComponent(b));
+    var url = INT_FORM_URL + (q.length ? '?' + q.join('&') : '');
+    $('intLinkOut').value = url; $('intLinkOpen').href = url;
+    var saludo = 'Hola' + (n ? ' ' + n.split(/\s+/)[0] : '') + ', para empezar tu proyecto con KEYS llena este formulario (toma unos 5 minutos) y sube tu logo y fotos de tu negocio: ' + url;
+    $('intLinkWa').href = 'https://wa.me/?text=' + encodeURIComponent(saludo);
+    return url;
+  }
+  ['intLinkName', 'intLinkBiz'].forEach(function (id) { $(id).addEventListener('input', intLinkBuild); });
+  $('intLinkCopy').addEventListener('click', function () {
+    var url = intLinkBuild(), btn = $('intLinkCopy');
+    var done = function () { btn.textContent = '¡Copiado!'; setTimeout(function () { btn.textContent = 'Copiar enlace'; }, 1800); };
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, function () { $('intLinkOut').select(); document.execCommand('copy'); done(); });
+    else { $('intLinkOut').select(); document.execCommand('copy'); done(); }
+  });
+  intLinkBuild();
 
   function intInit() {
     intCheckAdmin().then(function (ok) {
