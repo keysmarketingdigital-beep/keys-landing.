@@ -641,3 +641,29 @@ alter table public.campaigns
   add column if not exists bounce_report_at timestamptz,
   add column if not exists run_note text;
 -- Cron cada 5 min (ya creado): job 'keys-campaign-runner-5min' -> POST .../functions/v1/keys-campaign-runner
+
+-- =====================================================================
+-- 9. Formulario "Cuéntanos de tu negocio" — acceso solo del administrador (16 nov 2026, YA APLICADA)
+-- Las tablas client_leads / client_lead_files y el bucket privado client-intake ya existían con
+-- reglas de solo-inserción para visitantes anónimos. Esto agrega la lectura, edición de estado/notas,
+-- descarga y borrado SOLO para el perfil admin/developer del tenant vitrina-demo.
+-- =====================================================================
+create or replace function public.is_keys_admin()
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.profiles
+    where id = auth.uid() and tenant_id = 'b0595b11-afa2-41de-8296-51ead8b14ecf' and role in ('admin', 'developer'));
+$$;
+revoke all on function public.is_keys_admin() from public, anon;
+grant execute on function public.is_keys_admin() to authenticated;
+
+grant select, delete on public.client_leads to authenticated;
+grant update (status, notes) on public.client_leads to authenticated;
+grant select, delete on public.client_lead_files to authenticated;
+
+create policy "admin keys lee leads" on public.client_leads for select to authenticated using (public.is_keys_admin());
+create policy "admin keys actualiza leads" on public.client_leads for update to authenticated using (public.is_keys_admin()) with check (public.is_keys_admin());
+create policy "admin keys borra leads" on public.client_leads for delete to authenticated using (public.is_keys_admin());
+create policy "admin keys lee archivos" on public.client_lead_files for select to authenticated using (public.is_keys_admin());
+create policy "admin keys borra archivos" on public.client_lead_files for delete to authenticated using (public.is_keys_admin());
+create policy "admin keys descarga materiales" on storage.objects for select to authenticated using (bucket_id = 'client-intake' and public.is_keys_admin());
+create policy "admin keys borra materiales" on storage.objects for delete to authenticated using (bucket_id = 'client-intake' and public.is_keys_admin());

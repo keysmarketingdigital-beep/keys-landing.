@@ -41,6 +41,20 @@ header{position:sticky;top:0;z-index:10;background:rgba(8,11,18,.92);backdrop-fi
 main{padding:26px 0 70px}
 .grid2{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:22px;align-items:start}
 @media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.int-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.int-tools select{width:auto;margin:0}
+.int-data{display:grid;grid-template-columns:150px 1fr;gap:8px 14px;margin:14px 0 0;font-size:14px}
+.int-data dt{color:var(--dim);font-size:12.5px}.int-data dd{margin:0;white-space:pre-wrap;word-break:break-word}
+.int-h{font:600 13px Sora,sans-serif;color:var(--muted);margin:18px 0 8px}
+.int-files{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.int-file{background:var(--inset);border:1px solid var(--line2);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.int-file .ph{aspect-ratio:1;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:12px;text-align:center;padding:6px;background:#060a10}
+.int-file img{width:100%;height:100%;object-fit:cover;display:block}
+.int-file .meta{font-size:11px;color:var(--dim);padding:6px 8px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.int-file .meta button{background:none;border:0;color:var(--acc);font:600 11px Sora,sans-serif;cursor:pointer;padding:0}
+.st-nuevo{background:rgba(53,229,208,.12);color:var(--acc)}.st-en_revision{background:rgba(245,195,91,.12);color:var(--warn)}.st-en_construccion{background:rgba(123,160,255,.14);color:#9db4ff}.st-entregado{background:rgba(95,217,138,.12);color:var(--ok)}.st-descartado{background:rgba(255,138,122,.1);color:var(--err)}
+@media (max-width:760px){.int-data{grid-template-columns:1fr}.int-data dt{margin-top:6px}}
+
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
 .card h3{font-size:15px;margin-bottom:12px}
@@ -166,6 +180,7 @@ body.unlocked #authGate{display:none}
     <button class="tab" id="tabBtnCat" data-tab="cat">Categorías</button>
     <button class="tab" id="tabBtnCamp" data-tab="camp">Campañas</button>
     <button class="tab" id="tabBtnMsgs" data-tab="msgs">Mensajes <span id="msgsBadge" class="msgs-badge" hidden></span></button>
+    <button class="tab" id="tabBtnInt" data-tab="int" hidden>Proyectos <span id="intBadge" class="msgs-badge" hidden></span></button>
   </div>
 </div>
 
@@ -331,6 +346,55 @@ body.unlocked #authGate{display:none}
       <div class="card" id="convEmpty">
         <p style="color:var(--dim)">Elige una conversación de la lista para ver los mensajes y responder.</p>
       </div>
+    </div>
+  </section>
+
+  <section id="viewInt" style="display:none">
+    <p style="color:var(--dim);font-size:13px;margin-bottom:14px">Lo que envían los clientes por el formulario "Cuéntanos de tu negocio": datos de contacto, descripción, logo y fotos. Solo lo ve la cuenta de administrador de KEYS; los archivos se descargan con tu sesión y nunca quedan públicos.</p>
+    <div class="int-tools">
+      <select id="intFilter" aria-label="Filtrar por estado">
+        <option value="">Todos los estados</option>
+        <option value="nuevo">Nuevo</option>
+        <option value="en_revision">En revisión</option>
+        <option value="en_construccion">En construcción</option>
+        <option value="entregado">Entregado</option>
+        <option value="descartado">Descartado</option>
+      </select>
+      <button class="btn sm ghost" type="button" id="intReload">Actualizar</button>
+      <button class="btn sm ghost" type="button" id="intCsv">Exportar todo (CSV)</button>
+    </div>
+    <div class="grid2">
+      <div><div id="intList" class="list"><div class="loading">Cargando proyectos…</div></div></div>
+      <div class="card" id="intDetail" style="display:none">
+        <div class="item-top">
+          <div><h3 id="intTitle" style="font-size:17px;margin:0"></h3><div class="item-sub" id="intSub"></div></div>
+          <span id="intRef" class="badge" style="background:var(--inset);color:var(--dim);align-self:flex-start;height:auto"></span>
+        </div>
+        <dl class="int-data" id="intData"></dl>
+        <h4 class="int-h">Logo y fotos</h4>
+        <div id="intFiles" class="int-files"></div>
+        <div class="row2" style="margin-top:14px">
+          <div><label for="intStatus">Estado</label>
+            <select id="intStatus">
+              <option value="nuevo">Nuevo</option>
+              <option value="en_revision">En revisión</option>
+              <option value="en_construccion">En construcción</option>
+              <option value="entregado">Entregado</option>
+              <option value="descartado">Descartado</option>
+            </select></div>
+        </div>
+        <label for="intNotes">Notas internas (solo las ves tú)</label>
+        <textarea id="intNotes" rows="3" maxlength="3000"></textarea>
+        <div class="item-actions">
+          <button class="btn sm" type="button" id="intSave">Guardar estado y notas</button>
+          <button class="btn sm" type="button" id="intZip">Descargar todo (.zip)</button>
+          <a class="btn sm ghost" id="intWa" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn sm ghost" id="intMail">Correo</a>
+          <button class="btn sm danger" type="button" id="intDel">Eliminar</button>
+        </div>
+        <div id="intMsg" style="font-size:12.5px;margin-top:8px;color:var(--dim)"></div>
+      </div>
+      <div class="card" id="intEmpty"><p style="color:var(--dim)">Elige un proyecto de la lista para ver sus datos y descargar sus archivos.</p></div>
     </div>
   </section>
 
@@ -828,6 +892,7 @@ body.unlocked #authGate{display:none}
   $('tabBtnCat').addEventListener('click', function () { setTab('cat'); });
   $('tabBtnCamp').addEventListener('click', function () { setTab('camp'); });
   $('tabBtnMsgs').addEventListener('click', function () { setTab('msgs'); refreshConvs(); });
+  $('tabBtnInt').addEventListener('click', function () { setTab('int'); if (window.__intLoad) window.__intLoad(); });
   function setTab(t) {
     $('tabBtnCrm').classList.toggle('on', t === 'crm');
     $('tabBtnFol').classList.toggle('on', t === 'fol');
@@ -839,6 +904,8 @@ body.unlocked #authGate{display:none}
     $('viewCat').style.display = t === 'cat' ? '' : 'none';
     $('viewCamp').style.display = t === 'camp' ? '' : 'none';
     $('viewMsgs').style.display = t === 'msgs' ? '' : 'none';
+    $('tabBtnInt').classList.toggle('on', t === 'int');
+    $('viewInt').style.display = t === 'int' ? '' : 'none';
   }
 
   /* ---------- Carpetas ---------- */
@@ -1543,6 +1610,212 @@ body.unlocked #authGate{display:none}
       .catch(function (err) { $('convErr').textContent = err.message === '__cancelado__' ? 'No se envió. Tu texto sigue ahí para reintentar.' : 'No se pudo enviar: ' + err.message; })
       .finally(function () { btn.disabled = false; btn.textContent = 'Enviar respuesta (se traduce sola)'; });
   });
+
+  /* ---------- Proyectos: formulario "Cuéntanos de tu negocio" (client_leads + bucket privado client-intake).
+     Solo para el administrador de KEYS: la pestaña aparece si is_keys_admin() responde true, y aunque
+     alguien la forzara, las reglas RLS de la base y del almacenamiento no devuelven nada a otro usuario. ---------- */
+  var INT_BUCKET = 'client-intake';
+  var INT_STATUS = { nuevo: 'Nuevo', en_revision: 'En revisión', en_construccion: 'En construcción', entregado: 'Entregado', descartado: 'Descartado' };
+  var INT_SERVICE = { landing_page: 'Página web (landing page)', agenda_en_linea: 'Agenda en línea', vitrina_productos: 'Vitrina de productos / catálogo', otro_sistema: 'Otro sistema web', no_se: 'Todavía no lo sabe' };
+  var intLeads = [], intActive = null, intBlobs = {}, intAdmin = false;
+
+  function intFetch(path, opts) {
+    opts = opts || {};
+    var h = restHeaders(opts.headers);
+    if (opts.raw) delete h['Content-Type'];
+    return fetch(CFG.SUPABASE_URL + path, { method: opts.method || 'GET', headers: h, body: opts.body });
+  }
+  function intDate(s) {
+    try { return new Date(s).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Bogota' }); } catch (e) { return s; }
+  }
+  function intSize(b) { return !b ? '' : b < 1048576 ? Math.max(1, Math.round(b / 1024)) + ' KB' : (b / 1048576).toFixed(1).replace('.', ',') + ' MB'; }
+  function intSlug(s) {
+    return String(s || 'cliente').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').toLowerCase().slice(0, 50) || 'cliente';
+  }
+  function intSaveBlob(blob, name) {
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  }
+  function intMsg(m, bad) { $('intMsg').textContent = m || ''; $('intMsg').style.color = bad ? 'var(--err)' : 'var(--dim)'; }
+
+  // Descarga un archivo del bucket privado con la sesión del administrador (nunca hay enlaces públicos).
+  function intGetFile(f) {
+    if (intBlobs[f.storage_path]) return Promise.resolve(intBlobs[f.storage_path]);
+    return intFetch('/storage/v1/object/authenticated/' + INT_BUCKET + '/' + f.storage_path.split('/').map(encodeURIComponent).join('/'))
+      .then(function (r) { if (!r.ok) throw new Error('No se pudo descargar ' + (f.file_name || 'el archivo') + ' (' + r.status + ')'); return r.blob(); })
+      .then(function (b) { intBlobs[f.storage_path] = b; return b; });
+  }
+
+  function intCheckAdmin() {
+    if (!LIVE || !getAuthSession()) return Promise.resolve(false);
+    return intFetch('/rest/v1/rpc/is_keys_admin', { method: 'POST', body: '{}' })
+      .then(function (r) { return r.ok ? r.json() : false; })
+      .then(function (v) { return v === true; })
+      .catch(function () { return false; });
+  }
+
+  function intLoad() {
+    if (!intAdmin) return;
+    $('intList').innerHTML = '<div class="loading">Cargando proyectos…</div>';
+    restGet('client_leads?select=*,client_lead_files(id,kind,storage_path,file_name,mime_type,size_bytes)&order=created_at.desc')
+      .then(function (rows) { intLeads = rows || []; intRender(); intBadge(); })
+      .catch(function (err) { $('intList').innerHTML = '<div class="empty">No se pudo cargar: ' + esc(err.message) + '</div>'; });
+  }
+  window.__intLoad = intLoad;
+
+  function intBadge() {
+    var n = intLeads.filter(function (l) { return l.status === 'nuevo'; }).length;
+    $('intBadge').textContent = n; $('intBadge').hidden = !n;
+  }
+
+  function intRender() {
+    var f = $('intFilter').value;
+    var rows = intLeads.filter(function (l) { return !f || l.status === f; });
+    if (!rows.length) { $('intList').innerHTML = '<div class="empty">' + (intLeads.length ? 'No hay proyectos con ese estado.' : 'Todavía no ha llegado ningún formulario.') + '</div>'; return; }
+    $('intList').innerHTML = rows.map(function (l) {
+      var files = (l.client_lead_files || []).length;
+      return '<div class="item" data-int="' + esc(l.id) + '" style="cursor:pointer' + (intActive && intActive.id === l.id ? ';border-color:var(--acc)' : '') + '">' +
+        '<div class="item-top"><span class="item-name">' + esc(l.business_name) + '</span><span class="badge st-' + esc(l.status) + '">' + esc(INT_STATUS[l.status] || l.status) + '</span></div>' +
+        '<div class="item-sub">' + esc(l.full_name) + ' · ' + esc(INT_SERVICE[l.service_needed] || l.service_needed) + '</div>' +
+        '<div class="item-sub">' + esc(intDate(l.created_at)) + ' · ' + files + ' archivo' + (files === 1 ? '' : 's') + '</div></div>';
+    }).join('');
+  }
+
+  function intOpen(id) {
+    var l = intLeads.find(function (x) { return x.id === id; }); if (!l) return;
+    intActive = l; intRender(); intMsg('');
+    $('intEmpty').style.display = 'none'; $('intDetail').style.display = '';
+    $('intTitle').textContent = l.business_name;
+    $('intSub').textContent = 'Recibido el ' + intDate(l.created_at);
+    $('intRef').textContent = 'Ref. ' + l.id.slice(0, 8).toUpperCase();
+    var data = [
+      ['Nombre', l.full_name], ['Teléfono / WhatsApp', l.phone], ['Correo', l.email],
+      ['Negocio', l.business_name], ['Dirección', l.business_address],
+      ['Qué necesita', INT_SERVICE[l.service_needed] || l.service_needed],
+      ['Descripción', l.business_description],
+      ['Enlace de origen', l.source_ref || '—'], ['Autorizó el uso de datos', intDate(l.consent_at)]
+    ];
+    $('intData').innerHTML = data.map(function (d) { return '<dt>' + esc(d[0]) + '</dt><dd>' + esc(d[1] || '') + '</dd>'; }).join('');
+    $('intStatus').value = l.status; $('intNotes').value = l.notes || '';
+    var digits = String(l.phone || '').replace(/\D/g, '');
+    if (digits.length === 10 && digits.charAt(0) === '3') digits = '57' + digits;
+    $('intWa').href = 'https://wa.me/' + digits + '?text=' + encodeURIComponent('Hola ' + String(l.full_name || '').split(/\s+/)[0] + ', te escribimos de KEYS Marketing Digital. Recibimos la información de ' + l.business_name + '.');
+    $('intMail').href = 'mailto:' + encodeURIComponent(l.email) + '?subject=' + encodeURIComponent('Tu proyecto con KEYS · ' + l.business_name);
+    var files = (l.client_lead_files || []).slice().sort(function (a, b) { return a.kind === b.kind ? 0 : a.kind === 'logo' ? -1 : 1; });
+    if (!files.length) { $('intFiles').innerHTML = '<p class="item-sub">No subió logo ni fotos.</p>'; return; }
+    $('intFiles').innerHTML = files.map(function (f, i) {
+      return '<div class="int-file"><div class="ph" id="intPh' + i + '">Cargando…</div><div class="meta"><span>' + (f.kind === 'logo' ? 'Logo' : 'Foto') + ' · ' + esc(intSize(f.size_bytes)) + '</span><button type="button" data-dl="' + i + '">Descargar</button></div></div>';
+    }).join('');
+    intActive.__files = files;
+    files.forEach(function (f, i) {
+      intGetFile(f).then(function (b) {
+        var ph = $('intPh' + i); if (!ph || intActive !== l) return;
+        if (/^image\/(jpeg|png|webp|gif)$/.test(b.type || f.mime_type || '')) {
+          var im = document.createElement('img'); im.alt = f.file_name || ''; im.src = URL.createObjectURL(b); ph.textContent = ''; ph.appendChild(im);
+        } else { ph.textContent = (f.file_name || 'archivo') + ' (sin vista previa)'; }
+      }).catch(function (e) { var ph = $('intPh' + i); if (ph) ph.textContent = e.message; });
+    });
+  }
+
+  function intFileName(l, f, i) {
+    var ext = (f.storage_path.split('.').pop() || 'jpg').toLowerCase();
+    return f.kind === 'logo' ? 'logo.' + ext : 'foto-' + String(i).padStart(2, '0') + '.' + ext;
+  }
+  function intText(l) {
+    return [
+      'PROYECTO · ' + l.business_name, 'Referencia: ' + l.id.slice(0, 8).toUpperCase(), 'Recibido: ' + intDate(l.created_at), '',
+      'Nombre: ' + l.full_name, 'Teléfono / WhatsApp: ' + l.phone, 'Correo: ' + l.email, '',
+      'Negocio: ' + l.business_name, 'Dirección: ' + l.business_address, 'Qué necesita: ' + (INT_SERVICE[l.service_needed] || l.service_needed), '',
+      'Descripción:', l.business_description, '',
+      'Enlace de origen: ' + (l.source_ref || '—'), 'Autorizó el uso de datos: ' + intDate(l.consent_at),
+      'Estado: ' + (INT_STATUS[l.status] || l.status), 'Notas internas: ' + (l.notes || '—')
+    ].join('\r\n');
+  }
+  function loadJSZip() {
+    if (window.JSZip) return Promise.resolve(window.JSZip);
+    return new Promise(function (ok, bad) {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+      s.onload = function () { ok(window.JSZip); }; s.onerror = function () { bad(new Error('No se pudo cargar el compresor .zip')); };
+      document.head.appendChild(s);
+    });
+  }
+
+  $('intList').addEventListener('click', function (e) { var it = e.target.closest('[data-int]'); if (it) intOpen(it.getAttribute('data-int')); });
+  $('intFilter').addEventListener('change', intRender);
+  $('intReload').addEventListener('click', function () { intBlobs = {}; intLoad(); });
+  $('intFiles').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-dl]'); if (!b || !intActive) return;
+    var i = +b.getAttribute('data-dl'), f = intActive.__files[i];
+    var n = intActive.__files.filter(function (x) { return x.kind === 'foto'; }).indexOf(f) + 1;
+    intGetFile(f).then(function (blob) { intSaveBlob(blob, intSlug(intActive.business_name) + '-' + intFileName(intActive, f, n)); })
+      .catch(function (err) { intMsg(err.message, true); });
+  });
+
+  $('intSave').addEventListener('click', function () {
+    if (!intActive) return;
+    var l = intActive, body = { status: $('intStatus').value, notes: $('intNotes').value.trim() || null };
+    intMsg('Guardando…');
+    restPatch('client_leads', l.id, body).then(function () {
+      l.status = body.status; l.notes = body.notes; intRender(); intBadge(); intMsg('Guardado.');
+    }).catch(function (err) { intMsg('No se pudo guardar: ' + err.message, true); });
+  });
+
+  $('intZip').addEventListener('click', function () {
+    if (!intActive) return;
+    var l = intActive, files = l.__files || [], btn = $('intZip'), foto = 0;
+    btn.disabled = true; intMsg('Preparando el .zip…');
+    loadJSZip().then(function (JSZip) {
+      var zip = new JSZip(), base = intSlug(l.business_name);
+      zip.file(base + '/datos.txt', intText(l));
+      zip.file(base + '/datos.json', JSON.stringify(Object.assign({}, l, { client_lead_files: undefined, __files: undefined }), null, 2));
+      return files.reduce(function (p, f) {
+        return p.then(function () {
+          if (f.kind === 'foto') foto++;
+          intMsg('Descargando archivos (' + (files.indexOf(f) + 1) + ' de ' + files.length + ')…');
+          return intGetFile(f).then(function (b) { zip.file(base + '/' + intFileName(l, f, foto), b); });
+        });
+      }, Promise.resolve()).then(function () { return zip.generateAsync({ type: 'blob' }); })
+        .then(function (blob) { intSaveBlob(blob, base + '-' + l.id.slice(0, 8) + '.zip'); intMsg('Listo: se descargó ' + base + '.zip'); });
+    }).catch(function (err) { intMsg(err.message, true); })
+      .finally(function () { btn.disabled = false; });
+  });
+
+  $('intCsv').addEventListener('click', function () {
+    if (!intLeads.length) return;
+    var cols = [['Referencia', function (l) { return l.id.slice(0, 8).toUpperCase(); }], ['Recibido', function (l) { return intDate(l.created_at); }],
+      ['Estado', function (l) { return INT_STATUS[l.status] || l.status; }], ['Nombre', 'full_name'], ['Teléfono', 'phone'], ['Correo', 'email'],
+      ['Negocio', 'business_name'], ['Dirección', 'business_address'], ['Servicio', function (l) { return INT_SERVICE[l.service_needed] || l.service_needed; }],
+      ['Descripción', 'business_description'], ['Origen', 'source_ref'], ['Archivos', function (l) { return (l.client_lead_files || []).length; }], ['Notas', 'notes']];
+    var q = function (v) { v = v == null ? '' : String(v); return /[";\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var lines = [cols.map(function (c) { return q(c[0]); }).join(';')].concat(intLeads.map(function (l) {
+      return cols.map(function (c) { return q(typeof c[1] === 'function' ? c[1](l) : l[c[1]]); }).join(';');
+    }));
+    intSaveBlob(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' }), 'proyectos-keys-' + new Date().toISOString().slice(0, 10) + '.csv');
+  });
+
+  $('intDel').addEventListener('click', function () {
+    if (!intActive) return;
+    var l = intActive, files = (l.client_lead_files || []).map(function (f) { return f.storage_path; });
+    if (!confirm('¿Eliminar el proyecto de "' + l.business_name + '" y sus ' + files.length + ' archivo(s)? Se borra para siempre; descarga el .zip antes si lo necesitas.')) return;
+    intMsg('Eliminando…');
+    var delFiles = files.length ? intFetch('/storage/v1/object/' + INT_BUCKET, { method: 'DELETE', body: JSON.stringify({ prefixes: files }) })
+      .then(function (r) { if (!r.ok) throw new Error('No se pudieron borrar los archivos (' + r.status + ')'); }) : Promise.resolve();
+    delFiles.then(function () { return restDelete('client_leads', l.id); }).then(function () {
+      intLeads = intLeads.filter(function (x) { return x.id !== l.id; }); intActive = null;
+      $('intDetail').style.display = 'none'; $('intEmpty').style.display = ''; intRender(); intBadge();
+    }).catch(function (err) { intMsg(err.message, true); });
+  });
+
+  function intInit() {
+    intCheckAdmin().then(function (ok) {
+      intAdmin = ok; $('tabBtnInt').hidden = !ok;
+      if (ok) intLoad();
+    });
+  }
+  var __unlockBase = unlockUI;
+  unlockUI = function () { __unlockBase.apply(this, arguments); intInit(); };
 
   initGate();
 })();

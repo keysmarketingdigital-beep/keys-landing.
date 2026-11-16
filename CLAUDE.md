@@ -156,3 +156,9 @@ Los tres bloques pendientes de `supabase/migracion-keys-crm.sql` ya se corrieron
 - Acceso oculto al panel `demos/crm-campanas.html`: el símbolo © del pie (sigue protegido por el login de Supabase).
 - Datos confirmados por Yeison (12 nov 2026), no quitar: Kelly Molina, U. Católica de Oriente, más de 10 años de experiencia; 10 días hábiles de montaje; Keys Nómina / Keys Cuadre; n8n, Hostinger y .com.co en la cinta de tecnología.
 - Video de portada: `video/keys-marca.mp4` (+ póster). Muestra "KEYS Digital Solutions".
+
+## Proyectos — formulario "Cuéntanos de tu negocio" en el panel (16 nov 2026)
+- El formulario de 3 pasos (contacto, negocio, logo y fotos) es una página aparte (no está en este repo) que guarda en `client_leads` + `client_lead_files` y sube los archivos al bucket **privado** `client-intake` del mismo Supabase. Los visitantes solo pueden insertar.
+- Pestaña **"Proyectos"** en `demos/crm-campanas.html`: lista con estado (nuevo, en revisión, en construcción, entregado, descartado) y numerito de nuevos; detalle con todos los datos, vista previa de logo y fotos, cambiar estado y notas internas, WhatsApp/correo al cliente, **Descargar todo (.zip)** (datos.txt + datos.json + logo + fotos; JSZip desde cdnjs), descarga de cada archivo, **Exportar todo (CSV)** y Eliminar (borra archivos y registro, con confirmación).
+- **Solo el administrador**: la pestaña aparece solo si `is_keys_admin()` responde true (perfil `admin`/`developer` del tenant `vitrina-demo`; hoy solo la cuenta de Yeison). La protección real son las reglas RLS de las tablas y del bucket (sección 9 de `supabase/migracion-keys-crm.sql`, ya aplicada): cualquier otro usuario recibe 0 filas y no puede descargar. Los archivos se bajan con la sesión (`/storage/v1/object/authenticated/...`), nunca con enlaces públicos.
+- Si algún día se le da rol `admin` a otra persona del tenant `vitrina-demo`, también verá esta pestaña.
